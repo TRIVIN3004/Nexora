@@ -1245,7 +1245,7 @@ function App() {
 
               <div className="space-y-6">
                 {[
-                  { icon: Mail, label: "Email Us", val: "info@nexoratech.com", href: "mailto:info@nexoratech.com" },
+                  { icon: Mail, label: "Email Us", val: "nexoratechnologies26@gmail.com", href: "mailto:nexoratechnologies26@gmail.com" },
                   { icon: Phone, label: "Call Us", val: "+91 XXXXXXXXXX", href: "tel:+919876543210" },
                   { icon: MapPin, label: "Our Headquarters", val: "Chennai, Tamil Nadu, India", href: "#" }
                 ].map((item, idx) => {
