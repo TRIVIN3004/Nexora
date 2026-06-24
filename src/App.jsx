@@ -1423,8 +1423,8 @@ function App() {
             <div className="flex space-x-4 pt-2">
               {[
                 { icon: TwitterIcon, href: "https://x.com/nexoratech", label: "Twitter" },
-                { icon: GithubIcon, href: "https://github.com/nexoratech", label: "GitHub" },
-                { icon: LinkedinIcon, href: "https://linkedin.com/company/nexora", label: "LinkedIn" }
+                { icon: GithubIcon, href: "https://github.com/nexoratechnologies-26", label: "GitHub" },
+                { icon: LinkedinIcon, href: "https://www.linkedin.com/in/nexora-technologies-379440419/", label: "LinkedIn" }
               ].map((soc, i) => {
                 const SocIcon = soc.icon;
                 return (
