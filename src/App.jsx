@@ -132,6 +132,19 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.name && formData.email && formData.message) {
+      const subject = encodeURIComponent(`Nexora Project Inquiry - ${formData.requirement}`);
+      const body = encodeURIComponent(
+        `Hello Nexora Technologies,\n\n` +
+        `You have received a new project inquiry:\n\n` +
+        `Name: ${formData.name}\n` +
+        `Email: ${formData.email}\n` +
+        `Requirement: ${formData.requirement}\n\n` +
+        `Message:\n${formData.message}\n\n` +
+        `Best regards,\n${formData.name}`
+      );
+      
+      window.location.href = `mailto:contactnexoratechs@gmail.com?subject=${subject}&body=${body}`;
+
       setFormSubmitted(true);
       setTimeout(() => {
         setFormSubmitted(false);
@@ -1230,10 +1243,13 @@ function App() {
             {/* Left Column Information */}
             <div className="lg:col-span-5 text-left space-y-8">
               <div className="space-y-4">
-                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-xs font-semibold uppercase tracking-wider">
+                <a 
+                  href="mailto:contactnexoratechs@gmail.com" 
+                  className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-xs font-semibold uppercase tracking-wider hover:bg-indigo-500/10 transition-colors cursor-pointer"
+                >
                   <Mail size={12} />
                   <span>Get In Touch</span>
-                </div>
+                </a>
                 <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                   Start Your Project
                 </h2>
@@ -1246,6 +1262,7 @@ function App() {
               <div className="space-y-6">
                 {[
                   { icon: Mail, label: "Email Us", val: "nexoratechnologies26@gmail.com", href: "mailto:nexoratechnologies26@gmail.com" },
+                  { icon: Mail, label: "Alternate Email", val: "contactnexoratechs@gmail.com", href: "mailto:contactnexoratechs@gmail.com" },
                   { icon: Phone, label: "Call Us", val: "+91 XXXXXXXXXX", href: "tel:+919876543210" },
                   { icon: MapPin, label: "Our Headquarters", val: "Chennai, Tamil Nadu, India", href: "#" }
                 ].map((item, idx) => {
