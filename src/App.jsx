@@ -1245,7 +1245,7 @@ function App() {
               <div className="space-y-4">
                 <a 
                   href="mailto:contactnexoratechs@gmail.com" 
-                  className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-xs font-semibold uppercase tracking-wider hover:bg-indigo-500/10 transition-colors cursor-pointer"
+                  className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-[10px] font-semibold uppercase tracking-wider hover:bg-indigo-500/10 transition-colors cursor-pointer"
                 >
                   <Mail size={12} />
                   <span>Get In Touch</span>
@@ -1277,8 +1277,8 @@ function App() {
                         <Icon size={20} />
                       </div>
                       <div className="space-y-0.5">
-                        <p className="text-xs font-mono tracking-widest text-slate-400 uppercase font-semibold">{item.label}</p>
-                        <p className="text-slate-800 group-hover/contact-item:text-indigo-600 transition-colors text-sm font-semibold">{item.val}</p>
+                        <p className="text-[10px] font-mono tracking-widest text-slate-400 uppercase font-semibold">{item.label}</p>
+                        <p className="text-slate-800 group-hover/contact-item:text-indigo-600 transition-colors text-xs font-semibold">{item.val}</p>
                       </div>
                     </a>
                   );
