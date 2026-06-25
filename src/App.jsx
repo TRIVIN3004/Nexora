@@ -331,7 +331,7 @@ function App() {
     },
     {
       name: "Aakashraj",
-      role: "Social Media Headr",
+      role: "Social Media Head",
       desc: "Leads digital brand growth by creating engaging content, managing social media campaigns, and building meaningful audience engagement across multiple platforms.",
       skills: [ "Content Strategy","Social Media Marketing","Canva & Adobe   Express","Analytics & Performance Tracking","Brand Management" ]
     },
