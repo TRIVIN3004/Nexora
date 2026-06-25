@@ -330,10 +330,10 @@ function App() {
       skills: ["System Architecture", "AI Integration", "Product Strategy"]
     },
     {
-      name: "",
-      role: "Frontend Developer",
-      desc: "Crafts beautiful user journeys with state-of-the-art interactive frontends.",
-      skills: ["React & Next.js", "Tailwind CSS", "Framer Motion"]
+      name: "Aakashraj",
+      role: "Social Media Headr",
+      desc: "Leads digital brand growth by creating engaging content, managing social media campaigns, and building meaningful audience engagement across multiple platforms.",
+      skills: [ "Content Strategy","Social Media Marketing","Canva & Adobe   Express","Analytics & Performance Tracking","Brand Management" ]
     },
     {
       name: "",
@@ -348,7 +348,7 @@ function App() {
       skills: ["Python / PyTorch", "TensorFlow", "Deep Learning"]
     },
     {
-      name: "",
+      name: "Naveen",
       role: "UI/UX Designer",
       desc: "Designs visual assets, wireframes, and prototypes with premium aesthetics.",
       skills: ["Figma", "Visual Branding", "Wireframing"]
