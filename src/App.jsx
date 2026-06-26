@@ -329,8 +329,8 @@ function App() {
     {
       name: "Trivin",
       role: "Founder & Lead Strategist",
-      desc: "Tech enthusiast driving the development roadmap and business operations.",
-      skills: ["System Architecture", "AI Integration", "Product Strategy"],
+      desc: "Visionary entrepreneur driving innovation, leading strategic growth, and building impactful technology solutions that empower businesses and students.",
+      skills: [ "System Architecture", "AI Integration", "Product Strategy","AI & Software Development"],
       image: trivinPhoto
     },
     {
