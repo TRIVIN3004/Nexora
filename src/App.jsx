@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import trivinPhoto from './assets/trivin.png';
 import aakashrajPhoto from './assets/aakashraj.png';
+import logo from './assets/logo.png';
 
 const GithubIcon = ({ size = 20, className = "" }) => (
   <svg 
@@ -430,9 +431,8 @@ function App() {
             onClick={(e) => { e.preventDefault(); scrollToSection('home'); }} 
             className="flex items-center space-x-3 group"
           >
-            <div className="relative w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center overflow-hidden shadow-md transition-transform group-hover:rotate-12 duration-300">
-              <span className="font-display font-bold text-lg text-white">N</span>
-              <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-md transition-transform group-hover:rotate-12 duration-300 flex items-center justify-center bg-white/50 border border-slate-100">
+              <img src={logo} alt="Nexora Logo" className="w-full h-full object-contain p-1" />
             </div>
             <span className="font-display font-bold text-xl tracking-wider bg-gradient-to-r from-slate-900 via-slate-800 to-slate-600 bg-clip-text text-transparent">
               NEXORA
@@ -1457,8 +1457,8 @@ function App() {
               onClick={(e) => { e.preventDefault(); scrollToSection('home'); }} 
               className="flex items-center space-x-3 group w-max"
             >
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center shadow-md">
-                <span className="font-display font-bold text-sm text-white">N</span>
+              <div className="w-8 h-8 rounded-lg overflow-hidden shadow-md flex items-center justify-center bg-white/50 border border-slate-700">
+                <img src={logo} alt="Nexora Logo" className="w-full h-full object-contain p-1" />
               </div>
               <span className="font-display font-bold text-lg tracking-wider text-white">
                 NEXORA
