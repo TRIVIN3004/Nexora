@@ -582,53 +582,145 @@ function App() {
               </div>
             </div>
 
-            {/* Right Column Cybernetic Illustration */}
+            {/* Right Column Interactive Nexora Tech Core Illustration */}
             <div className="lg:col-span-5 relative flex justify-center items-center">
               
-              {/* Spinning particle orbits */}
-              <div className="relative w-80 h-80 sm:w-96 sm:h-96 flex items-center justify-center">
-                <div className="absolute inset-0 border border-indigo-500/5 rounded-full animate-[spin_40s_linear_infinite]" />
-                <div className="absolute inset-4 border border-blue-500/10 border-dashed rounded-full animate-[spin_20s_linear_infinite_reverse]" />
-                <div className="absolute inset-10 border border-indigo-500/5 rounded-full animate-[spin_30s_linear_infinite]" />
+              <div className="relative w-80 h-80 sm:w-96 sm:h-96 flex items-center justify-center select-none group/core">
+                {/* Backing ambient glowing spheres */}
+                <div className="absolute w-[70%] h-[70%] bg-gradient-to-tr from-indigo-500/10 via-blue-500/5 to-cyan-500/10 rounded-full blur-3xl z-0 animate-pulse-slow group-hover/core:scale-110 transition-transform duration-700" />
+                <div className="absolute w-[45%] h-[45%] bg-gradient-to-br from-purple-500/5 via-indigo-500/10 to-blue-500/5 rounded-full blur-2xl z-0 animate-pulse-slow" style={{ animationDelay: '2s' }} />
+
+                {/* Cybernetic HUD Circles (Concentric Rings rotating) */}
+                {/* Outer tech ring with notches */}
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 40, ease: "linear", repeat: Infinity }}
+                  className="absolute w-[90%] h-[90%] rounded-full border border-dashed border-indigo-500/10 flex items-center justify-center"
+                />
                 
-                {/* Embedded High Tech Cyber Node Network Graph in SVG */}
-                <svg className="w-[85%] h-[85%] z-10 animate-float" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  {/* Connection Lines */}
-                  <line x1="100" y1="100" x2="50" y2="50" stroke="rgba(79, 70, 229, 0.25)" strokeWidth="1.5" strokeDasharray="3 3" />
-                  <line x1="100" y1="100" x2="150" y2="50" stroke="rgba(37, 99, 235, 0.25)" strokeWidth="1.5" />
-                  <line x1="100" y1="100" x2="160" y2="120" stroke="rgba(79, 70, 229, 0.2)" strokeWidth="1.5" strokeDasharray="2 2" />
-                  <line x1="100" y1="100" x2="40" y2="120" stroke="rgba(14, 165, 233, 0.25)" strokeWidth="1.5" />
-                  
-                  <line x1="50" y1="50" x2="150" y2="50" stroke="rgba(79, 70, 229, 0.15)" strokeWidth="1" />
-                  <line x1="40" y1="120" x2="50" y2="50" stroke="rgba(37, 99, 235, 0.15)" strokeWidth="1" />
-                  <line x1="160" y1="120" x2="150" y2="50" stroke="rgba(79, 70, 229, 0.15)" strokeWidth="1" />
-                  <line x1="40" y1="120" x2="160" y2="120" stroke="rgba(14, 165, 233, 0.15)" strokeWidth="1" />
+                {/* Middle tech ring with segment divisions */}
+                <motion.div 
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 25, ease: "linear", repeat: Infinity }}
+                  className="absolute w-[75%] h-[75%] rounded-full border border-blue-500/15"
+                  style={{ borderStyle: 'double', borderWidth: '3px' }}
+                />
 
-                  {/* Nodes */}
-                  <circle cx="100" cy="100" r="16" fill="url(#hero-gradient)" stroke="#ffffff" strokeWidth="2.5" className="filter drop-shadow-[0_2px_5px_rgba(79,70,229,0.3)]" />
-                  <circle cx="50" cy="50" r="8" fill="#4f46e5" className="animate-pulse" />
-                  <circle cx="150" cy="50" r="10" fill="#2563eb" />
-                  <circle cx="160" cy="120" r="7" fill="#0ea5e9" className="animate-ping" style={{ animationDuration: '3s' }} />
-                  <circle cx="160" cy="120" r="7" fill="#0ea5e9" />
-                  <circle cx="40" cy="120" r="9" fill="#3b82f6" />
-                  
-                  {/* Orbiting particles */}
-                  <circle cx="100" cy="30" r="3.5" fill="#4f46e5" />
-                  <circle cx="170" cy="80" r="3" fill="#2563eb" />
+                {/* Inner dot-dashed ring */}
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 15, ease: "linear", repeat: Infinity }}
+                  className="absolute w-[58%] h-[58%] rounded-full border border-dotted border-cyan-500/30"
+                />
 
-                  {/* Gradient definition */}
-                  <defs>
-                    <linearGradient id="hero-gradient" x1="0" y1="0" x2="200" y2="200">
-                      <stop offset="0%" stopColor="#4f46e5" />
-                      <stop offset="100%" stopColor="#0ea5e9" />
-                    </linearGradient>
-                  </defs>
+                {/* Interactive SVG Layer */}
+                <svg className="absolute w-full h-full z-10 pointer-events-none" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  {/* Dynamic Glowing Data Pipelines (Connecting lines) */}
+                  {/* Line to Top-Left Node (AI Engine) */}
+                  <path d="M 200,200 L 90,110" stroke="rgba(79, 70, 229, 0.2)" strokeWidth="2" />
+                  <path d="M 200,200 L 90,110" stroke="rgba(139, 92, 246, 0.6)" strokeWidth="2" className="data-pipeline-pulse" />
+
+                  {/* Line to Top-Right Node (Web Platforms) */}
+                  <path d="M 200,200 L 310,110" stroke="rgba(37, 99, 235, 0.2)" strokeWidth="2" />
+                  <path d="M 200,200 L 310,110" stroke="rgba(59, 130, 246, 0.6)" strokeWidth="2" className="data-pipeline-pulse" style={{ animationDirection: 'reverse', animationDuration: '1.2s' }} />
+
+                  {/* Line to Bottom-Right Node (Cloud Database) */}
+                  <path d="M 200,200 L 310,290" stroke="rgba(14, 165, 233, 0.2)" strokeWidth="2" />
+                  <path d="M 200,200 L 310,290" stroke="rgba(6, 182, 212, 0.6)" strokeWidth="2" className="data-pipeline-pulse" style={{ animationDuration: '1.8s' }} />
+
+                  {/* Line to Bottom-Left Node (Mobile Apps) */}
+                  <path d="M 200,200 L 90,290" stroke="rgba(79, 70, 229, 0.2)" strokeWidth="2" />
+                  <path d="M 200,200 L 90,290" stroke="rgba(168, 85, 247, 0.6)" strokeWidth="2" className="data-pipeline-pulse" style={{ animationDirection: 'reverse', animationDuration: '1s' }} />
                 </svg>
 
-                {/* Ambient glowing backing sphere */}
-                <div className="absolute w-[60%] h-[60%] bg-gradient-to-tr from-indigo-500/5 to-blue-500/5 rounded-full blur-3xl z-0 animate-pulse-slow" />
-              </div>
+                {/* Central Main Core Sphere */}
+                <motion.div 
+                  animate={{ 
+                    scale: [1, 1.06, 1],
+                    boxShadow: [
+                      "0 0 20px rgba(99, 102, 241, 0.25), inset 0 0 10px rgba(99, 102, 241, 0.15)",
+                      "0 0 40px rgba(99, 102, 241, 0.45), inset 0 0 20px rgba(99, 102, 241, 0.25)",
+                      "0 0 20px rgba(99, 102, 241, 0.25), inset 0 0 10px rgba(99, 102, 241, 0.15)"
+                    ]
+                  }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600 via-blue-600 to-cyan-500 flex items-center justify-center border border-white/40 z-20 shadow-xl cursor-pointer group/core-sphere"
+                >
+                  {/* Core Icon overlay */}
+                  <Cpu className="text-white w-8 h-8 animate-pulse" />
+                  <div className="absolute inset-0 rounded-full bg-white/20 opacity-0 group-hover/core-sphere:opacity-100 transition-opacity duration-300" />
+                </motion.div>
 
+                {/* Orbiting Satellite Floating Panels & Nodes */}
+                {/* 1. TOP-LEFT: AI ENGINE */}
+                <motion.div 
+                  animate={{ y: [0, -8, 0], x: [0, 4, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                  className="absolute left-[5%] top-[10%] z-20 flex flex-col items-center"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white border border-indigo-100 shadow-lg flex items-center justify-center relative group-hover/core:scale-105 transition-transform duration-300">
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-purple-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <Sparkles className="text-purple-600 w-5 h-5" />
+                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-purple-500 rounded-full animate-ping" />
+                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-purple-500 rounded-full" />
+                  </div>
+                  <div className="mt-2 px-2.5 py-1 bg-white/85 backdrop-blur-md rounded-md border border-slate-100 shadow-sm">
+                    <p className="text-[10px] font-bold font-mono tracking-wider text-slate-700">AI ENGINE</p>
+                  </div>
+                </motion.div>
+
+                {/* 2. TOP-RIGHT: WEB DEVELOPMENT */}
+                <motion.div 
+                  animate={{ y: [0, 8, 0], x: [0, -4, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute right-[5%] top-[10%] z-20 flex flex-col items-center"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white border border-blue-100 shadow-lg flex items-center justify-center relative group-hover/core:scale-105 transition-transform duration-300">
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-blue-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <Code className="text-blue-600 w-5 h-5" />
+                    <span className="absolute -top-1 -left-1 w-2.5 h-2.5 bg-blue-500 rounded-full animate-ping" style={{ animationDelay: '1s' }} />
+                    <span className="absolute -top-1 -left-1 w-2.5 h-2.5 bg-blue-500 rounded-full" />
+                  </div>
+                  <div className="mt-2 px-2.5 py-1 bg-white/85 backdrop-blur-md rounded-md border border-slate-100 shadow-sm">
+                    <p className="text-[10px] font-bold font-mono tracking-wider text-slate-700">WEB DEV</p>
+                  </div>
+                </motion.div>
+
+                {/* 3. BOTTOM-RIGHT: CLOUD DATABASE */}
+                <motion.div 
+                  animate={{ y: [0, -8, 0], x: [0, -4, 0] }}
+                  transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  className="absolute right-[5%] bottom-[10%] z-20 flex flex-col items-center"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white border border-cyan-100 shadow-lg flex items-center justify-center relative group-hover/core:scale-105 transition-transform duration-300">
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-cyan-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <Database className="text-cyan-600 w-5 h-5" />
+                    <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 bg-cyan-500 rounded-full animate-ping" style={{ animationDelay: '0.5s' }} />
+                    <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 bg-cyan-500 rounded-full" />
+                  </div>
+                  <div className="mt-2 px-2.5 py-1 bg-white/85 backdrop-blur-md rounded-md border border-slate-100 shadow-sm">
+                    <p className="text-[10px] font-bold font-mono tracking-wider text-slate-700">DATABASE</p>
+                  </div>
+                </motion.div>
+
+                {/* 4. BOTTOM-LEFT: MOBILE APPS */}
+                <motion.div 
+                  animate={{ y: [0, 8, 0], x: [0, 4, 0] }}
+                  transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                  className="absolute left-[5%] bottom-[10%] z-20 flex flex-col items-center"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-white border border-indigo-100 shadow-lg flex items-center justify-center relative group-hover/core:scale-105 transition-transform duration-300">
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <Smartphone className="text-indigo-600 w-5 h-5" />
+                    <span className="absolute -bottom-1 -left-1 w-2.5 h-2.5 bg-indigo-500 rounded-full animate-ping" style={{ animationDelay: '1.5s' }} />
+                    <span className="absolute -bottom-1 -left-1 w-2.5 h-2.5 bg-indigo-500 rounded-full" />
+                  </div>
+                  <div className="mt-2 px-2.5 py-1 bg-white/85 backdrop-blur-md rounded-md border border-slate-100 shadow-sm">
+                    <p className="text-[10px] font-bold font-mono tracking-wider text-slate-700">MOBILE OS</p>
+                  </div>
+                </motion.div>
+
+              </div>
             </div>
 
           </div>
