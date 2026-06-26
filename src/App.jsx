@@ -7,6 +7,7 @@ import {
   MessageSquare, CheckCircle2, Menu, X, Sparkles, Code, 
   Layers, ShieldAlert, Award, Clock, DollarSign, Check
 } from 'lucide-react';
+import trivinPhoto from './assets/trivin.png';
 
 const GithubIcon = ({ size = 20, className = "" }) => (
   <svg 
@@ -327,11 +328,12 @@ function App() {
       name: "Trivin",
       role: "Founder & Lead Strategist",
       desc: "Tech enthusiast driving the development roadmap and business operations.",
-      skills: ["System Architecture", "AI Integration", "Product Strategy"]
+      skills: ["System Architecture", "AI Integration", "Product Strategy"],
+      image: trivinPhoto
     },
     {
       name: "Aakashraj",
-      role: "Social Media Head",
+      role: "co-founder & Social Media Head",
       desc: "Leads digital brand growth by creating engaging content, managing social media campaigns, and building meaningful audience engagement across multiple platforms.",
       skills: [ "Content Strategy","Social Media Marketing","Canva & Adobe   Express","Analytics & Performance Tracking","Brand Management" ]
     },
@@ -1005,9 +1007,17 @@ function App() {
                   <div className="space-y-4">
                     <div className="flex items-center space-x-4">
                       <div className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-indigo-100 to-blue-100 border border-slate-200 flex items-center justify-center overflow-hidden flex-shrink-0">
-                        <span className="font-display font-bold text-xl text-indigo-600">
-                          {t.name ? t.name.split(' ').filter(Boolean).map(n => n[0]).join('') : '+'}
-                        </span>
+                        {t.image ? (
+                          <img 
+                            src={t.image} 
+                            alt={t.name} 
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <span className="font-display font-bold text-xl text-indigo-600">
+                            {t.name ? t.name.split(' ').filter(Boolean).map(n => n[0]).join('') : '+'}
+                          </span>
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-blue-500 opacity-0 group-hover/team:opacity-10 transition-opacity duration-300" />
                       </div>
 
