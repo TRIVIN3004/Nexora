@@ -96,6 +96,7 @@ function App() {
     requirement: 'Web Development',
     message: ''
   });
+  const [viewingAllTeam, setViewingAllTeam] = useState(false);
 
   // Auto-slide testimonials
   useEffect(() => {
@@ -126,6 +127,18 @@ function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Lock body scroll when viewing entire team sub-page
+  useEffect(() => {
+    if (viewingAllTeam) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [viewingAllTeam]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -341,22 +354,118 @@ function App() {
       image: aakashrajPhoto
     },
     {
-      name: "",
-      role: "Backend Developer",
-      desc: "Architects scalable APIs, secure database models, and cloud infrastructure.",
-      skills: ["Node.js / Express", "MongoDB & MySQL", "AWS Services"]
+      name: "Gopika",
+      role: "Java Developer",
+      desc: "Crafts robust, enterprise-grade server-side applications, optimized databases, and microservices architectures using Java technologies.",
+      skills: ["Java / Spring Boot", "REST APIs", "SQL / NoSQL", "Multithreading"]
     },
     {
-      name: "",
-      role: "AI/ML Engineer",
-      desc: "Builds intelligent models, NLP algorithms, and computer vision architectures.",
-      skills: ["Python / PyTorch", "TensorFlow", "Deep Learning"]
+      name: "Akshaya",
+      role: "Gen AI Engineer",
+      desc: "Develops intelligence solutions, integrating advanced large language models, prompt engineering pipelines, and vector database search agents.",
+      skills: ["Generative AI", "LLM Integration", "Python / LangChain", "Vector Databases"]
     },
     {
-      name: "Naveen",
-      role: "UI/UX Designer",
-      desc: "Designs visual assets, wireframes, and prototypes with premium aesthetics.",
-      skills: ["Figma", "Visual Branding", "Wireframing"]
+      name: "Amirtha",
+      role: "UI/UX & Android Developer",
+      desc: "Focuses on designing clean user journeys, high-fidelity prototypes, and building interactive, high-performance native Android applications.",
+      skills: ["Android Studio", "Kotlin / Java", "Figma", "Mobile UI Design"]
+    },
+    {
+      name: "Pavithraa",
+      role: "Data Analyst",
+      desc: "Transforms raw corporate data into actionable business insights, statistics charts, and interactive analysis dashboards.",
+      skills: ["Data Visualization", "SQL", "Tableau / PowerBI", "Python / Pandas"]
+    },
+    {
+      name: "Sujitha",
+      role: "Full Stack Developer & Data Analyst",
+      desc: "Bridges the gap between end-to-end web system architecture and advanced statistical analysis of application telemetry.",
+      skills: ["React / Node.js", "Express", "Data Analytics", "SQL Databases"]
+    },
+    {
+      name: "Sangamithra",
+      role: "AI/ML & Cloud Engineer",
+      desc: "Designs, deploys, and scales machine learning model architectures on cloud infrastructures with CI/CD automated pipeline builds.",
+      skills: ["Machine Learning", "Python / PyTorch", "AWS / GCP", "Docker / DevOps"]
+    },
+    {
+      name: "VishnuHasan",
+      role: "Data Analyst",
+      desc: "Specializes in data mining, predictive trend modeling, statistical audits, and designing clear data report structures.",
+      skills: ["Data Analysis", "R / Python", "Excel Analytics", "SQL Queries"]
+    },
+    {
+      name: "Aaryan",
+      role: "Data Analyst & Web Developer",
+      desc: "Combines frontend web engineering skills with analytics capabilities to create tracking-ready, high-converting digital interfaces.",
+      skills: ["Frontend Dev", "React.js", "Data Tracking", "Google Analytics"]
+    },
+    {
+      name: "Ajaykumar",
+      role: "Full Stack Developer",
+      desc: "Engineers full-scale web platforms from database modeling to client interfaces, utilizing cutting-edge reactive state engines.",
+      skills: ["React.js", "Node.js / Express", "MongoDB / SQL", "API Integration"]
+    },
+    {
+      name: "Pathmavathi",
+      role: "Frontend Developer",
+      desc: "Translates designs into pixel-perfect, highly responsive, and accessible interactive web pages with smooth CSS transitions.",
+      skills: ["HTML5 / CSS3", "JavaScript (ES6+)", "React.js", "Tailwind CSS"]
+    },
+    {
+      name: "Pooja",
+      role: "2D CAD Drafter",
+      desc: "Creates detailed 2D architectural layouts, civil plans, building schematics, and mechanical technical structural drafts.",
+      skills: ["AutoCAD 2D", "Drafting Standards", "Building Plans", "CAD Design"]
+    },
+    {
+      name: "Aarathana",
+      role: "2D CAD Drafter",
+      desc: "Formulates technical building blueprints, electrical circuit alignments, and structural CAD designs according to compliance standards.",
+      skills: ["AutoCAD 2D", "Civil Engineering", "Floor Plans", "Blueprint Design"]
+    },
+    {
+      name: "Gokulashri",
+      role: "2D CAD Drafter",
+      desc: "Develops precise structural engineering elevation sketches, site layouts, and detail-oriented technical drafting documents.",
+      skills: ["AutoCAD 2D", "STAAD Pro", "Elevation Drawing", "Layout Planning"]
+    },
+    {
+      name: "Karthikeyan",
+      role: "Backend & AI/ML Engineer",
+      desc: "Builds scalable API web servers while integrating artificial intelligence model backends and predictive algorithms.",
+      skills: ["Node.js / Python", "Deep Learning", "TensorFlow", "PostgreSQL"]
+    },
+    {
+      name: "Logesh",
+      role: "Data Analyst",
+      desc: "Processes large-scale relational data matrices to detect patterns, formulate performance metrics, and optimize data hygiene.",
+      skills: ["Data Warehousing", "Python", "SQL Optimization", "ETL Pipelines"]
+    },
+    {
+      name: "Sanjay Kumar",
+      role: "UI/UX & Android Developer",
+      desc: "Crafts intuitive wireframes and cross-platform native-feeling mobile app interfaces focusing on clean typography and motion designs.",
+      skills: ["Android SDK", "React Native", "Figma Design", "User Journeys"]
+    },
+    {
+      name: "Sanjay",
+      role: "Data Analytics & Web Developer",
+      desc: "Synthesizes web engineering stacks with database queries to deliver data-intensive, analytical web dashboard applications.",
+      skills: ["React.js", "Express.js", "Data Aggregation", "Chart.js / D3"]
+    },
+    {
+      name: "Vishwa",
+      role: "Mechanical Engineer",
+      desc: "Specializes in fluid dynamics, thermal systems analysis, CAD/CAM mechanical designs, and structural component engineering.",
+      skills: ["SolidWorks", "Ansys / FEA", "CAD Modeling", "Thermodynamics"]
+    },
+    {
+      name: "Shakthi",
+      role: "Data Analyst",
+      desc: "Focuses on data hygiene auditing, performance metric optimization, machine learning modeling, and analytical projections.",
+      skills: ["Data Analysis", "SQL Optimization", "Python / NumPy", "Predictive Analytics"]
     }
   ];
 
@@ -393,16 +502,20 @@ function App() {
 
   const scrollToSection = (id) => {
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      const headerOffset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+    setViewingAllTeam(false);
+    
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
   };
 
   return (
@@ -1090,11 +1203,11 @@ function App() {
             </div>
 
             {/* Grid of Team Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {team.map((t, idx) => (
+            <div className="flex justify-center">
+              {team.filter(t => t.name === "Trivin").map((t, idx) => (
                 <div 
                   key={idx}
-                  className="glass-panel border border-slate-200/50 rounded-2xl p-6 text-left relative overflow-hidden flex flex-col justify-between group/team"
+                  className="glass-panel border border-slate-200/50 rounded-2xl p-6 text-left relative overflow-hidden flex flex-col justify-between group/team max-w-md w-full animate-fade-in"
                 >
                   <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-indigo-500 to-blue-500 opacity-55" />
                   
@@ -1147,6 +1260,20 @@ function App() {
 
                 </div>
               ))}
+            </div>
+
+            {/* Link to view all team members */}
+            <div className="pt-6">
+              <button
+                onClick={() => {
+                  setViewingAllTeam(true);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-xl font-semibold text-sm text-indigo-600 bg-indigo-500/5 border border-indigo-500/10 hover:border-indigo-500 hover:bg-indigo-600/10 hover:shadow-md active:scale-95 transition-all duration-300 cursor-pointer group/btn"
+              >
+                <span>Meet Our Entire Team ({team.length} Members)</span>
+                <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+              </button>
             </div>
 
           </div>
@@ -1633,6 +1760,159 @@ function App() {
         </div>
 
       </footer>
+
+      {/* Dedicated Team Sub-Page Overlay */}
+      <AnimatePresence>
+        {viewingAllTeam && (
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 30 }}
+            transition={{ type: "spring", damping: 25, stiffness: 180 }}
+            className="fixed inset-0 z-[100] bg-slate-50/98 backdrop-blur-xl overflow-y-auto min-h-screen text-slate-700 selection:bg-indigo-500/10 selection:text-indigo-600 font-sans pb-16"
+          >
+            {/* Background glowing blobs */}
+            <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-radial-gradient-glow pointer-events-none opacity-50 z-0" />
+            <div className="absolute top-[30%] right-[-10%] w-[55%] h-[55%] bg-radial-gradient-glow pointer-events-none opacity-50 z-0" />
+
+            {/* Content Container */}
+            <div className="relative z-10 max-w-7xl mx-auto px-6 pt-12 space-y-12">
+              
+              {/* Back button & Header */}
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 border-b border-slate-200/50 pb-8 text-left">
+                <div className="space-y-4">
+                  <button
+                    onClick={() => {
+                      setViewingAllTeam(false);
+                      // Scroll back to team section
+                      setTimeout(() => {
+                        const el = document.getElementById('team');
+                        if (el) {
+                          const headerOffset = 80;
+                          const elementPosition = el.getBoundingClientRect().top;
+                          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                          window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                          });
+                        }
+                      }, 100);
+                    }}
+                    className="inline-flex items-center space-x-2 text-sm font-semibold text-indigo-600 hover:text-indigo-800 transition-colors group cursor-pointer"
+                  >
+                    <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+                    <span>Back to Home</span>
+                  </button>
+                  <h1 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
+                    Meet the Innovators
+                  </h1>
+                  <p className="text-slate-500 text-lg max-w-2xl leading-relaxed">
+                    Our growing team of top-tier software architects, cloud engineers, AI experts, and design virtuosos dedicated to crafting pixel-perfect digital solutions.
+                  </p>
+                </div>
+                
+                {/* Visual badge */}
+                <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-xs font-mono font-bold tracking-wider uppercase h-max w-max">
+                  <Sparkles size={12} className="animate-spin-slow" />
+                  <span>{team.length} Active Members</span>
+                </div>
+              </div>
+
+              {/* Grid of All Team Members */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {team.map((t, idx) => (
+                  <div 
+                    key={idx}
+                    className="glass-panel border border-slate-200/50 rounded-2xl p-6 text-left relative overflow-hidden flex flex-col justify-between group/team transition-all duration-300 hover:border-indigo-400/50 hover:shadow-lg hover:shadow-indigo-500/5 bg-white/85"
+                  >
+                    {/* Top gradient accent line */}
+                    <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-indigo-500 to-blue-500 opacity-55" />
+                    
+                    <div className="space-y-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="relative w-16 h-16 rounded-full bg-gradient-to-tr from-indigo-100 to-blue-100 border border-slate-200 flex items-center justify-center overflow-hidden flex-shrink-0">
+                          {t.image ? (
+                            <img 
+                              src={t.image} 
+                              alt={t.name} 
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <span className="font-display font-bold text-xl text-indigo-600">
+                              {t.name ? t.name.split(' ').filter(Boolean).map(n => n[0]).join('') : '+'}
+                            </span>
+                          )}
+                          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-blue-500 opacity-0 group-hover/team:opacity-10 transition-opacity duration-300" />
+                        </div>
+
+                        <div>
+                          <h3 className="text-xl font-bold font-display text-slate-900 group-hover/team:text-indigo-600 transition-colors">
+                            {t.name || "Open Position"}
+                          </h3>
+                          <p className="text-sm font-semibold text-indigo-600 font-mono">
+                            {t.role}
+                          </p>
+                        </div>
+                      </div>
+
+                      <p className="text-slate-500 text-sm leading-relaxed pt-2">
+                        {t.desc}
+                      </p>
+                    </div>
+
+                    {/* Skills */}
+                    <div className="space-y-3 pt-6 border-t border-slate-100 mt-6">
+                      <span className="text-[10px] font-mono tracking-widest text-slate-400 uppercase font-semibold">CORE SPECIALTIES:</span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {t.skills.map((s, i) => (
+                          <span 
+                            key={i} 
+                            className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 border border-slate-200/40 text-slate-600"
+                          >
+                            {s}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom Call to Action */}
+              <div className="glass-panel border border-slate-200/50 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden bg-gradient-to-br from-indigo-500/5 via-blue-500/5 to-transparent bg-white/50">
+                <div className="max-w-xl mx-auto space-y-6">
+                  <h3 className="text-2xl font-bold font-display text-slate-950">Want to join our mission?</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">
+                    We are always looking for exceptional software architects, design virtuosos, and cybersecurity specialists to join our distributed global network.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setViewingAllTeam(false);
+                      // Scroll to careers section
+                      setTimeout(() => {
+                        const el = document.getElementById('careers');
+                        if (el) {
+                          const headerOffset = 80;
+                          const elementPosition = el.getBoundingClientRect().top;
+                          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                          window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                          });
+                        }
+                      }, 100);
+                    }}
+                    className="px-6 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-500 hover:shadow-md hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+                  >
+                    View Open Positions
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );
