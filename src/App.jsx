@@ -846,7 +846,7 @@ function App() {
               { num: "50+", label: "Projects Completed" },
               { num: "99.9%", label: "Client Satisfaction" },
               { num: "24/7", label: "Dedicated Support" },
-              { num: "10+", label: "Modern Tech Stacks" }
+              { num: "20+", label: "Employees Working" }
             ].map((stat, i) => (
               <div key={i} className="space-y-1">
                 <p className="text-3xl md:text-4xl font-extrabold font-display text-gradient-purple-blue">{stat.num}</p>
@@ -888,7 +888,7 @@ function App() {
               <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full" />
               
               <p className="text-slate-600 text-lg leading-relaxed">
-                Nexora Technologies is a team of passionate developers, designers, and innovators providing high-quality software solutions. We bridge the gap between complex engineering concepts and intuitive, scalable digital experiences.
+                Nexora Technologies is a growing team of 20+ passionate developers, designers, and innovators providing high-quality software solutions. We bridge the gap between complex engineering concepts and intuitive, scalable digital experiences.
               </p>
               
               <p className="text-slate-500">
@@ -897,7 +897,7 @@ function App() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
                 {[
-                  "Passionate Innovators",
+                  "20+ Active Professionals",
                   "Robust Security Standards",
                   "Expert Software Architects",
                   "End-to-End Support Delivery"
