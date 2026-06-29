@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import trivinPhoto from './assets/trivin.png';
 import aakashrajPhoto from './assets/aakashraj.png';
+import arutselvanPhoto from './assets/arutselvan.png';
 import logo from './assets/logo.png';
 
 const GithubIcon = ({ size = 20, className = "" }) => (
@@ -97,6 +98,15 @@ function App() {
     message: ''
   });
   const [viewingAllTeam, setViewingAllTeam] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  // Dismiss welcome preloader
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2800);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Auto-slide testimonials
   useEffect(() => {
@@ -128,9 +138,9 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Lock body scroll when viewing entire team sub-page
+  // Lock body scroll when loading or viewing entire team sub-page
   useEffect(() => {
-    if (viewingAllTeam) {
+    if (loading || viewingAllTeam) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = 'unset';
@@ -138,7 +148,7 @@ function App() {
     return () => {
       document.body.style.overflow = 'unset';
     };
-  }, [viewingAllTeam]);
+  }, [loading, viewingAllTeam]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -354,6 +364,13 @@ function App() {
       image: aakashrajPhoto
     },
     {
+      name: "Arutselvan",
+      role: "Co-Founder & Team Leader",
+      desc: "Directs project execution, orchestrates cross-functional engineering groups, and ensures top-tier quality delivery across all client solutions.",
+      skills: [ "Project Leadership", "Software Architecture", "Agile Workflows", "Team Coordination", "Client Relations" ],
+      image: arutselvanPhoto
+    },
+    {
       name: "Gopika",
       role: "Java Developer",
       desc: "Crafts robust, enterprise-grade server-side applications, optimized databases, and microservices architectures using Java technologies.",
@@ -466,6 +483,24 @@ function App() {
       role: "Data Analyst",
       desc: "Focuses on data hygiene auditing, performance metric optimization, machine learning modeling, and analytical projections.",
       skills: ["Data Analysis", "SQL Optimization", "Python / NumPy", "Predictive Analytics"]
+    },
+    {
+      name: "Prisha",
+      role: "Software Developer",
+      desc: "Develops clean, scalable client-side application logic and responsive web interfaces utilizing modern front-end components.",
+      skills: ["React.js", "JavaScript (ES6+)", "Tailwind CSS", "Git / GitHub"]
+    },
+    {
+      name: "Srinithi",
+      role: "Java Developer",
+      desc: "Specializes in constructing robust, high-throughput backend services and secure microservices frameworks using Java.",
+      skills: ["Java / Spring Boot", "RESTful APIs", "Hibernate / JPA", "PostgreSQL"]
+    },
+    {
+      name: "Santhoshraj",
+      role: "Android Developer",
+      desc: "Crafts high-performance native mobile applications with clean architecture, responsive layouts, and seamless API integrations.",
+      skills: ["Android SDK", "Kotlin / Java", "Jetpack Compose", "Material Design"]
     }
   ];
 
@@ -519,7 +554,89 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-slate-50/50 text-slate-700 selection:bg-indigo-500/10 selection:text-indigo-600 font-sans bg-grid-cyber">
+    <>
+      <AnimatePresence mode="wait">
+        {loading && (
+          <motion.div
+            key="preloader"
+            initial={{ opacity: 1 }}
+            exit={{ 
+              opacity: 0,
+              y: -1000,
+              transition: { duration: 0.9, ease: [0.76, 0, 0.24, 1] }
+            }}
+            className="fixed inset-0 z-[9999] bg-slate-950 flex flex-col items-center justify-center text-white overflow-hidden"
+          >
+            {/* Ambient Background Glow */}
+            <div className="absolute w-[60%] h-[60%] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse" />
+            <div className="absolute w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+
+            <div className="z-10 flex flex-col items-center space-y-6 max-w-md px-6 text-center">
+              {/* Logo Frame */}
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="relative w-24 h-24 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center p-3 overflow-hidden shadow-2xl"
+              >
+                <div className="absolute inset-0 bg-grid-cyber opacity-20" />
+                <motion.img 
+                  src={logo} 
+                  alt="Nexora Logo" 
+                  className="w-full h-full object-contain filter drop-shadow-lg"
+                  animate={{ rotate: [0, 5, -5, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </motion.div>
+
+              {/* Company Name with Typing/Gradient Effect */}
+              <div className="space-y-2">
+                <motion.h1 
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3, duration: 0.8 }}
+                  className="text-3xl sm:text-4xl font-extrabold tracking-widest font-display bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent"
+                >
+                  NEXORA
+                </motion.h1>
+                <motion.p 
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6, duration: 0.8 }}
+                  className="text-xs sm:text-sm font-mono tracking-[0.25em] text-indigo-400 uppercase font-semibold"
+                >
+                  Technologies
+                </motion.p>
+              </div>
+
+              {/* Progress Bar Loader */}
+              <div className="w-48 h-[3px] bg-white/10 rounded-full overflow-hidden relative">
+                <motion.div 
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 2.2, ease: "easeInOut" }}
+                  className="h-full bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-500"
+                />
+              </div>
+
+              {/* Slogan */}
+              <motion.p 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 0.8 }}
+                className="text-[11px] font-display text-slate-500 italic font-medium"
+              >
+                "Building Tomorrow, Today."
+              </motion.p>
+            </div>
+            
+            {/* Tech grid overlay lines */}
+            <div className="absolute inset-0 bg-grid-cyber opacity-[0.03] pointer-events-none" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="relative min-h-screen bg-slate-50/50 text-slate-700 selection:bg-indigo-500/10 selection:text-indigo-600 font-sans bg-grid-cyber">
       
       {/* Background glowing blobs (light color washes) */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-radial-gradient-glow pointer-events-none animate-pulse-slow z-0" />
@@ -695,145 +812,40 @@ function App() {
               </div>
             </div>
 
-            {/* Right Column Interactive Nexora Tech Core Illustration */}
+            {/* Right Column Brand Logo Showcase */}
             <div className="lg:col-span-5 relative flex justify-center items-center">
-              
-              <div className="relative w-80 h-80 sm:w-96 sm:h-96 flex items-center justify-center select-none group/core">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="relative w-72 h-72 sm:w-96 sm:h-96 flex items-center justify-center"
+              >
                 {/* Backing ambient glowing spheres */}
-                <div className="absolute w-[70%] h-[70%] bg-gradient-to-tr from-indigo-500/10 via-blue-500/5 to-cyan-500/10 rounded-full blur-3xl z-0 animate-pulse-slow group-hover/core:scale-110 transition-transform duration-700" />
-                <div className="absolute w-[45%] h-[45%] bg-gradient-to-br from-purple-500/5 via-indigo-500/10 to-blue-500/5 rounded-full blur-2xl z-0 animate-pulse-slow" style={{ animationDelay: '2s' }} />
-
-                {/* Cybernetic HUD Circles (Concentric Rings rotating) */}
-                {/* Outer tech ring with notches */}
-                <motion.div 
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 40, ease: "linear", repeat: Infinity }}
-                  className="absolute w-[90%] h-[90%] rounded-full border border-dashed border-indigo-500/10 flex items-center justify-center"
-                />
+                <div className="absolute w-[80%] h-[80%] bg-gradient-to-tr from-indigo-500/10 via-blue-500/5 to-cyan-500/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
                 
-                {/* Middle tech ring with segment divisions */}
-                <motion.div 
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 25, ease: "linear", repeat: Infinity }}
-                  className="absolute w-[75%] h-[75%] rounded-full border border-blue-500/15"
-                  style={{ borderStyle: 'double', borderWidth: '3px' }}
-                />
-
-                {/* Inner dot-dashed ring */}
-                <motion.div 
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 15, ease: "linear", repeat: Infinity }}
-                  className="absolute w-[58%] h-[58%] rounded-full border border-dotted border-cyan-500/30"
-                />
-
-                {/* Interactive SVG Layer */}
-                <svg className="absolute w-full h-full z-10 pointer-events-none" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  {/* Dynamic Glowing Data Pipelines (Connecting lines) */}
-                  {/* Line to Top-Left Node (AI Engine) */}
-                  <path d="M 200,200 L 90,110" stroke="rgba(79, 70, 229, 0.2)" strokeWidth="2" />
-                  <path d="M 200,200 L 90,110" stroke="rgba(139, 92, 246, 0.6)" strokeWidth="2" className="data-pipeline-pulse" />
-
-                  {/* Line to Top-Right Node (Web Platforms) */}
-                  <path d="M 200,200 L 310,110" stroke="rgba(37, 99, 235, 0.2)" strokeWidth="2" />
-                  <path d="M 200,200 L 310,110" stroke="rgba(59, 130, 246, 0.6)" strokeWidth="2" className="data-pipeline-pulse" style={{ animationDirection: 'reverse', animationDuration: '1.2s' }} />
-
-                  {/* Line to Bottom-Right Node (Cloud Database) */}
-                  <path d="M 200,200 L 310,290" stroke="rgba(14, 165, 233, 0.2)" strokeWidth="2" />
-                  <path d="M 200,200 L 310,290" stroke="rgba(6, 182, 212, 0.6)" strokeWidth="2" className="data-pipeline-pulse" style={{ animationDuration: '1.8s' }} />
-
-                  {/* Line to Bottom-Left Node (Mobile Apps) */}
-                  <path d="M 200,200 L 90,290" stroke="rgba(79, 70, 229, 0.2)" strokeWidth="2" />
-                  <path d="M 200,200 L 90,290" stroke="rgba(168, 85, 247, 0.6)" strokeWidth="2" className="data-pipeline-pulse" style={{ animationDirection: 'reverse', animationDuration: '1s' }} />
-                </svg>
-
-                {/* Central Main Core Sphere */}
-                <motion.div 
-                  animate={{ 
-                    scale: [1, 1.06, 1],
-                    boxShadow: [
-                      "0 0 20px rgba(99, 102, 241, 0.25), inset 0 0 10px rgba(99, 102, 241, 0.15)",
-                      "0 0 40px rgba(99, 102, 241, 0.45), inset 0 0 20px rgba(99, 102, 241, 0.25)",
-                      "0 0 20px rgba(99, 102, 241, 0.25), inset 0 0 10px rgba(99, 102, 241, 0.15)"
-                    ]
-                  }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute w-20 h-20 rounded-full bg-gradient-to-br from-indigo-600 via-blue-600 to-cyan-500 flex items-center justify-center border border-white/40 z-20 shadow-xl cursor-pointer group/core-sphere"
-                >
-                  {/* Core Icon overlay */}
-                  <Cpu className="text-white w-8 h-8 animate-pulse" />
-                  <div className="absolute inset-0 rounded-full bg-white/20 opacity-0 group-hover/core-sphere:opacity-100 transition-opacity duration-300" />
-                </motion.div>
-
-                {/* Orbiting Satellite Floating Panels & Nodes */}
-                {/* 1. TOP-LEFT: AI ENGINE */}
-                <motion.div 
-                  animate={{ y: [0, -8, 0], x: [0, 4, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
-                  className="absolute left-[5%] top-[10%] z-20 flex flex-col items-center"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-white border border-indigo-100 shadow-lg flex items-center justify-center relative group-hover/core:scale-105 transition-transform duration-300">
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-purple-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <Sparkles className="text-purple-600 w-5 h-5" />
-                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-purple-500 rounded-full animate-ping" />
-                    <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-purple-500 rounded-full" />
-                  </div>
-                  <div className="mt-2 px-2.5 py-1 bg-white/85 backdrop-blur-md rounded-md border border-slate-100 shadow-sm">
-                    <p className="text-[10px] font-bold font-mono tracking-wider text-slate-700">AI ENGINE</p>
-                  </div>
-                </motion.div>
-
-                {/* 2. TOP-RIGHT: WEB DEVELOPMENT */}
-                <motion.div 
-                  animate={{ y: [0, 8, 0], x: [0, -4, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute right-[5%] top-[10%] z-20 flex flex-col items-center"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-white border border-blue-100 shadow-lg flex items-center justify-center relative group-hover/core:scale-105 transition-transform duration-300">
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-blue-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <Code className="text-blue-600 w-5 h-5" />
-                    <span className="absolute -top-1 -left-1 w-2.5 h-2.5 bg-blue-500 rounded-full animate-ping" style={{ animationDelay: '1s' }} />
-                    <span className="absolute -top-1 -left-1 w-2.5 h-2.5 bg-blue-500 rounded-full" />
-                  </div>
-                  <div className="mt-2 px-2.5 py-1 bg-white/85 backdrop-blur-md rounded-md border border-slate-100 shadow-sm">
-                    <p className="text-[10px] font-bold font-mono tracking-wider text-slate-700">WEB DEV</p>
-                  </div>
-                </motion.div>
-
-                {/* 3. BOTTOM-RIGHT: CLOUD DATABASE */}
-                <motion.div 
-                  animate={{ y: [0, -8, 0], x: [0, -4, 0] }}
-                  transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                  className="absolute right-[5%] bottom-[10%] z-20 flex flex-col items-center"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-white border border-cyan-100 shadow-lg flex items-center justify-center relative group-hover/core:scale-105 transition-transform duration-300">
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-cyan-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <Database className="text-cyan-600 w-5 h-5" />
-                    <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 bg-cyan-500 rounded-full animate-ping" style={{ animationDelay: '0.5s' }} />
-                    <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 bg-cyan-500 rounded-full" />
-                  </div>
-                  <div className="mt-2 px-2.5 py-1 bg-white/85 backdrop-blur-md rounded-md border border-slate-100 shadow-sm">
-                    <p className="text-[10px] font-bold font-mono tracking-wider text-slate-700">DATABASE</p>
-                  </div>
-                </motion.div>
-
-                {/* 4. BOTTOM-LEFT: MOBILE APPS */}
-                <motion.div 
-                  animate={{ y: [0, 8, 0], x: [0, 4, 0] }}
-                  transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                  className="absolute left-[5%] bottom-[10%] z-20 flex flex-col items-center"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-white border border-indigo-100 shadow-lg flex items-center justify-center relative group-hover/core:scale-105 transition-transform duration-300">
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <Smartphone className="text-indigo-600 w-5 h-5" />
-                    <span className="absolute -bottom-1 -left-1 w-2.5 h-2.5 bg-indigo-500 rounded-full animate-ping" style={{ animationDelay: '1.5s' }} />
-                    <span className="absolute -bottom-1 -left-1 w-2.5 h-2.5 bg-indigo-500 rounded-full" />
-                  </div>
-                  <div className="mt-2 px-2.5 py-1 bg-white/85 backdrop-blur-md rounded-md border border-slate-100 shadow-sm">
-                    <p className="text-[10px] font-bold font-mono tracking-wider text-slate-700">MOBILE OS</p>
-                  </div>
-                </motion.div>
-
-              </div>
+                {/* Outer Glassmorphic ring */}
+                <div className="absolute inset-0 rounded-3xl border border-slate-200/50 bg-white/30 backdrop-blur-md shadow-2xl flex items-center justify-center overflow-hidden p-8 group">
+                  <div className="absolute inset-0 bg-grid-cyber opacity-15" />
+                  
+                  {/* Glowing background behind logo */}
+                  <div className="absolute w-40 h-40 rounded-full bg-gradient-to-tr from-indigo-500/20 to-blue-500/20 blur-2xl group-hover:scale-125 transition-transform duration-700" />
+                  
+                  {/* Floating Logo */}
+                  <motion.img 
+                    src={logo} 
+                    alt="Nexora Technologies Logo" 
+                    animate={{ y: [0, -12, 0] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                    className="relative z-10 w-48 h-48 sm:w-64 sm:h-64 object-contain filter drop-shadow-2xl"
+                  />
+                  
+                  {/* Decorative corners */}
+                  <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-indigo-500/40 rounded-tl-md" />
+                  <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-indigo-500/40 rounded-tr-md" />
+                  <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-blue-500/40 rounded-bl-md" />
+                  <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-blue-500/40 rounded-br-md" />
+                </div>
+              </motion.div>
             </div>
 
           </div>
@@ -1915,6 +1927,7 @@ function App() {
       </AnimatePresence>
 
     </div>
+    </>
   );
 }
 
