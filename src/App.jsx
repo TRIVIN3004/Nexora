@@ -5,7 +5,8 @@ import {
   FileText, Palette, ChevronLeft, ChevronRight, Send, Mail, 
   Phone, MapPin, ArrowRight, 
   MessageSquare, CheckCircle2, Menu, X, Sparkles, Code, 
-  Layers, ShieldAlert, Award, Clock, DollarSign, Check
+  Layers, ShieldAlert, Award, Clock, DollarSign, Check,
+  ChevronDown, ExternalLink
 } from 'lucide-react';
 import trivinPhoto from './assets/trivin.png';
 import aakashrajPhoto from './assets/aakashraj.png';
@@ -99,6 +100,7 @@ function App() {
   });
   const [viewingAllTeam, setViewingAllTeam] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [portalsDropdownOpen, setPortalsDropdownOpen] = useState(false);
 
   // Dismiss welcome preloader
   useEffect(() => {
@@ -699,6 +701,51 @@ function App() {
                 )}
               </a>
             ))}
+
+            {/* Portals Dropdown */}
+            <div 
+              className="relative font-sans"
+              onMouseEnter={() => setPortalsDropdownOpen(true)}
+              onMouseLeave={() => setPortalsDropdownOpen(false)}
+            >
+              <button 
+                className="text-sm font-medium text-slate-500 hover:text-slate-950 transition-colors py-2 flex items-center space-x-1 cursor-pointer focus:outline-none"
+                onClick={() => setPortalsDropdownOpen(!portalsDropdownOpen)}
+              >
+                <span>Portals</span>
+                <ChevronDown size={14} className={`transition-transform duration-200 ${portalsDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              <AnimatePresence>
+                {portalsDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute right-0 mt-1 w-52 rounded-xl bg-white border border-slate-200/80 shadow-xl py-2 z-50 overflow-hidden"
+                  >
+                    <a
+                      href="https://dpr-nexora.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-600 hover:text-indigo-600 hover:bg-slate-50/80 transition-colors"
+                    >
+                      <span className="font-medium">DPR Portal</span>
+                      <ExternalLink size={14} className="text-slate-400 group-hover:text-indigo-600" />
+                    </a>
+                    <a
+                      href="https://nexora-s-internship-portal-xi.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-600 hover:text-indigo-600 hover:bg-slate-50/80 transition-colors"
+                    >
+                      <span className="font-medium">Internship Portal</span>
+                      <ExternalLink size={14} className="text-slate-400 group-hover:text-indigo-600" />
+                    </a>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </nav>
 
           {/* Action CTA Button */}
@@ -758,9 +805,37 @@ function App() {
                     {link.label}
                   </a>
                 ))}
+                
+                {/* Mobile Portals Links */}
+                <div className="border-t border-slate-100 pt-4 mt-2">
+                  <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 font-sans">Our Portals</h4>
+                  <div className="flex flex-col space-y-2">
+                    <a
+                      href="https://dpr-nexora.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between text-base font-semibold py-2 text-slate-500 hover:text-indigo-600 transition-colors font-sans"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>DPR Portal</span>
+                      <ExternalLink size={16} className="text-slate-400" />
+                    </a>
+                    <a
+                      href="https://nexora-s-internship-portal-xi.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between text-base font-semibold py-2 text-slate-500 hover:text-indigo-600 transition-colors font-sans"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>Internship Portal</span>
+                      <ExternalLink size={16} className="text-slate-400" />
+                    </a>
+                  </div>
+                </div>
+
                 <button
                   onClick={() => scrollToSection('contact')}
-                  className="w-full mt-4 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-500 text-white font-semibold text-center shadow-md"
+                  className="w-full mt-4 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-500 text-white font-semibold text-center shadow-md cursor-pointer"
                 >
                   Get Started
                 </button>
@@ -1682,7 +1757,7 @@ function App() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-8 pb-12 border-b border-slate-800">
           
           {/* Logo Brand */}
-          <div className="md:col-span-5 space-y-4">
+          <div className="md:col-span-4 space-y-4">
             <a 
               href="#home" 
               onClick={(e) => { e.preventDefault(); scrollToSection('home'); }} 
@@ -1747,8 +1822,37 @@ function App() {
             </ul>
           </div>
 
+          {/* Portals */}
+          <div className="md:col-span-2 space-y-4">
+            <h4 className="text-xs font-mono font-bold tracking-widest text-slate-300 uppercase font-sans">Our Portals</h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a 
+                  href="https://dpr-nexora.vercel.app/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-slate-400 hover:text-white transition-colors flex items-center space-x-1 font-sans"
+                >
+                  <span>DPR Portal</span>
+                  <ExternalLink size={12} className="opacity-60" />
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://nexora-s-internship-portal-xi.vercel.app/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-slate-400 hover:text-white transition-colors flex items-center space-x-1 font-sans"
+                >
+                  <span>Internship Portal</span>
+                  <ExternalLink size={12} className="opacity-60" />
+                </a>
+              </li>
+            </ul>
+          </div>
+
           {/* Links 2 */}
-          <div className="md:col-span-4 space-y-4">
+          <div className="md:col-span-3 space-y-4">
             <h4 className="text-xs font-mono font-bold tracking-widest text-slate-300 uppercase">Technologies Utilized</h4>
             <div className="flex flex-wrap gap-1.5 pt-1">
               {["React 19", "Vite 8", "Tailwind v4", "Framer Motion", "Lucide React", "AutoCAD", "STAAD Pro", "Node.js", "MongoDB", "TensorFlow"].map((tech) => (
