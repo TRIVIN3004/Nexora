@@ -12,6 +12,7 @@ import trivinPhoto from './assets/trivin.png';
 import aakashrajPhoto from './assets/aakashraj.png';
 import arutselvanPhoto from './assets/arutselvan.png';
 import logo from './assets/logo.png';
+import WelcomeNamaste from './components/WelcomeNamaste';
 
 const GithubIcon = ({ size = 20, className = "" }) => (
   <svg 
@@ -106,7 +107,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2800);
+    }, 4500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -574,22 +575,8 @@ function App() {
             <div className="absolute w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
 
             <div className="z-10 flex flex-col items-center space-y-6 max-w-md px-6 text-center">
-              {/* Logo Frame */}
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className="relative w-24 h-24 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center p-3 overflow-hidden shadow-2xl"
-              >
-                <div className="absolute inset-0 bg-grid-cyber opacity-20" />
-                <motion.img 
-                  src={logo} 
-                  alt="Nexora Logo" 
-                  className="w-full h-full object-contain filter drop-shadow-lg"
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                />
-              </motion.div>
+              {/* Welcoming Figure with Joining Hands (Traditional Greeting) */}
+              <WelcomeNamaste />
 
               {/* Company Name with Typing/Gradient Effect */}
               <div className="space-y-2">
@@ -631,6 +618,17 @@ function App() {
                 "Building Tomorrow, Today."
               </motion.p>
             </div>
+            
+            {/* Skip Button */}
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.6 }}
+              whileHover={{ opacity: 1, scale: 1.05 }}
+              onClick={() => setLoading(false)}
+              className="absolute bottom-8 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[11px] font-mono tracking-widest text-slate-400 hover:text-white hover:border-white/20 hover:bg-white/10 transition-all duration-200 cursor-pointer z-50"
+            >
+              SKIP WELCOME
+            </motion.button>
             
             {/* Tech grid overlay lines */}
             <div className="absolute inset-0 bg-grid-cyber opacity-[0.03] pointer-events-none" />
