@@ -6,7 +6,7 @@ import {
   Phone, MapPin, ArrowRight, 
   MessageSquare, CheckCircle2, Menu, X, Sparkles, Code, 
   Layers, ShieldAlert, Award, Clock, DollarSign, Check,
-  ChevronDown, ExternalLink
+  ChevronDown, ExternalLink, Briefcase
 } from 'lucide-react';
 import trivinPhoto from './assets/trivin.png';
 import aakashrajPhoto from './assets/aakashraj.png';
@@ -740,6 +740,15 @@ function App() {
                       <span className="font-medium">Internship Portal</span>
                       <ExternalLink size={14} className="text-slate-400 group-hover:text-indigo-600" />
                     </a>
+                    <a
+                      href="https://hiregen-smart-recruiter.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-600 hover:text-indigo-600 hover:bg-slate-50/80 transition-colors"
+                    >
+                      <span className="font-medium">HireGenAI Portal</span>
+                      <ExternalLink size={14} className="text-slate-400 group-hover:text-indigo-600" />
+                    </a>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -828,6 +837,16 @@ function App() {
                       <span>Internship Portal</span>
                       <ExternalLink size={16} className="text-slate-400" />
                     </a>
+                    <a
+                      href="https://hiregen-smart-recruiter.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between text-base font-semibold py-2 text-slate-500 hover:text-indigo-600 transition-colors font-sans"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      <span>HireGenAI Portal</span>
+                      <ExternalLink size={16} className="text-slate-400" />
+                    </a>
                   </div>
                 </div>
 
@@ -889,7 +908,7 @@ function App() {
                 <span className="text-xs font-semibold text-slate-400 uppercase tracking-widest block font-sans">
                   Access Our Portals
                 </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <a 
                     href="https://dpr-nexora.vercel.app/"
                     target="_blank"
@@ -920,6 +939,22 @@ function App() {
                       <p className="text-[11px] text-slate-400 truncate">Apply & Manage Internships</p>
                     </div>
                     <ExternalLink size={14} className="text-slate-400 group-hover:text-blue-600 shrink-0 transition-colors" />
+                  </a>
+
+                  <a 
+                    href="https://hiregen-smart-recruiter.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-3.5 px-4 py-3 rounded-2xl bg-white/60 hover:bg-white border border-slate-200/60 hover:border-purple-500/80 hover:shadow-lg hover:shadow-purple-500/5 transition-all duration-300 group font-sans"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300 shrink-0">
+                      <Briefcase size={20} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-sm font-bold text-slate-800 group-hover:text-purple-600 transition-colors truncate">HireGenAI Portal</h4>
+                      <p className="text-[11px] text-slate-400 truncate">Smart AI Recruitment</p>
+                    </div>
+                    <ExternalLink size={14} className="text-slate-400 group-hover:text-purple-600 shrink-0 transition-colors" />
                   </a>
                 </div>
               </div>
@@ -1883,6 +1918,17 @@ function App() {
                   className="text-slate-400 hover:text-white transition-colors flex items-center space-x-1 font-sans"
                 >
                   <span>Internship Portal</span>
+                  <ExternalLink size={12} className="opacity-60" />
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://hiregen-smart-recruiter.vercel.app/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-slate-400 hover:text-white transition-colors flex items-center space-x-1 font-sans"
+                >
+                  <span>HireGenAI Portal</span>
                   <ExternalLink size={12} className="opacity-60" />
                 </a>
               </li>
