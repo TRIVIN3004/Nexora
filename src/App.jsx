@@ -732,7 +732,7 @@ function App() {
                       <ExternalLink size={14} className="text-slate-400 group-hover:text-indigo-600" />
                     </a>
                     <a
-                      href="https://nexora-s-internship-portal-xi.vercel.app/"
+                      href="https://internship-portal-silk.vercel.app/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-between px-4 py-2.5 text-sm text-slate-600 hover:text-indigo-600 hover:bg-slate-50/80 transition-colors"
@@ -828,7 +828,7 @@ function App() {
                       <ExternalLink size={16} className="text-slate-400" />
                     </a>
                     <a
-                      href="https://nexora-s-internship-portal-xi.vercel.app/"
+                      href="https://internship-portal-silk.vercel.app/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center justify-between text-base font-semibold py-2 text-slate-500 hover:text-indigo-600 transition-colors font-sans"
@@ -926,7 +926,7 @@ function App() {
                   </a>
 
                   <a 
-                    href="https://nexora-s-internship-portal-xi.vercel.app/"
+                    href="https://internship-portal-silk.vercel.app/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center space-x-3.5 px-4 py-3 rounded-2xl bg-white/60 hover:bg-white border border-slate-200/60 hover:border-blue-500/80 hover:shadow-lg hover:shadow-blue-500/5 transition-all duration-300 group font-sans"
@@ -1912,7 +1912,7 @@ function App() {
               </li>
               <li>
                 <a 
-                  href="https://nexora-s-internship-portal-xi.vercel.app/" 
+                  href="https://internship-portal-silk.vercel.app/" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className="text-slate-400 hover:text-white transition-colors flex items-center space-x-1 font-sans"
