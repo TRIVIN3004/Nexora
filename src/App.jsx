@@ -6,7 +6,7 @@ import {
   Phone, MapPin, ArrowRight, 
   MessageSquare, CheckCircle2, Menu, X, Sparkles, Code, 
   Layers, ShieldAlert, Award, Clock, DollarSign, Check,
-  ChevronDown, ExternalLink, Briefcase
+  ChevronDown, ExternalLink, Briefcase, Bot
 } from 'lucide-react';
 import trivinPhoto from './assets/trivin.png';
 import aakashrajPhoto from './assets/aakashraj.png';
@@ -1901,6 +1901,18 @@ function App() {
             <ul className="space-y-2 text-sm">
               <li>
                 <a 
+                  href="https://nexora-ai-chatbot-zeta.vercel.app" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-indigo-400 hover:text-indigo-300 transition-colors flex items-center space-x-1.5 font-sans font-medium"
+                >
+                  <Bot size={14} className="text-indigo-400" />
+                  <span>Nexora AI Chatbot</span>
+                  <ExternalLink size={12} className="opacity-60" />
+                </a>
+              </li>
+              <li>
+                <a 
                   href="https://dpr-nexora.vercel.app/" 
                   target="_blank" 
                   rel="noopener noreferrer" 
@@ -2113,6 +2125,39 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Floating Bottom Corner AI Chatbot Widget Link */}
+      <a
+        href="https://nexora-ai-chatbot-zeta.vercel.app"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Open Nexora AI Chatbot"
+        className="fixed bottom-6 right-6 z-[90] group flex items-center gap-3 decoration-none cursor-pointer"
+      >
+        {/* Tooltip Label */}
+        <div className="hidden sm:flex flex-col items-end opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300 pointer-events-none">
+          <div className="px-3.5 py-2 rounded-2xl bg-slate-950/90 text-white text-xs font-medium shadow-2xl border border-indigo-500/30 backdrop-blur-md whitespace-nowrap flex items-center gap-2">
+            <Sparkles size={14} className="text-amber-400 animate-pulse" />
+            <span>Chat with <strong className="text-indigo-300">Nexora AI</strong></span>
+          </div>
+        </div>
+
+        {/* Button Circle with Bot Symbol */}
+        <div className="relative flex items-center justify-center">
+          {/* Glowing pulse ring */}
+          <span className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-500 opacity-75 blur-md group-hover:opacity-100 group-hover:blur-lg transition-all duration-300 animate-pulse-slow" />
+          
+          {/* Main Bot Button */}
+          <div className="relative w-14 h-14 rounded-full bg-gradient-to-tr from-indigo-600 via-purple-600 to-blue-600 text-white shadow-2xl shadow-indigo-600/40 flex items-center justify-center border border-white/25 group-hover:scale-110 active:scale-95 transition-all duration-300">
+            <Bot size={28} className="group-hover:rotate-12 transition-transform duration-300 drop-shadow-md" />
+            
+            {/* Live Online Badge */}
+            <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 bg-emerald-400 border-2 border-slate-950 rounded-full">
+              <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-75" />
+            </span>
+          </div>
+        </div>
+      </a>
 
     </div>
     </>
