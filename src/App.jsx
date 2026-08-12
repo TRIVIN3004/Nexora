@@ -13,6 +13,7 @@ import aakashrajPhoto from './assets/aakashraj.png';
 import arutselvanPhoto from './assets/arutselvan.png';
 import logo from './assets/logo.png';
 import WelcomeNamaste from './components/WelcomeNamaste';
+import Scroll3DReveal from './components/Scroll3DReveal';
 import Background3D from './components/Background3D';
 import Tilt from 'react-parallax-tilt';
 
@@ -1061,6 +1062,7 @@ function App() {
 
         {/* ABOUT US */}
         <section id="about" className="py-24 px-6 max-w-7xl mx-auto">
+          <Scroll3DReveal>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             
             {/* Left graphic representation */}
@@ -1116,10 +1118,12 @@ function App() {
             </div>
 
           </div>
+          </Scroll3DReveal>
         </section>
 
         {/* SERVICES SECTION */}
         <section id="services" className="py-24 px-6 bg-slate-50/50 relative border-t border-slate-200/50">
+          <Scroll3DReveal>
           <div className="max-w-7xl mx-auto text-center space-y-12">
             
             <div className="space-y-4 max-w-2xl mx-auto">
@@ -1170,10 +1174,12 @@ function App() {
             </div>
 
           </div>
+          </Scroll3DReveal>
         </section>
 
         {/* TECHNOLOGIES SECTION */}
         <section id="technologies" className="py-20 bg-slate-100/50 border-y border-slate-200/60 overflow-hidden">
+          <Scroll3DReveal>
           <div className="max-w-7xl mx-auto px-6 text-center space-y-12">
             <div className="space-y-3">
               <h2 className="text-3xl md:text-4xl font-extrabold font-display text-slate-900">Technologies We Master</h2>
@@ -1204,10 +1210,12 @@ function App() {
             </div>
 
           </div>
+          </Scroll3DReveal>
         </section>
 
         {/* PROJECTS SHOWCASE */}
         <section id="projects" className="py-24 px-6 max-w-7xl mx-auto">
+          <Scroll3DReveal>
           <div className="space-y-12 text-center">
             <div className="space-y-4 max-w-2xl mx-auto">
               <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900">
@@ -1340,10 +1348,12 @@ function App() {
             </div>
 
           </div>
+          </Scroll3DReveal>
         </section>
 
         {/* WHY CHOOSE US */}
         <section id="why-choose-us" className="py-24 px-6 bg-slate-50/50 border-y border-slate-200/60">
+          <Scroll3DReveal>
           <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             
             {/* Left side text headers */}
@@ -1391,10 +1401,12 @@ function App() {
             </div>
 
           </div>
+          </Scroll3DReveal>
         </section>
 
         {/* TEAM SECTION */}
         <section id="team" className="py-24 px-6 max-w-7xl mx-auto">
+          <Scroll3DReveal>
           <div className="space-y-12 text-center">
             
             <div className="space-y-4 max-w-2xl mx-auto">
@@ -1482,10 +1494,12 @@ function App() {
             </div>
 
           </div>
+          </Scroll3DReveal>
         </section>
 
         {/* CAREERS SECTION */}
         <section id="careers" className="py-24 px-6 max-w-7xl mx-auto border-t border-slate-200/50 scroll-mt-20">
+          <Scroll3DReveal>
           <div className="space-y-12 text-center">
             
             <div className="space-y-4 max-w-2xl mx-auto">
@@ -1584,10 +1598,12 @@ function App() {
             </div>
 
           </div>
+          </Scroll3DReveal>
         </section>
 
         {/* TESTIMONIALS CAROUSEL */}
         <section id="testimonials" className="py-24 px-6 bg-gradient-to-b from-transparent via-blue-50/50 to-transparent relative border-t border-slate-200/50">
+          <Scroll3DReveal>
           <div className="max-w-4xl mx-auto text-center space-y-12">
             
             <div className="space-y-4 max-w-2xl mx-auto">
@@ -1670,10 +1686,12 @@ function App() {
             </div>
 
           </div>
+          </Scroll3DReveal>
         </section>
 
         {/* CONTACT SECTION */}
         <section id="contact" className="py-24 px-6 max-w-7xl mx-auto scroll-mt-20 border-t border-slate-200/50">
+          <Scroll3DReveal>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
             
             {/* Left Column Information */}
@@ -1866,6 +1884,7 @@ function App() {
             </div>
 
           </div>
+          </Scroll3DReveal>
         </section>
 
       </main>
