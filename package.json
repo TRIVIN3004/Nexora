@@ -10,11 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@splinetool/react-spline": "^4.1.0",
+    "@splinetool/runtime": "^1.12.98",
     "@tailwindcss/vite": "^4.3.1",
     "framer-motion": "^12.41.0",
     "lucide-react": "^1.21.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "react-parallax-tilt": "^1.7.337",
     "tailwindcss": "^4.3.1"
   },
   "devDependencies": {

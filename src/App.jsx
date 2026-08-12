@@ -13,6 +13,8 @@ import aakashrajPhoto from './assets/aakashraj.png';
 import arutselvanPhoto from './assets/arutselvan.png';
 import logo from './assets/logo.png';
 import WelcomeNamaste from './components/WelcomeNamaste';
+import Spline from '@splinetool/react-spline';
+import Tilt from 'react-parallax-tilt';
 
 const GithubIcon = ({ size = 20, className = "" }) => (
   <svg 
@@ -995,39 +997,27 @@ function App() {
               </div>
             </div>
 
-            {/* Right Column Brand Logo Showcase */}
-            <div className="lg:col-span-5 relative flex justify-center items-center">
+            {/* Right Column Brand Logo Showcase with Spline 3D */}
+            <div className="lg:col-span-5 relative flex justify-center items-center min-h-[400px]">
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                className="relative w-72 h-72 sm:w-96 sm:h-96 flex items-center justify-center"
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="relative w-full h-[400px] sm:h-[500px] flex items-center justify-center cursor-grab active:cursor-grabbing"
               >
                 {/* Backing ambient glowing spheres */}
-                <div className="absolute w-[80%] h-[80%] bg-gradient-to-tr from-indigo-500/10 via-blue-500/5 to-cyan-500/10 rounded-full blur-3xl z-0 animate-pulse-slow" />
+                <div className="absolute w-[80%] h-[80%] bg-gradient-to-tr from-indigo-500/20 via-blue-500/10 to-cyan-500/20 rounded-full blur-3xl z-0 animate-pulse-slow pointer-events-none" />
                 
-                {/* Outer Glassmorphic ring */}
-                <div className="absolute inset-0 rounded-3xl border border-slate-200/50 bg-white/30 backdrop-blur-md shadow-2xl flex items-center justify-center overflow-hidden p-8 group">
-                  <div className="absolute inset-0 bg-grid-cyber opacity-15" />
-                  
-                  {/* Glowing background behind logo */}
-                  <div className="absolute w-40 h-40 rounded-full bg-gradient-to-tr from-indigo-500/20 to-blue-500/20 blur-2xl group-hover:scale-125 transition-transform duration-700" />
-                  
-                  {/* Floating Logo */}
-                  <motion.img 
-                    src={logo} 
-                    alt="Nexora Technologies Logo" 
-                    animate={{ y: [0, -12, 0] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                    className="relative z-10 w-48 h-48 sm:w-64 sm:h-64 object-contain filter drop-shadow-2xl"
-                  />
-                  
-                  {/* Decorative corners */}
-                  <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-indigo-500/40 rounded-tl-md" />
-                  <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-indigo-500/40 rounded-tr-md" />
-                  <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-blue-500/40 rounded-bl-md" />
-                  <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-blue-500/40 rounded-br-md" />
+                {/* Spline 3D Scene */}
+                <div className="absolute inset-0 z-10 rounded-3xl overflow-hidden">
+                  <Spline scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode" />
                 </div>
+
+                {/* Decorative corners */}
+                <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-indigo-500/40 rounded-tl-md pointer-events-none" />
+                <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-indigo-500/40 rounded-tr-md pointer-events-none" />
+                <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-blue-500/40 rounded-bl-md pointer-events-none" />
+                <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-blue-500/40 rounded-br-md pointer-events-none" />
               </motion.div>
             </div>
 
@@ -1129,33 +1119,34 @@ function App() {
               {services.map((svc, i) => {
                 const IconComponent = svc.icon;
                 return (
-                  <motion.div 
-                    key={i}
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: i * 0.05 }}
-                    className="glass-panel glass-panel-hover rounded-2xl p-8 text-left relative overflow-hidden flex flex-col justify-between min-h-[330px]"
-                  >
-                    {/* Corner overlay background glow */}
-                    <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl ${svc.gradient} blur-2xl z-0`} />
-                    
-                    <div className="space-y-4 relative z-10">
-                      <div className="w-12 h-12 rounded-xl bg-slate-100/80 border border-slate-200/50 flex items-center justify-center shadow-sm group">
-                        <IconComponent className="text-indigo-600 group-hover:scale-110 transition-transform duration-300" size={24} />
-                      </div>
-                      <h3 className="text-xl font-bold font-display text-slate-900">{svc.title}</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed line-clamp-4">{svc.description}</p>
-                    </div>
-
-                    <button 
-                      onClick={() => scrollToSection('contact')}
-                      className="mt-4 flex items-center space-x-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors relative z-10 group/link cursor-pointer"
+                  <Tilt key={i} tiltMaxAngleX={5} tiltMaxAngleY={5} scale={1.02} transitionSpeed={2500} className="h-full">
+                    <motion.div 
+                      initial={{ opacity: 0, y: 15 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: i * 0.05 }}
+                      className="glass-panel glass-panel-hover rounded-2xl p-8 text-left relative overflow-hidden flex flex-col justify-between min-h-[330px] h-full"
                     >
-                      <span>Inquire Now</span>
-                      <ArrowRight size={12} className="group-hover/link:translate-x-1 transition-transform" />
-                    </button>
-                  </motion.div>
+                      {/* Corner overlay background glow */}
+                      <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl ${svc.gradient} blur-2xl z-0`} />
+                      
+                      <div className="space-y-4 relative z-10">
+                        <div className="w-12 h-12 rounded-xl bg-slate-100/80 border border-slate-200/50 flex items-center justify-center shadow-sm group">
+                          <IconComponent className="text-indigo-600 group-hover:scale-110 transition-transform duration-300" size={24} />
+                        </div>
+                        <h3 className="text-xl font-bold font-display text-slate-900">{svc.title}</h3>
+                        <p className="text-slate-500 text-sm leading-relaxed line-clamp-4">{svc.description}</p>
+                      </div>
+
+                      <button 
+                        onClick={() => scrollToSection('contact')}
+                        className="mt-4 flex items-center space-x-1.5 text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors relative z-10 group/link cursor-pointer"
+                      >
+                        <span>Inquire Now</span>
+                        <ArrowRight size={12} className="group-hover/link:translate-x-1 transition-transform" />
+                      </button>
+                    </motion.div>
+                  </Tilt>
                 );
               })}
             </div>
@@ -1238,93 +1229,94 @@ function App() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <AnimatePresence>
                 {filteredProjects.map((p, index) => (
-                  <motion.div
-                    key={p.title}
-                    layout
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.4 }}
-                    className="glass-panel glass-panel-hover rounded-2xl overflow-hidden flex flex-col justify-between border border-slate-200/50 shadow-md group/project"
-                  >
-                    
-                    {/* Simulated Clean Light Preview Block */}
-                    <div className="relative h-48 bg-gradient-to-br from-slate-100 to-indigo-50/40 flex items-center justify-center p-6 overflow-hidden border-b border-slate-200/50">
-                      {/* Grid overlay */}
-                      <div className="absolute inset-0 bg-grid-cyber opacity-30" />
-                      <div className="absolute w-24 h-24 rounded-full bg-indigo-500/5 blur-xl group-hover/project:scale-150 transition-transform duration-500" />
+                  <Tilt key={p.title} tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.01} transitionSpeed={2000} className="h-full">
+                    <motion.div
+                      layout
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ duration: 0.4 }}
+                      className="glass-panel glass-panel-hover rounded-2xl overflow-hidden flex flex-col justify-between border border-slate-200/50 shadow-md group/project h-full"
+                    >
                       
-                      {/* Custom Vector Iconography */}
-                      <div className="relative z-10 flex flex-col items-center space-y-2">
-                        {p.category === 'ai' && (
-                          <div className="w-14 h-14 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
-                            <Cpu className="text-indigo-600" size={24} />
-                          </div>
-                        )}
-                        {p.category === 'web' && (
-                          <div className="w-14 h-14 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
-                            <Globe className="text-blue-600" size={24} />
-                          </div>
-                        )}
-                        {p.category === 'mobile' && (
-                          <div className="w-14 h-14 rounded-full bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20">
-                            <Smartphone className="text-cyan-600" size={24} />
-                          </div>
-                        )}
-                        {p.category === 'app' && (
-                          <div className="w-14 h-14 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
-                            <Database className="text-emerald-600" size={24} />
-                          </div>
-                        )}
-                        {p.category === 'civil' && (
-                          <div className="w-14 h-14 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/20">
-                            <Layers className="text-orange-600" size={24} />
-                          </div>
-                        )}
-                        <span className="text-xs font-mono font-semibold tracking-widest text-slate-500 uppercase">
-                          {p.category === 'ai' ? 'ML PIPELINE' : p.category === 'web' ? 'RESPONSIVE WEB' : p.category === 'mobile' ? 'MOBILE OS' : p.category === 'civil' ? 'CIVIL CAD' : 'SYSTEM ARCH'}
-                        </span>
-                      </div>
-
-                      {/* Accent gradient bar bottom */}
-                      <div className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-indigo-500 via-blue-500 to-sky-500" />
-                    </div>
-
-                    {/* Description Details */}
-                    <div className="p-6 text-left flex-grow flex flex-col justify-between space-y-4">
-                      <div className="space-y-2">
-                        <h3 className="text-xl font-bold font-display text-slate-900 group-hover/project:text-indigo-600 transition-colors">
-                          {p.title}
-                        </h3>
-                        <p className="text-slate-500 text-sm leading-relaxed">
-                          {p.description}
-                        </p>
-                      </div>
-
-                      <div className="space-y-4 pt-2">
-                        {/* Tech pills */}
-                        <div className="flex flex-wrap gap-1.5">
-                          {p.tech.map((t, idx) => (
-                            <span 
-                              key={idx} 
-                              className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold font-mono tracking-wider bg-slate-100 border border-slate-200/50 text-slate-600 uppercase"
-                            >
-                              {t}
-                            </span>
-                          ))}
+                      {/* Simulated Clean Light Preview Block */}
+                      <div className="relative h-48 bg-gradient-to-br from-slate-100 to-indigo-50/40 flex items-center justify-center p-6 overflow-hidden border-b border-slate-200/50" style={{ transformStyle: 'preserve-3d' }}>
+                        {/* Grid overlay */}
+                        <div className="absolute inset-0 bg-grid-cyber opacity-30" />
+                        <div className="absolute w-24 h-24 rounded-full bg-indigo-500/5 blur-xl group-hover/project:scale-150 transition-transform duration-500" />
+                        
+                        {/* Custom Vector Iconography */}
+                        <div className="relative z-10 flex flex-col items-center space-y-2" style={{ transform: 'translateZ(30px)' }}>
+                          {p.category === 'ai' && (
+                            <div className="w-14 h-14 rounded-full bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
+                              <Cpu className="text-indigo-600" size={24} />
+                            </div>
+                          )}
+                          {p.category === 'web' && (
+                            <div className="w-14 h-14 rounded-full bg-blue-500/10 flex items-center justify-center border border-blue-500/20">
+                              <Globe className="text-blue-600" size={24} />
+                            </div>
+                          )}
+                          {p.category === 'mobile' && (
+                            <div className="w-14 h-14 rounded-full bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20">
+                              <Smartphone className="text-cyan-600" size={24} />
+                            </div>
+                          )}
+                          {p.category === 'app' && (
+                            <div className="w-14 h-14 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
+                              <Database className="text-emerald-600" size={24} />
+                            </div>
+                          )}
+                          {p.category === 'civil' && (
+                            <div className="w-14 h-14 rounded-full bg-orange-500/10 flex items-center justify-center border border-orange-500/20">
+                              <Layers className="text-orange-600" size={24} />
+                            </div>
+                          )}
+                          <span className="text-xs font-mono font-semibold tracking-widest text-slate-500 uppercase">
+                            {p.category === 'ai' ? 'ML PIPELINE' : p.category === 'web' ? 'RESPONSIVE WEB' : p.category === 'mobile' ? 'MOBILE OS' : p.category === 'civil' ? 'CIVIL CAD' : 'SYSTEM ARCH'}
+                          </span>
                         </div>
 
-                        <button
-                          onClick={() => scrollToSection('contact')}
-                          className="flex items-center space-x-1.5 text-xs font-semibold text-indigo-600 group-hover/project:text-indigo-800 transition-colors cursor-pointer"
-                        >
-                          <span>Request Custom Quote</span>
-                          <ArrowRight size={12} className="group-hover/project:translate-x-1 transition-transform" />
-                        </button>
+                        {/* Accent gradient bar bottom */}
+                        <div className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-indigo-500 via-blue-500 to-sky-500" />
                       </div>
 
-                    </div>
-                  </motion.div>
+                      {/* Description Details */}
+                      <div className="p-6 text-left flex-grow flex flex-col justify-between space-y-4">
+                        <div className="space-y-2">
+                          <h3 className="text-xl font-bold font-display text-slate-900 group-hover/project:text-indigo-600 transition-colors">
+                            {p.title}
+                          </h3>
+                          <p className="text-slate-500 text-sm leading-relaxed">
+                            {p.description}
+                          </p>
+                        </div>
+
+                        <div className="space-y-4 pt-2">
+                          {/* Tech pills */}
+                          <div className="flex flex-wrap gap-1.5">
+                            {p.tech.map((t, idx) => (
+                              <span 
+                                key={idx} 
+                                className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold font-mono tracking-wider bg-slate-100 border border-slate-200/50 text-slate-600 uppercase"
+                              >
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+
+                          <button
+                            onClick={() => scrollToSection('contact')}
+                            className="flex items-center space-x-1.5 text-xs font-semibold text-indigo-600 group-hover/project:text-indigo-800 transition-colors cursor-pointer"
+                          >
+                            <span>Request Custom Quote</span>
+                            <ArrowRight size={12} className="group-hover/project:translate-x-1 transition-transform" />
+                          </button>
+                        </div>
+
+                      </div>
+                    </motion.div>
+                  </Tilt>
                 ))}
               </AnimatePresence>
             </div>
