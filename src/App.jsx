@@ -13,7 +13,7 @@ import aakashrajPhoto from './assets/aakashraj.png';
 import arutselvanPhoto from './assets/arutselvan.png';
 import logo from './assets/logo.png';
 import WelcomeNamaste from './components/WelcomeNamaste';
-import Spline from '@splinetool/react-spline';
+import Background3D from './components/Background3D';
 import Tilt from 'react-parallax-tilt';
 
 const GithubIcon = ({ size = 20, className = "" }) => (
@@ -640,6 +640,9 @@ function App() {
 
       <div className="relative min-h-screen bg-slate-50/50 text-slate-700 selection:bg-indigo-500/10 selection:text-indigo-600 font-sans bg-grid-cyber">
       
+      {/* 3D Interactive Particles Background */}
+      <Background3D />
+
       {/* Background glowing blobs (light color washes) */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-radial-gradient-glow pointer-events-none animate-pulse-slow z-0" />
       <div className="absolute top-[30%] right-[-10%] w-[55%] h-[55%] bg-radial-gradient-glow pointer-events-none animate-pulse-slow z-0" />
@@ -997,7 +1000,7 @@ function App() {
               </div>
             </div>
 
-            {/* Right Column Brand Logo Showcase with Spline 3D */}
+            {/* Right Column Brand Logo Showcase with 3D Background */}
             <div className="lg:col-span-5 relative flex justify-center items-center min-h-[400px]">
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -1008,16 +1011,31 @@ function App() {
                 {/* Backing ambient glowing spheres */}
                 <div className="absolute w-[80%] h-[80%] bg-gradient-to-tr from-indigo-500/20 via-blue-500/10 to-cyan-500/20 rounded-full blur-3xl z-0 animate-pulse-slow pointer-events-none" />
                 
-                {/* Spline 3D Scene */}
-                <div className="absolute inset-0 z-10 rounded-3xl overflow-hidden">
-                  <Spline scene="https://prod.spline.design/6Wq1Q7YGyM-iab9i/scene.splinecode" />
-                </div>
 
-                {/* Decorative corners */}
-                <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-indigo-500/40 rounded-tl-md pointer-events-none" />
-                <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-indigo-500/40 rounded-tr-md pointer-events-none" />
-                <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-blue-500/40 rounded-bl-md pointer-events-none" />
-                <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-blue-500/40 rounded-br-md pointer-events-none" />
+
+                <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10} scale={1.05} transitionSpeed={2000} className="relative z-20">
+                  <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl border border-slate-200/50 bg-white/10 backdrop-blur-md shadow-2xl flex items-center justify-center overflow-hidden p-8 group">
+                    <div className="absolute inset-0 bg-grid-cyber opacity-15" />
+                    
+                    {/* Glowing background behind logo */}
+                    <div className="absolute w-40 h-40 rounded-full bg-gradient-to-tr from-indigo-500/30 to-blue-500/30 blur-2xl group-hover:scale-125 transition-transform duration-700" />
+                    
+                    {/* Floating Logo */}
+                    <motion.img 
+                      src={logo} 
+                      alt="Nexora Technologies Logo" 
+                      animate={{ y: [0, -12, 0] }}
+                      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                      className="relative z-10 w-48 h-48 sm:w-64 sm:h-64 object-contain filter drop-shadow-2xl"
+                    />
+                    
+                    {/* Decorative corners */}
+                    <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-indigo-500/40 rounded-tl-md" />
+                    <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-indigo-500/40 rounded-tr-md" />
+                    <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-blue-500/40 rounded-bl-md" />
+                    <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-blue-500/40 rounded-br-md" />
+                  </div>
+                </Tilt>
               </motion.div>
             </div>
 
