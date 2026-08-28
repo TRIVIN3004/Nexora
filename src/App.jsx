@@ -651,42 +651,34 @@ function App() {
         )}
       </AnimatePresence>
 
-      <div className="relative min-h-screen bg-slate-50/70 text-slate-800 font-sans selection:bg-indigo-500/15 selection:text-indigo-600 overflow-hidden">
+      <div className="relative min-h-screen bg-slate-50/70 text-slate-800 font-sans selection:bg-blue-500/15 selection:text-blue-600 overflow-hidden">
         
-        {/* 3D Particle Network Canvas */}
         <Background3D />
 
-        {/* Vibrant Multi-Color Ambient Aurora Glow Orbs */}
-        <div className="fixed top-[-8%] left-[-8%] w-[600px] h-[600px] bg-gradient-to-tr from-indigo-500/25 via-purple-500/20 to-pink-500/15 rounded-full blur-[140px] pointer-events-none animate-pulse-slow z-0" />
-        <div className="fixed top-[20%] right-[-10%] w-[650px] h-[650px] bg-gradient-to-bl from-cyan-400/25 via-blue-500/20 to-indigo-500/15 rounded-full blur-[150px] pointer-events-none animate-pulse-slow z-0" style={{ animationDelay: '2s' }} />
-        <div className="fixed top-[55%] left-[-5%] w-[550px] h-[550px] bg-gradient-to-tr from-emerald-400/20 via-teal-500/20 to-cyan-500/15 rounded-full blur-[130px] pointer-events-none animate-pulse-slow z-0" style={{ animationDelay: '4s' }} />
-        <div className="fixed bottom-[10%] right-[5%] w-[600px] h-[600px] bg-gradient-to-tl from-fuchsia-500/25 via-pink-500/20 to-amber-400/15 rounded-full blur-[140px] pointer-events-none animate-pulse-slow z-0" style={{ animationDelay: '3s' }} />
-        <div className="fixed bottom-[-10%] left-[20%] w-[500px] h-[500px] bg-gradient-to-tr from-blue-600/20 via-indigo-500/20 to-purple-500/15 rounded-full blur-[130px] pointer-events-none animate-pulse-slow z-0" style={{ animationDelay: '1s' }} />
+        <div className="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/[0.04] rounded-full blur-[140px] pointer-events-none -z-10" />
+        <div className="fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-sky-500/[0.04] rounded-full blur-[160px] pointer-events-none -z-10" />
 
-        {/* 2. STICKY LIGHT GLASS NAVBAR */}
-        <header className="fixed top-0 left-0 w-full z-50 glass-panel border-b border-slate-200/70 bg-white/80 transition-all duration-300">
+        <header className="fixed top-0 left-0 w-full z-50 glass-panel border-b border-slate-200/80 bg-white/90 transition-all duration-300">
           <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             
-            {/* Logo Link */}
             <a 
               href="#home" 
               onClick={(e) => { e.preventDefault(); scrollToSection('home'); }} 
               className="flex items-center space-x-3 group"
             >
-              <div className="relative w-10 h-10 flex items-center justify-center transition-transform group-hover:scale-110 duration-300">
+              <div className="relative w-10 h-10 flex items-center justify-center transition-transform group-hover:scale-105 duration-300">
                 <Logo3D size="sm" animation="swing" interactive={false} />
               </div>
               <div className="flex flex-col text-left">
-                <span className="font-display font-extrabold text-xl tracking-wider bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 bg-clip-text text-transparent">
+                <span className="font-display font-extrabold text-xl tracking-wider text-slate-900">
                   NEXORA
                 </span>
-                <span className="text-[9px] font-mono tracking-widest text-indigo-600 font-bold uppercase -mt-1">
+                <span className="text-[9px] font-mono tracking-widest text-blue-600 font-bold uppercase -mt-1">
                   Technologies
                 </span>
               </div>
             </a>
 
-            {/* Desktop Navigation Links */}
             <nav className="hidden lg:flex items-center space-x-6">
               {[
                 { id: 'home', label: 'Home' },
@@ -704,74 +696,65 @@ function App() {
                   href={`#${link.id}`}
                   onClick={(e) => { e.preventDefault(); scrollToSection(link.id); }}
                   className={`text-sm font-semibold transition-all hover:text-slate-950 relative py-2 ${
-                    activeSection === link.id ? 'text-indigo-600' : 'text-slate-500'
+                    activeSection === link.id ? 'text-blue-600' : 'text-slate-600'
                   }`}
                 >
                   {link.label}
                   {activeSection === link.id && (
                     <motion.div 
                       layoutId="activeNavIndicator"
-                      className="absolute bottom-0 left-0 w-full h-[2.5px] bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 rounded-full"
+                      className="absolute bottom-0 left-0 w-full h-[2.5px] bg-blue-600 rounded-full"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
                 </a>
               ))}
 
-              {/* Portals Dropdown */}
               <div 
                 className="relative font-sans"
                 onMouseEnter={() => setPortalsDropdownOpen(true)}
                 onMouseLeave={() => setPortalsDropdownOpen(false)}
               >
                 <button 
-                  className="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors py-2 px-3 rounded-xl bg-slate-100/80 hover:bg-indigo-50 border border-slate-200/60 flex items-center space-x-1.5 cursor-pointer focus:outline-none"
+                  className="text-sm font-semibold text-slate-700 hover:text-blue-600 transition-colors py-2 px-3.5 rounded-xl bg-slate-100/90 hover:bg-blue-50 border border-slate-200/80 flex items-center space-x-1.5 cursor-pointer focus:outline-none"
                   onClick={() => setPortalsDropdownOpen(!portalsDropdownOpen)}
                 >
-                  <Sparkles size={14} className="text-indigo-600 animate-pulse" />
                   <span>Portals</span>
-                  <ChevronDown size={14} className={`transition-transform duration-200 ${portalsDropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown size={14} className={`transition-transform duration-200 ${portalsDropdownOpen ? 'rotate-180 text-blue-600' : 'text-slate-400'}`} />
                 </button>
 
                 <AnimatePresence>
                   {portalsDropdownOpen && (
                     <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
+                      initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.98 }}
                       transition={{ duration: 0.15 }}
-                      className="absolute right-0 mt-2 w-72 rounded-2xl bg-white border border-slate-200/90 shadow-2xl p-2 z-50 overflow-hidden"
+                      className="absolute right-0 top-full mt-2 w-76 rounded-2xl glass-panel p-2.5 shadow-xl border border-slate-200 bg-white/98 z-50 flex flex-col space-y-1 text-left"
                     >
-                      <div className="px-3 py-1.5 flex items-center justify-between text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold border-b border-slate-100 mb-1">
-                        <span>Live Platforms</span>
-                        <span className="text-indigo-600 font-semibold">{portalsList.length} Portals</span>
-                      </div>
-
-                      {/* Nexora Connect - Highlighted at the top */}
                       <a
                         href="https://nexora-connect-seven.vercel.app/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-between p-2.5 rounded-xl text-sm bg-gradient-to-r from-indigo-50/90 to-blue-50/70 border border-indigo-200/70 hover:border-indigo-500 hover:shadow-md transition-all group"
+                        className="flex items-center justify-between p-2.5 rounded-xl text-sm bg-blue-50/80 border border-blue-200/70 hover:border-blue-500 hover:bg-blue-50 transition-all group"
                       >
                         <div className="flex items-center space-x-3">
-                          <div className="w-9 h-9 rounded-lg bg-indigo-600 text-white flex items-center justify-center shadow-sm shadow-indigo-600/30 shrink-0">
+                          <div className="w-9 h-9 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-xs shrink-0">
                             <Users size={18} />
                           </div>
                           <div className="flex flex-col text-left">
                             <div className="flex items-center space-x-1.5">
-                              <span className="font-bold text-slate-900 group-hover:text-indigo-600">Nexora Connect</span>
-                              <span className="text-[9px] uppercase font-mono px-1.5 py-0.2 bg-indigo-600 text-white rounded-full font-bold">New</span>
+                              <span className="font-bold text-slate-900 group-hover:text-blue-600">Nexora Connect</span>
+                              <span className="text-[9px] uppercase font-mono px-1.5 py-0.2 bg-blue-600 text-white rounded-full font-bold">New</span>
                             </div>
                             <span className="text-[11px] text-slate-500 font-medium">Internal Collab & Learning</span>
                           </div>
                         </div>
-                        <ExternalLink size={14} className="text-indigo-600 shrink-0" />
+                        <ExternalLink size={14} className="text-blue-600 shrink-0" />
                       </a>
 
                       <div className="h-[1px] bg-slate-100 my-1.5 mx-1" />
 
-                      {/* Other Portals */}
                       {portalsList.filter(p => p.id !== 'nexora-connect').map((portal) => {
                         const Icon = portal.icon;
                         return (
@@ -780,15 +763,15 @@ function App() {
                             href={portal.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-between p-2 rounded-xl text-sm text-slate-700 hover:text-indigo-600 hover:bg-slate-50 transition-colors group"
+                            className="flex items-center justify-between p-2 rounded-xl text-sm text-slate-700 hover:text-blue-600 hover:bg-slate-50 transition-colors group"
                           >
                             <div className="flex items-center space-x-2.5">
-                              <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-600 group-hover:bg-indigo-100 group-hover:text-indigo-600 flex items-center justify-center shrink-0 transition-colors">
+                              <div className="w-7 h-7 rounded-lg bg-slate-100 text-slate-600 group-hover:bg-blue-100 group-hover:text-blue-600 flex items-center justify-center shrink-0 transition-colors">
                                 <Icon size={14} />
                               </div>
                               <span className="font-medium">{portal.title}</span>
                             </div>
-                            <ExternalLink size={13} className="text-slate-400 group-hover:text-indigo-600 shrink-0" />
+                            <ExternalLink size={13} className="text-slate-400 group-hover:text-blue-600 shrink-0" />
                           </a>
                         );
                       })}
@@ -798,41 +781,35 @@ function App() {
               </div>
             </nav>
 
-            {/* Action CTA Button */}
             <div className="hidden lg:flex items-center space-x-3">
               <button
                 onClick={() => scrollToSection('contact')}
-                className="relative px-6 py-2.5 rounded-full font-semibold text-sm text-white overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-indigo-500/25 group cursor-pointer"
+                className="px-6 py-2.5 rounded-full font-semibold text-sm text-white bg-blue-600 hover:bg-blue-700 transition-all duration-200 hover:shadow-md cursor-pointer flex items-center space-x-1.5"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-500 transition-all duration-300 group-hover:scale-105" />
-                <span className="relative flex items-center space-x-1.5">
-                  <span>Get Started</span>
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </span>
+                <span>Get Started</span>
+                <ArrowRight size={14} />
               </button>
             </div>
 
-            {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2.5 rounded-xl bg-slate-100 text-slate-700 hover:text-indigo-600 transition-colors"
+              className="lg:hidden p-2.5 rounded-xl bg-slate-100 text-slate-700 hover:text-blue-600 transition-colors"
               aria-label="Toggle Navigation Menu"
             >
               {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
 
-          {/* Mobile Drawer Menu */}
           <AnimatePresence>
             {mobileMenuOpen && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.25 }}
                 className="lg:hidden border-t border-slate-200/70 bg-white/95 backdrop-blur-2xl px-6 py-6 overflow-y-auto max-h-[calc(100vh-80px)]"
               >
-                <div className="flex flex-col space-y-3">
+                <div className="flex flex-col space-y-2.5">
                   {[
                     { id: 'home', label: 'Home Gateway' },
                     { id: 'portals', label: 'Ecosystem & Portals' },
@@ -849,14 +826,13 @@ function App() {
                       href={`#${link.id}`}
                       onClick={(e) => { e.preventDefault(); scrollToSection(link.id); }}
                       className={`text-base font-semibold py-2 px-3 rounded-xl border border-transparent ${
-                        activeSection === link.id ? 'bg-indigo-50 text-indigo-600 border-indigo-200/60' : 'text-slate-600 hover:bg-slate-50'
+                        activeSection === link.id ? 'bg-blue-50 text-blue-600 border-blue-200/60' : 'text-slate-600 hover:bg-slate-50'
                       }`}
                     >
                       {link.label}
                     </a>
                   ))}
 
-                  {/* Mobile Portals Direct Access */}
                   <div className="border-t border-slate-200/80 pt-4 mt-2">
                     <h4 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest mb-3">
                       Our Enterprise Portals
@@ -873,26 +849,26 @@ function App() {
                             rel="noopener noreferrer"
                             className={`flex items-center justify-between p-3 rounded-xl border transition-all ${
                               isConnect 
-                                ? 'bg-indigo-50 border-indigo-200/80 text-indigo-700 font-bold' 
-                                : 'bg-slate-50/80 border-slate-200/70 text-slate-700 hover:border-indigo-300'
+                                ? 'bg-blue-50 border-blue-200/80 text-blue-700 font-bold' 
+                                : 'bg-slate-50/80 border-slate-200/70 text-slate-700 hover:border-blue-300'
                             }`}
                             onClick={() => setMobileMenuOpen(false)}
                           >
                             <div className="flex items-center space-x-3">
-                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isConnect ? 'bg-indigo-600 text-white' : 'bg-slate-200 text-slate-700'}`}>
+                              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${isConnect ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-700'}`}>
                                 <Icon size={16} />
                               </div>
                               <div className="flex flex-col text-left">
                                 <div className="flex items-center space-x-1.5">
                                   <span className="text-sm">{portal.title}</span>
                                   {isConnect && (
-                                    <span className="text-[9px] uppercase font-mono px-1.5 py-0.2 bg-indigo-600 text-white rounded-full font-bold">New</span>
+                                    <span className="text-[9px] uppercase font-mono px-1.5 py-0.2 bg-blue-600 text-white rounded-full font-bold">New</span>
                                   )}
                                 </div>
                                 <span className="text-xs text-slate-400 font-normal">{portal.subtitle}</span>
                               </div>
                             </div>
-                            <ExternalLink size={16} className={isConnect ? 'text-indigo-600' : 'text-slate-400'} />
+                            <ExternalLink size={16} className={isConnect ? 'text-blue-600' : 'text-slate-400'} />
                           </a>
                         );
                       })}
@@ -901,7 +877,7 @@ function App() {
 
                   <button
                     onClick={() => scrollToSection('contact')}
-                    className="w-full mt-4 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-semibold shadow-md cursor-pointer"
+                    className="w-full mt-4 py-3 rounded-xl bg-blue-600 text-white font-semibold shadow-sm hover:bg-blue-700 cursor-pointer"
                   >
                     Start Collaboration
                   </button>
@@ -911,27 +887,21 @@ function App() {
           </AnimatePresence>
         </header>
 
-        {/* 3. HERO SECTION */}
         <main className="relative z-10 pt-20">
           <section id="home" className="min-h-[calc(100vh-80px)] flex items-center py-16 px-6 max-w-7xl mx-auto relative">
-            {/* Section Ambient Glows */}
-            <div className="absolute top-1/4 -left-20 w-96 h-96 bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse-slow" />
-            <div className="absolute bottom-10 right-0 w-96 h-96 bg-gradient-to-bl from-cyan-400/25 to-blue-500/20 rounded-full blur-3xl pointer-events-none -z-10" />
-
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
               
-              {/* Left Hero Column */}
               <div className="lg:col-span-7 text-left space-y-6">
-                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-indigo-500/30 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-cyan-500/10 text-indigo-700 text-xs font-semibold uppercase tracking-wider backdrop-blur-md shadow-xs">
-                  <Sparkles size={13} className="text-indigo-600 animate-spin-slow" />
-                  <span>Next-Gen Software, AI & Engineering Studio</span>
+                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-blue-200 bg-blue-50/80 text-blue-700 text-xs font-semibold uppercase tracking-wider backdrop-blur-md">
+                  <Sparkles size={13} className="text-blue-600" />
+                  <span>Next-Gen Software & AI Studio</span>
                 </div>
                 
                 <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold font-display leading-[1.08] tracking-tight text-slate-900">
                   Architecting <span className="text-gradient-purple-blue">Future-Ready</span> Digital Solutions
                 </h1>
                 
-                <h2 className="text-2xl sm:text-3xl font-display font-medium text-indigo-600 neon-glow-text">
+                <h2 className="text-2xl sm:text-3xl font-display font-medium text-blue-600">
                   "Building Tomorrow, Today."
                 </h2>
                 
@@ -939,73 +909,60 @@ function App() {
                   We empower enterprises, startups, and ambitious researchers with custom high-scale web platforms, intelligent AI models, mobile ecosystems, enterprise databases, and civil structural design.
                 </p>
                 
-                {/* Hero CTAs */}
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 pt-2">
                   <button
                     onClick={() => scrollToSection('contact')}
-                    className="px-8 py-4 rounded-2xl font-semibold text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-500 text-center hover:shadow-xl hover:shadow-indigo-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer flex items-center justify-center space-x-2 shadow-lg shadow-indigo-500/20"
+                    className="px-8 py-4 rounded-2xl font-semibold text-white bg-blue-600 hover:bg-blue-700 text-center shadow-md hover:shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2"
                   >
                     <span>Get Started</span>
                     <ArrowRight size={16} />
                   </button>
                   <button
                     onClick={() => scrollToSection('portals')}
-                    className="px-8 py-4 rounded-2xl font-semibold text-slate-700 bg-white/90 hover:bg-white border border-indigo-200/80 text-center shadow-md hover:shadow-lg hover:border-indigo-400 transition-all duration-300 cursor-pointer flex items-center justify-center space-x-2"
+                    className="px-8 py-4 rounded-2xl font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 text-center shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2"
                   >
-                    <Sparkles size={16} className="text-indigo-600 animate-pulse" />
+                    <Sparkles size={16} className="text-blue-600" />
                     <span>Explore Portals</span>
                   </button>
                 </div>
 
-                {/* Hero Feature Badges */}
-                <div className="flex flex-wrap gap-4 pt-4 border-t border-slate-200/70 text-xs font-semibold text-slate-600">
-                  <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/60 text-emerald-700">
-                    <CheckCircle2 size={15} className="text-emerald-600" />
+                <div className="flex flex-wrap gap-4 pt-4 border-t border-slate-200 text-xs font-semibold text-slate-600">
+                  <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700">
+                    <CheckCircle2 size={15} className="text-blue-600" />
                     <span>Production Architecture</span>
                   </span>
-                  <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200/60 text-blue-700">
+                  <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700">
                     <CheckCircle2 size={15} className="text-blue-600" />
                     <span>AI & Full-Stack</span>
                   </span>
-                  <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-200/60 text-purple-700">
-                    <CheckCircle2 size={15} className="text-purple-600" />
+                  <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700">
+                    <CheckCircle2 size={15} className="text-blue-600" />
                     <span>24/7 Dedicated Support</span>
                   </span>
                 </div>
               </div>
 
-              {/* Right Hero Column: 3D Interactive Logo Showcase */}
               <div className="lg:col-span-5 relative flex justify-center items-center min-h-[420px]">
                 <motion.div 
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 1, ease: "easeOut" }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
                   className="relative w-full h-[420px] sm:h-[500px] flex items-center justify-center cursor-grab active:cursor-grabbing"
                 >
-                  {/* Colorful Radiant Glows */}
-                  <div className="absolute w-[90%] h-[90%] bg-gradient-to-tr from-indigo-500/30 via-fuchsia-500/20 to-cyan-400/30 rounded-full blur-3xl z-0 animate-pulse-slow pointer-events-none" />
-
                   <div className="relative flex flex-col items-center justify-center">
-                    <Tilt tiltMaxAngleX={12} tiltMaxAngleY={12} scale={1.04} transitionSpeed={2000} className="relative z-20">
-                      <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl border border-indigo-200/80 bg-white/40 backdrop-blur-2xl shadow-2xl flex items-center justify-center p-8 group">
-                        <div className="absolute inset-0 bg-grid-cyber opacity-25 rounded-3xl" />
+                    <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10} scale={1.03} transitionSpeed={2000} className="relative z-20">
+                      <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl border border-slate-200/90 bg-white/70 backdrop-blur-xl shadow-xl flex items-center justify-center p-8 group">
                         
-                        {/* Glow Core */}
-                        <div className="absolute w-48 h-48 rounded-full bg-gradient-to-tr from-indigo-500/40 via-purple-500/30 to-cyan-400/40 blur-2xl group-hover:scale-125 transition-transform duration-700" />
-                        
-                        {/* 3D Interactive Logo */}
                         <Logo3D size="lg" animation={logoAnimation} interactive={true} layersCount={10} />
                         
-                        {/* Corner Accents */}
-                        <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-indigo-500/60 rounded-tl-md" />
-                        <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-cyan-500/60 rounded-tr-md" />
-                        <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-purple-500/60 rounded-bl-md" />
-                        <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-blue-500/60 rounded-br-md" />
+                        <div className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-slate-300 rounded-tl-md" />
+                        <div className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-slate-300 rounded-tr-md" />
+                        <div className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-slate-300 rounded-bl-md" />
+                        <div className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-slate-300 rounded-br-md" />
                       </div>
                     </Tilt>
 
-                    {/* Interactive Animation Mode Controls */}
-                    <div className="mt-6 flex space-x-2 bg-white/95 backdrop-blur-md border border-indigo-200/80 px-3.5 py-1.5 rounded-full shadow-xl z-30 transition-transform duration-300 hover:scale-105">
+                    <div className="mt-6 flex space-x-2 bg-white border border-slate-200 px-3.5 py-1.5 rounded-full shadow-md z-30">
                       {[
                         { type: 'float', label: '3D Float' },
                         { type: 'spin', label: '3D Spin' },
@@ -1014,10 +971,10 @@ function App() {
                         <button
                           key={anim.type}
                           onClick={() => setLogoAnimation(anim.type)}
-                          className={`text-xs px-3.5 py-1.5 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
+                          className={`text-xs px-3.5 py-1.5 rounded-full font-semibold transition-all duration-200 cursor-pointer ${
                             logoAnimation === anim.type 
-                              ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-md' 
-                              : 'text-slate-600 hover:bg-slate-100 hover:text-indigo-600'
+                              ? 'bg-blue-600 text-white shadow-xs' 
+                              : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                           }`}
                         >
                           {anim.label}
@@ -1031,8 +988,7 @@ function App() {
             </div>
           </section>
 
-          {/* 4. STATS METRICS STRIP */}
-          <section className="py-12 bg-gradient-to-r from-indigo-50/90 via-sky-50/90 to-purple-50/90 border-y border-indigo-200/70 backdrop-blur-xl relative overflow-hidden shadow-xs">
+          <section className="py-12 bg-white border-y border-slate-200 shadow-xs">
             <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative z-10">
               {[
                 { num: "50+", label: "Completed Projects", desc: "Production deployments" },
@@ -1041,7 +997,7 @@ function App() {
                 { num: "50+", label: "Engineers & Experts", desc: "Specialized team members" }
               ].map((stat, i) => (
                 <div key={i} className="space-y-1">
-                  <p className="text-3xl md:text-4xl font-extrabold font-display text-gradient-purple-blue">{stat.num}</p>
+                  <p className="text-3xl md:text-4xl font-extrabold font-display text-blue-600">{stat.num}</p>
                   <p className="text-slate-900 text-sm font-bold tracking-tight">{stat.label}</p>
                   <p className="text-slate-500 text-xs font-medium">{stat.desc}</p>
                 </div>
@@ -1049,75 +1005,65 @@ function App() {
             </div>
           </section>
 
-          {/* 5. ECOSYSTEM & PORTALS LAUNCHPAD SECTION */}
           <section id="portals" className="py-24 px-6 max-w-7xl mx-auto relative">
-            {/* Ambient Aurora behind Portals */}
-            <div className="absolute top-10 right-10 w-96 h-96 bg-gradient-to-tr from-purple-500/20 via-pink-500/15 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-            <div className="absolute bottom-10 left-10 w-96 h-96 bg-gradient-to-tr from-cyan-400/20 via-blue-500/15 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-
             <Scroll3DReveal>
               <div className="space-y-12">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/25 bg-gradient-to-r from-indigo-500/10 to-blue-500/10 text-indigo-700 text-xs font-semibold uppercase tracking-wider">
-                    <Zap size={13} className="text-indigo-600" />
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
+                    <Zap size={13} className="text-blue-600" />
                     <span>Nexora Unified Ecosystem</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Explore Our Active Portals
                   </h2>
-                  <p className="text-slate-500 text-lg">
+                  <p className="text-slate-600 text-lg">
                     Discover our suite of tailored web portals built for collaboration, daily progress tracking, talent recruitment, and internship workflows.
                   </p>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-500 rounded-full mx-auto" />
+                  <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
 
-                {/* Portals Bento Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {portalsList.map((portal) => {
                     const Icon = portal.icon;
                     const isConnect = portal.id === 'nexora-connect';
                     return (
-                      <Tilt key={portal.id} tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.01} transitionSpeed={2000} className="h-full">
-                        <div className={`glass-card-bento rounded-3xl p-7 flex flex-col justify-between h-full relative overflow-hidden group shadow-md ${
+                      <Tilt key={portal.id} tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} className="h-full">
+                        <div className={`glass-card-bento rounded-3xl p-7 flex flex-col justify-between h-full relative overflow-hidden group ${
                           isConnect 
-                            ? 'border-indigo-300 ring-2 ring-indigo-500/30 bg-gradient-to-br from-indigo-50/70 via-white to-blue-50/40' 
-                            : 'hover:border-indigo-300'
+                            ? 'border-blue-300 ring-2 ring-blue-500/20 bg-blue-50/30' 
+                            : 'hover:border-blue-300'
                         }`}>
-                          {/* Top Highlight Gradient Line */}
-                          <div className={`absolute top-0 left-0 w-full h-[3.5px] bg-gradient-to-r ${portal.color}`} />
+                          <div className={`absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r ${portal.color}`} />
                           
                           <div className="space-y-5">
-                            {/* Header Row */}
                             <div className="flex items-center justify-between">
-                              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-tr ${portal.color} text-white shadow-md shadow-indigo-500/25 group-hover:scale-105 transition-transform duration-300`}>
+                              <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-blue-50 text-blue-600 border border-blue-100 group-hover:bg-blue-600 group-hover:text-white transition-all duration-200">
                                 <Icon size={22} />
                               </div>
-                              <span className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider border shadow-xs ${portal.accent}`}>
+                              <span className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider border ${portal.accent}`}>
                                 {portal.badge}
                               </span>
                             </div>
 
-                            {/* Title & Desc */}
                             <div className="space-y-2 text-left">
-                              <h3 className="text-2xl font-bold font-display text-slate-900 group-hover:text-indigo-600 transition-colors">
+                              <h3 className="text-2xl font-bold font-display text-slate-900 group-hover:text-blue-600 transition-colors">
                                 {portal.title}
                               </h3>
-                              <p className="text-indigo-600 text-xs font-semibold font-mono uppercase tracking-wide">
+                              <p className="text-blue-600 text-xs font-semibold font-mono uppercase tracking-wide">
                                 {portal.subtitle}
                               </p>
-                              <p className="text-slate-500 text-sm leading-relaxed pt-1">
+                              <p className="text-slate-600 text-sm leading-relaxed pt-1">
                                 {portal.description}
                               </p>
                             </div>
                           </div>
 
-                          {/* Action Button */}
                           <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
                             <a
                               href={portal.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center space-x-2 text-sm font-bold text-indigo-600 hover:text-indigo-800 transition-colors group/link"
+                              className="inline-flex items-center space-x-2 text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors group/link"
                             >
                               <span>Launch Portal</span>
                               <ArrowUpRight size={16} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
@@ -1133,22 +1079,15 @@ function App() {
             </Scroll3DReveal>
           </section>
 
-          {/* 6. ABOUT US & MISSION SECTION */}
-          <section id="about" className="py-24 px-6 bg-gradient-to-br from-indigo-50/90 via-sky-50/70 to-purple-50/80 border-y border-indigo-200/70 relative overflow-hidden">
-            {/* Ambient Background Orbs */}
-            <div className="absolute top-0 right-1/4 w-80 h-80 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-gradient-to-tr from-purple-500/20 to-pink-500/20 rounded-full blur-3xl pointer-events-none" />
-
+          <section id="about" className="py-24 px-6 bg-slate-100/70 border-y border-slate-200">
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
+              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
                 
-                {/* Left Visual Illustration */}
                 <div className="lg:col-span-5 relative flex justify-center">
-                  <div className="relative w-72 h-72 sm:w-88 sm:h-88 glass-panel rounded-3xl flex items-center justify-center p-8 border border-indigo-200/90 shadow-2xl bg-white/80">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/15 via-purple-500/10 to-cyan-500/15 rounded-3xl blur-md" />
+                  <div className="relative w-72 h-72 sm:w-88 sm:h-88 glass-panel rounded-3xl flex items-center justify-center p-8 border border-slate-200 shadow-lg bg-white">
                     
                     <div className="z-10 text-center space-y-4">
-                      <div className="w-18 h-18 rounded-2xl bg-gradient-to-tr from-indigo-600 to-blue-600 flex items-center justify-center mx-auto shadow-lg shadow-indigo-600/30 text-white">
+                      <div className="w-18 h-18 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center mx-auto text-blue-600 shadow-xs">
                         <Sparkles size={32} />
                       </div>
                       <h3 className="font-display font-extrabold text-2xl text-slate-900">Our North Star</h3>
@@ -1156,15 +1095,11 @@ function App() {
                         "Empowering visionary businesses, modern institutions, and future engineers through reliable, performant, and scalable digital systems."
                       </p>
                     </div>
-
-                    <div className="absolute top-4 left-4 w-4 h-4 rounded-full bg-indigo-500/40 animate-ping" />
-                    <div className="absolute bottom-4 right-4 w-3 h-3 rounded-full bg-cyan-500/50" />
                   </div>
                 </div>
 
-                {/* Right Text Description */}
                 <div className="lg:col-span-7 text-left space-y-6">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-700 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Compass size={13} />
                     <span>Who We Are</span>
                   </div>
@@ -1173,20 +1108,19 @@ function App() {
                     Building Bridges Between Innovation & Execution
                   </h2>
 
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-500 rounded-full" />
+                  <div className="w-16 h-[3px] bg-blue-600 rounded-full" />
 
                   <p className="text-slate-600 text-lg leading-relaxed">
                     Nexora Technologies is a technology consulting and software studio dedicated to transforming complex challenges into intuitive, high-velocity digital products. From web and native mobile development to civil CAD engineering and production AI pipelines, our multidisciplinary team turns ambitious ideas into deployed reality.
                   </p>
 
-                  {/* 3 Core Value Pillars */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
                     {[
-                      { title: "Scalable Architecture", desc: "Built to support thousands of active users with minimal latency.", color: "border-indigo-200 bg-indigo-50/60" },
-                      { title: "Enterprise Security", desc: "Rigorous standards, encrypted databases, and robust auth.", color: "border-blue-200 bg-blue-50/60" },
-                      { title: "Agile Speed", desc: "From concept to prototype and production in lightning cycles.", color: "border-purple-200 bg-purple-50/60" }
+                      { title: "Scalable Architecture", desc: "Built to support thousands of active users with minimal latency." },
+                      { title: "Enterprise Security", desc: "Rigorous standards, encrypted databases, and robust auth." },
+                      { title: "Agile Speed", desc: "From concept to prototype and production in lightning cycles." }
                     ].map((pillar, i) => (
-                      <div key={i} className={`p-4 rounded-2xl bg-white border ${pillar.color} shadow-xs space-y-1.5`}>
+                      <div key={i} className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-1.5">
                         <h4 className="text-sm font-bold text-slate-900 font-display">{pillar.title}</h4>
                         <p className="text-xs text-slate-500 leading-relaxed">{pillar.desc}</p>
                       </div>
@@ -1198,52 +1132,46 @@ function App() {
             </Scroll3DReveal>
           </section>
 
-          {/* 7. SERVICES CATALOG SECTION */}
-          <section id="services" className="py-24 px-6 max-w-7xl mx-auto relative">
-            <div className="absolute top-1/3 left-0 w-96 h-96 bg-gradient-to-tr from-fuchsia-500/15 via-indigo-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-            <div className="absolute bottom-10 right-0 w-96 h-96 bg-gradient-to-bl from-cyan-500/15 via-teal-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-
+          <section id="services" className="py-24 px-6 max-w-7xl mx-auto">
             <Scroll3DReveal>
               <div className="space-y-12">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Layers size={13} />
                     <span>Comprehensive Solutions</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Our Core Services
                   </h2>
-                  <p className="text-slate-500 text-lg">
+                  <p className="text-slate-600 text-lg">
                     Tailored software engineering, AI intelligence, and structural design disciplines tailored to deliver tangible impact.
                   </p>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 rounded-full mx-auto" />
+                  <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
 
-                {/* Services Bento Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {services.map((service) => {
                     const Icon = service.icon;
                     return (
-                      <Tilt key={service.title} tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.01} transitionSpeed={2000} className="h-full">
-                        <div className="glass-card-bento rounded-3xl p-7 flex flex-col justify-between h-full group text-left relative overflow-hidden shadow-sm">
-                          {/* Accent Gradient Header */}
-                          <div className={`absolute top-0 left-0 w-full h-[3.5px] bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400 opacity-70 group-hover:opacity-100 transition-opacity`} />
+                      <Tilt key={service.title} tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} className="h-full">
+                        <div className="glass-card-bento rounded-3xl p-7 flex flex-col justify-between h-full group text-left relative overflow-hidden shadow-xs">
+                          <div className="absolute top-0 left-0 w-full h-[3px] bg-blue-600 opacity-60 group-hover:opacity-100 transition-opacity" />
                           
                           <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-50 to-blue-50 border border-indigo-100 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-xs">
+                              <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-200 shadow-xs">
                                 <Icon size={22} />
                               </div>
-                              <span className="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200/60 text-slate-600 uppercase tracking-wider">
+                              <span className="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600 uppercase tracking-wider">
                                 {service.tag}
                               </span>
                             </div>
 
-                            <h3 className="text-xl font-bold font-display text-slate-900 group-hover:text-indigo-600 transition-colors">
+                            <h3 className="text-xl font-bold font-display text-slate-900 group-hover:text-blue-600 transition-colors">
                               {service.title}
                             </h3>
 
-                            <p className="text-slate-500 text-sm leading-relaxed">
+                            <p className="text-slate-600 text-sm leading-relaxed">
                               {service.description}
                             </p>
                           </div>
@@ -1254,7 +1182,7 @@ function App() {
                                 setFormData(prev => ({ ...prev, requirement: service.title }));
                                 scrollToSection('contact');
                               }}
-                              className="inline-flex items-center space-x-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors cursor-pointer group/btn"
+                              className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer group/btn"
                             >
                               <span>Request Consultation</span>
                               <ArrowRight size={13} className="group-hover/btn:translate-x-1 transition-transform" />
@@ -1269,25 +1197,19 @@ function App() {
             </Scroll3DReveal>
           </section>
 
-          {/* 8. TECHNOLOGIES MARQUEE STRIP */}
-          <section id="technologies" className="py-20 bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-950 text-white border-y border-indigo-950 overflow-hidden relative shadow-xl">
-            {/* Glowing neon background lines */}
-            <div className="absolute inset-0 bg-grid-cyber opacity-10 pointer-events-none" />
-            <div className="absolute top-0 left-1/3 w-96 h-full bg-indigo-500/10 blur-3xl pointer-events-none" />
-
+          <section id="technologies" className="py-20 bg-slate-900 text-white border-y border-slate-800 overflow-hidden relative shadow-md">
             <Scroll3DReveal>
               <div className="max-w-7xl mx-auto px-6 text-center space-y-12 relative z-10">
                 <div className="space-y-3">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-400/30 bg-indigo-500/20 text-indigo-300 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-400/30 bg-blue-500/20 text-blue-300 text-xs font-semibold uppercase tracking-wider">
                     <Terminal size={13} />
                     <span>Tech Stack</span>
                   </div>
                   <h2 className="text-3xl md:text-4xl font-extrabold font-display text-white">Technologies We Master</h2>
                   <p className="text-slate-400 max-w-xl mx-auto">We leverage state-of-the-art developer environments, scalable cloud services, and reliable engineering frameworks.</p>
-                  <div className="w-16 h-[2px] bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500 rounded-full mx-auto" />
+                  <div className="w-16 h-[2px] bg-blue-500 rounded-full mx-auto" />
                 </div>
 
-                {/* Infinite Moving Marquee */}
                 <div className="relative w-full overflow-hidden py-4 mask-gradient-sides">
                   <div className="flex space-x-8 animate-marquee w-[200%]">
                     {[...technologies, ...technologies].map((tech, idx) => {
@@ -1295,45 +1217,39 @@ function App() {
                       return (
                         <div 
                           key={idx}
-                          className={`flex-shrink-0 flex items-center space-x-3 px-6 py-4 bg-slate-900/90 border border-slate-800 hover:border-indigo-500/80 rounded-2xl cursor-default transition-all duration-300 shadow-md ${tech.color}`}
+                          className="flex-shrink-0 flex items-center space-x-3 px-6 py-4 bg-slate-800/80 border border-slate-700 hover:border-blue-500 rounded-2xl cursor-default transition-all duration-200"
                         >
-                          <Icon className="text-slate-400 group-hover:text-inherit" size={20} />
+                          <Icon className="text-blue-400" size={20} />
                           <span className="text-sm font-bold text-slate-200">{tech.name}</span>
                         </div>
                       );
                     })}
                   </div>
 
-                  {/* Side Fades */}
-                  <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" />
-                  <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" />
+                  <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-900 to-transparent pointer-events-none" />
+                  <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-900 to-transparent pointer-events-none" />
                 </div>
               </div>
             </Scroll3DReveal>
           </section>
 
-          {/* 9. FEATURED PROJECTS SHOWCASE */}
-          <section id="projects" className="py-24 px-6 max-w-7xl mx-auto relative">
-            <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-tr from-cyan-500/15 via-blue-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-            <div className="absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-tl from-purple-500/15 via-pink-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-
+          <section id="projects" className="py-24 px-6 max-w-7xl mx-auto">
             <Scroll3DReveal>
               <div className="space-y-12 text-center">
                 <div className="space-y-4 max-w-2xl mx-auto">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Code size={13} />
                     <span>Selected Works</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Featured Projects
                   </h2>
-                  <p className="text-slate-500 text-lg">
+                  <p className="text-slate-600 text-lg">
                     Explore our recent digital creations, ranging from corporate applications to academic systems and CAD blueprints.
                   </p>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full mx-auto" />
+                  <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
 
-                {/* Filter Controls */}
                 <div className="flex flex-wrap justify-center gap-2">
                   {[
                     { filter: 'all', label: 'All Works' },
@@ -1346,10 +1262,10 @@ function App() {
                     <button
                       key={btn.filter}
                       onClick={() => setProjectFilter(btn.filter)}
-                      className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wider transition-all duration-300 cursor-pointer ${
+                      className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${
                         projectFilter === btn.filter 
-                          ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-md' 
-                          : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/90 shadow-xs'
+                          ? 'bg-blue-600 text-white shadow-xs' 
+                          : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200 shadow-xs'
                       }`}
                     >
                       {btn.label}
@@ -1357,48 +1273,43 @@ function App() {
                   ))}
                 </div>
 
-                {/* Projects Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   <AnimatePresence>
                     {filteredProjects.map((p) => (
-                      <Tilt key={p.title} tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.01} transitionSpeed={2000} className="h-full">
+                      <Tilt key={p.title} tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} className="h-full">
                         <motion.div
                           layout
-                          initial={{ opacity: 0, scale: 0.95 }}
+                          initial={{ opacity: 0, scale: 0.98 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.95 }}
-                          transition={{ duration: 0.4 }}
-                          className="glass-panel glass-panel-hover rounded-3xl overflow-hidden flex flex-col justify-between border border-slate-200/80 shadow-md group/project h-full text-left bg-white"
+                          exit={{ opacity: 0, scale: 0.98 }}
+                          transition={{ duration: 0.3 }}
+                          className="glass-panel glass-panel-hover rounded-3xl overflow-hidden flex flex-col justify-between border border-slate-200 shadow-xs group/project h-full text-left bg-white"
                         >
-                          {/* Preview Header Graphic */}
-                          <div className="relative h-48 bg-gradient-to-br from-indigo-50/80 via-blue-50/50 to-purple-50/60 flex items-center justify-center p-6 overflow-hidden border-b border-slate-200/60">
-                            <div className="absolute inset-0 bg-grid-cyber opacity-30" />
-                            <div className="absolute w-28 h-28 rounded-full bg-gradient-to-tr from-indigo-500/20 to-cyan-400/20 blur-xl group-hover/project:scale-150 transition-transform duration-500" />
-                            
+                          <div className="relative h-44 bg-slate-100 flex items-center justify-center p-6 overflow-hidden border-b border-slate-200">
                             <div className="relative z-10 flex flex-col items-center space-y-2">
                               {p.category === 'ai' && (
-                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-purple-500/20 to-indigo-500/20 flex items-center justify-center border border-indigo-500/30 text-indigo-600">
-                                  <Cpu size={26} />
+                                <div className="w-13 h-13 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-700">
+                                  <Cpu size={24} />
                                 </div>
                               )}
                               {p.category === 'web' && (
-                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-500/20 to-cyan-500/20 flex items-center justify-center border border-blue-500/30 text-blue-600">
-                                  <Globe size={26} />
+                                <div className="w-13 h-13 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-700">
+                                  <Globe size={24} />
                                 </div>
                               )}
                               {p.category === 'mobile' && (
-                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500/20 to-teal-500/20 flex items-center justify-center border border-cyan-500/30 text-cyan-600">
-                                  <Smartphone size={26} />
+                                <div className="w-13 h-13 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-700">
+                                  <Smartphone size={24} />
                                 </div>
                               )}
                               {p.category === 'app' && (
-                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 to-blue-600 flex items-center justify-center text-white shadow-md">
-                                  <Users size={26} />
+                                <div className="w-13 h-13 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-xs">
+                                  <Users size={24} />
                                 </div>
                               )}
                               {p.category === 'civil' && (
-                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500/20 to-orange-500/20 flex items-center justify-center border border-orange-500/30 text-orange-600">
-                                  <Layers size={26} />
+                                <div className="w-13 h-13 rounded-2xl bg-slate-200 flex items-center justify-center text-slate-700">
+                                  <Layers size={24} />
                                 </div>
                               )}
                               <span className="text-[10px] font-mono font-bold tracking-widest text-slate-500 uppercase">
@@ -1406,41 +1317,38 @@ function App() {
                               </span>
                             </div>
 
-                            <div className="absolute bottom-0 left-0 w-full h-[3.5px] bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400" />
+                            <div className="absolute bottom-0 left-0 w-full h-[3px] bg-blue-600" />
                           </div>
 
-                          {/* Details */}
                           <div className="p-7 flex-grow flex flex-col justify-between space-y-4">
                             <div className="space-y-2">
-                              <h3 className="text-xl font-bold font-display text-slate-900 group-hover/project:text-indigo-600 transition-colors">
+                              <h3 className="text-xl font-bold font-display text-slate-900 group-hover/project:text-blue-600 transition-colors">
                                 {p.title}
                               </h3>
-                              <p className="text-slate-500 text-sm leading-relaxed">
+                              <p className="text-slate-600 text-sm leading-relaxed">
                                 {p.description}
                               </p>
                             </div>
 
                             <div className="space-y-4 pt-2">
-                              {/* Tech Chips */}
                               <div className="flex flex-wrap gap-1.5">
                                 {p.tech.map((t, idx) => (
                                   <span 
                                     key={idx} 
-                                    className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold font-mono tracking-wider bg-slate-100 border border-slate-200/60 text-slate-600 uppercase"
+                                    className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold font-mono tracking-wider bg-slate-100 border border-slate-200 text-slate-600 uppercase"
                                   >
                                     {t}
                                   </span>
                                 ))}
                               </div>
 
-                              {/* Card Action Buttons */}
                               <div className="flex items-center justify-between pt-2 border-t border-slate-100">
                                 {p.liveUrl ? (
                                   <a
                                     href={p.liveUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-200/80 text-xs font-bold text-indigo-700 hover:from-indigo-600 hover:to-blue-600 hover:text-white transition-all shadow-xs group/btn cursor-pointer"
+                                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-blue-50 border border-blue-200 text-xs font-bold text-blue-700 hover:bg-blue-600 hover:text-white transition-all shadow-xs group/btn cursor-pointer"
                                   >
                                     <span>Launch Portal</span>
                                     <ExternalLink size={12} className="group-hover/btn:translate-x-0.5 transition-transform" />
@@ -1453,14 +1361,13 @@ function App() {
                                     setFormData(prev => ({ ...prev, requirement: p.title }));
                                     scrollToSection('contact');
                                   }}
-                                  className="flex items-center space-x-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors cursor-pointer"
+                                  className="flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
                                 >
                                   <span>Request Quote</span>
                                   <ArrowRight size={12} className="group-hover/project:translate-x-1 transition-transform" />
                                 </button>
                               </div>
                             </div>
-
                           </div>
                         </motion.div>
                       </Tilt>
@@ -1471,28 +1378,25 @@ function App() {
             </Scroll3DReveal>
           </section>
 
-          {/* 10. WHY CHOOSE US */}
-          <section id="why-choose-us" className="py-24 px-6 bg-gradient-to-br from-blue-50/90 via-cyan-50/70 to-indigo-50/90 border-y border-indigo-200/70 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-indigo-500/20 to-transparent rounded-full blur-3xl pointer-events-none" />
-
+          <section id="why-choose-us" className="py-24 px-6 bg-slate-100/70 border-y border-slate-200">
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
+              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
                 
                 <div className="lg:col-span-5 text-left space-y-6">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-500/25 bg-blue-500/10 text-blue-700 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <CheckCircle2 size={13} />
                     <span>Our Core Strengths</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Why Choose Nexora?
                   </h2>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 rounded-full" />
+                  <div className="w-16 h-[3px] bg-blue-600 rounded-full" />
                   <p className="text-slate-600 text-lg leading-relaxed">
                     We combine rigorous software architectural standards, clean visual aesthetic design, and structural precision to construct platforms that truly scale.
                   </p>
                   <button
                     onClick={() => scrollToSection('contact')}
-                    className="px-8 py-3.5 rounded-2xl font-semibold text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-500 hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer shadow-md shadow-indigo-600/20"
+                    className="px-8 py-3.5 rounded-2xl font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all duration-200 cursor-pointer shadow-sm"
                   >
                     Start Collaborating
                   </button>
@@ -1504,13 +1408,13 @@ function App() {
                     return (
                       <div 
                         key={idx}
-                        className="glass-card-bento rounded-3xl p-6 text-left relative overflow-hidden group shadow-sm bg-white"
+                        className="glass-card-bento rounded-3xl p-6 text-left relative overflow-hidden group shadow-xs bg-white"
                       >
-                        <div className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${b.color} text-white flex items-center justify-center mb-4 shadow-sm group-hover:scale-105 transition-transform duration-300`}>
+                        <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center mb-4 shadow-xs group-hover:scale-105 transition-transform duration-200">
                           <Icon size={22} />
                         </div>
                         <h3 className="text-lg font-bold font-display text-slate-900 mb-2">{b.title}</h3>
-                        <p className="text-slate-500 text-sm leading-relaxed">{b.description}</p>
+                        <p className="text-slate-600 text-sm leading-relaxed">{b.description}</p>
                       </div>
                     );
                   })}
@@ -1520,38 +1424,33 @@ function App() {
             </Scroll3DReveal>
           </section>
 
-          {/* 11. LEADERSHIP & TEAM SECTION */}
-          <section id="team" className="py-24 px-6 max-w-7xl mx-auto relative">
-            <div className="absolute top-10 right-0 w-96 h-96 bg-gradient-to-bl from-purple-500/20 via-pink-500/15 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-            <div className="absolute bottom-10 left-0 w-96 h-96 bg-gradient-to-tr from-indigo-500/20 via-blue-500/15 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-
+          <section id="team" className="py-24 px-6 max-w-7xl mx-auto">
             <Scroll3DReveal>
               <div className="space-y-16">
                 
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Users size={13} />
                     <span>Visionaries & Architects</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Executive Leadership
                   </h2>
-                  <p className="text-slate-500 text-lg">
+                  <p className="text-slate-600 text-lg">
                     Meet the founders driving Nexora’s strategic vision, engineering benchmarks, and brand growth.
                   </p>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 rounded-full mx-auto" />
+                  <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
 
-                {/* 3 Founders Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {team.filter(t => t.founder).map((t, idx) => (
-                    <Tilt key={idx} tiltMaxAngleX={5} tiltMaxAngleY={5} scale={1.02} transitionSpeed={2000} className="h-full">
-                      <div className="glass-panel glass-panel-hover rounded-3xl p-8 text-left relative overflow-hidden flex flex-col justify-between group/card shadow-lg bg-white h-full">
-                        <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-500" />
+                    <Tilt key={idx} tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.02} transitionSpeed={2000} className="h-full">
+                      <div className="glass-panel glass-panel-hover rounded-3xl p-8 text-left relative overflow-hidden flex flex-col justify-between group/card shadow-md bg-white h-full">
+                        <div className="absolute top-0 left-0 w-full h-[4px] bg-blue-600" />
                         
                         <div className="space-y-6">
                           <div className="flex items-center space-x-5">
-                            <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-tr from-indigo-100 to-purple-100 border border-slate-200 flex items-center justify-center overflow-hidden shrink-0 shadow-md">
+                            <div className="relative w-20 h-20 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden shrink-0 shadow-xs">
                               {t.image ? (
                                 <img 
                                   src={t.image} 
@@ -1559,17 +1458,17 @@ function App() {
                                   className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"
                                 />
                               ) : (
-                                <span className="font-display font-extrabold text-2xl text-indigo-600">
+                                <span className="font-display font-extrabold text-2xl text-blue-600">
                                   {t.name[0]}
                                 </span>
                               )}
                             </div>
 
                             <div>
-                              <h3 className="text-2xl font-extrabold font-display text-slate-900 group-hover/card:text-indigo-600 transition-colors">
+                              <h3 className="text-2xl font-extrabold font-display text-slate-900 group-hover/card:text-blue-600 transition-colors">
                                 {t.name}
                               </h3>
-                              <p className="text-xs font-bold text-indigo-600 font-mono tracking-wide uppercase">
+                              <p className="text-xs font-bold text-blue-600 font-mono tracking-wide uppercase">
                                 {t.role}
                               </p>
                             </div>
@@ -1580,14 +1479,13 @@ function App() {
                           </p>
                         </div>
 
-                        {/* Specialties */}
                         <div className="space-y-3 pt-6 border-t border-slate-100 mt-6">
                           <span className="text-[10px] font-mono tracking-widest text-slate-400 uppercase font-bold">CORE SPECIALTIES:</span>
                           <div className="flex flex-wrap gap-1.5">
                             {t.skills.map((s, i) => (
                               <span 
                                 key={i} 
-                                className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 border border-slate-200/60 text-slate-700"
+                                className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 border border-slate-200 text-slate-700"
                               >
                                 {s}
                               </span>
@@ -1600,15 +1498,14 @@ function App() {
                   ))}
                 </div>
 
-                {/* Team CTA & Modal Trigger */}
-                <div className="p-8 rounded-3xl bg-gradient-to-r from-indigo-50/90 via-purple-50/80 to-blue-50/90 border border-indigo-200/80 shadow-md flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="p-8 rounded-3xl bg-slate-100 border border-slate-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
                   <div className="text-left space-y-1">
                     <h3 className="text-xl font-bold font-display text-slate-900">Explore Our Full Engineering Network</h3>
                     <p className="text-sm text-slate-500">Discover all {team.length} specialists across AI, Java, Android, UI/UX, and Full-Stack.</p>
                   </div>
                   <button
                     onClick={() => setViewingAllTeam(true)}
-                    className="px-6 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:shadow-lg shadow-md hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer flex items-center space-x-2 shrink-0"
+                    className="px-6 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-all duration-200 cursor-pointer flex items-center space-x-2 shrink-0"
                   >
                     <Users size={16} />
                     <span>View All Team Members</span>
@@ -1619,53 +1516,50 @@ function App() {
             </Scroll3DReveal>
           </section>
 
-          {/* 12. CAREERS & MENTORSHIP SECTION */}
-          <section id="careers" className="py-24 px-6 bg-gradient-to-br from-purple-50/90 via-indigo-50/80 to-amber-50/70 border-y border-indigo-200/70 relative overflow-hidden">
-            <div className="absolute top-0 right-10 w-96 h-96 bg-gradient-to-br from-amber-400/20 to-transparent rounded-full blur-3xl pointer-events-none" />
-
+          <section id="careers" className="py-24 px-6 bg-slate-100/70 border-y border-slate-200">
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto space-y-12 relative z-10">
+              <div className="max-w-7xl mx-auto space-y-12">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/10 text-indigo-700 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <GraduationCap size={13} />
                     <span>Grow With Nexora</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Careers & Internships
                   </h2>
-                  <p className="text-slate-500 text-lg">
+                  <p className="text-slate-600 text-lg">
                     Whether you are an experienced software architect or an aspiring student looking for hands-on mentorship, Nexora is where your potential accelerates.
                   </p>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-purple-600 via-indigo-600 to-amber-500 rounded-full mx-auto" />
+                  <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-sm flex flex-col justify-between hover:border-indigo-400">
+                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-xs flex flex-col justify-between hover:border-blue-400">
                     <div className="space-y-3">
-                      <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
                         <Briefcase size={22} />
                       </div>
                       <h3 className="text-xl font-bold font-display text-slate-900">Open Full-Time Roles</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed">
+                      <p className="text-slate-600 text-sm leading-relaxed">
                         Join our core product and engineering team as a React, Python AI, Java, or Mobile Developer. Work on high-impact scalable platforms.
                       </p>
                     </div>
                     <button
                       onClick={() => scrollToSection('contact')}
-                      className="inline-flex items-center space-x-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors cursor-pointer pt-4 border-t border-slate-100"
+                      className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer pt-4 border-t border-slate-100"
                     >
                       <span>Apply For Positions</span>
                       <ArrowRight size={13} />
                     </button>
                   </div>
 
-                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-sm flex flex-col justify-between hover:border-blue-400">
+                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-xs flex flex-col justify-between hover:border-blue-400">
                     <div className="space-y-3">
                       <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
                         <GraduationCap size={22} />
                       </div>
                       <h3 className="text-xl font-bold font-display text-slate-900">Internship Programs</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed">
+                      <p className="text-slate-600 text-sm leading-relaxed">
                         Get live industry exposure, complete tasks under senior mentors, and receive verified digital completion credentials.
                       </p>
                     </div>
@@ -1680,13 +1574,13 @@ function App() {
                     </a>
                   </div>
 
-                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-sm flex flex-col justify-between hover:border-purple-400">
+                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-xs flex flex-col justify-between hover:border-blue-400">
                     <div className="space-y-3">
-                      <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                      <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
                         <BookOpen size={22} />
                       </div>
                       <h3 className="text-xl font-bold font-display text-slate-900">College Project Guidance</h3>
-                      <p className="text-slate-500 text-sm leading-relaxed">
+                      <p className="text-slate-600 text-sm leading-relaxed">
                         Complete mini & major computer science, AI, and civil engineering project execution with documentation & report support.
                       </p>
                     </div>
@@ -1695,7 +1589,7 @@ function App() {
                         setFormData(prev => ({ ...prev, requirement: "College Mini & Major Projects" }));
                         scrollToSection('contact');
                       }}
-                      className="inline-flex items-center space-x-1.5 text-xs font-bold text-purple-600 hover:text-purple-800 transition-colors cursor-pointer pt-4 border-t border-slate-100"
+                      className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer pt-4 border-t border-slate-100"
                     >
                       <span>Request Project Support</span>
                       <ArrowRight size={13} />
@@ -1707,40 +1601,36 @@ function App() {
             </Scroll3DReveal>
           </section>
 
-          {/* 13. TESTIMONIALS SLIDER */}
-          <section id="testimonials" className="py-24 px-6 max-w-7xl mx-auto relative">
-            <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-gradient-to-tr from-amber-400/15 via-indigo-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-
+          <section id="testimonials" className="py-24 px-6 max-w-7xl mx-auto">
             <Scroll3DReveal>
               <div className="space-y-12">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-amber-500/25 bg-amber-500/10 text-amber-700 text-xs font-semibold uppercase tracking-wider">
-                    <Star size={13} className="text-amber-500 fill-amber-500" />
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
+                    <Star size={13} className="text-blue-600" />
                     <span>Client Trust</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     What Our Partners Say
                   </h2>
-                  <p className="text-slate-500 text-lg">
+                  <p className="text-slate-600 text-lg">
                     Real feedback from academic deans, technology leaders, and enterprise partners.
                   </p>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-amber-500 via-indigo-500 to-blue-500 rounded-full mx-auto" />
+                  <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
 
-                {/* Testimonial Active Slide */}
                 <div className="max-w-3xl mx-auto">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={testimonialIndex}
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.4 }}
-                      className="glass-panel rounded-3xl p-8 md:p-12 text-center relative border border-indigo-200/80 shadow-2xl bg-white/95"
+                      exit={{ opacity: 0, y: -15 }}
+                      transition={{ duration: 0.3 }}
+                      className="glass-panel rounded-3xl p-8 md:p-12 text-center relative border border-slate-200 shadow-lg bg-white"
                     >
                       <div className="flex justify-center space-x-1 text-amber-400 mb-6">
                         {[...Array(testimonials[testimonialIndex].rating)].map((_, i) => (
-                          <Star key={i} size={22} fill="currentColor" />
+                          <Star key={i} size={20} fill="currentColor" />
                         ))}
                       </div>
 
@@ -1752,18 +1642,17 @@ function App() {
                         <h4 className="text-lg font-bold font-display text-slate-900">
                           {testimonials[testimonialIndex].author}
                         </h4>
-                        <p className="text-xs font-mono text-indigo-600 font-semibold uppercase tracking-wider">
+                        <p className="text-xs font-mono text-blue-600 font-semibold uppercase tracking-wider">
                           {testimonials[testimonialIndex].position}
                         </p>
                       </div>
                     </motion.div>
                   </AnimatePresence>
 
-                  {/* Navigation Controls */}
                   <div className="flex items-center justify-center space-x-4 mt-8">
                     <button
                       onClick={() => setTestimonialIndex((prev) => (prev - 1 + 4) % 4)}
-                      className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:border-indigo-400 transition-all shadow-sm cursor-pointer"
+                      className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 transition-all shadow-xs cursor-pointer"
                       aria-label="Previous Review"
                     >
                       <ChevronLeft size={18} />
@@ -1774,7 +1663,7 @@ function App() {
                           key={i}
                           onClick={() => setTestimonialIndex(i)}
                           className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
-                            testimonialIndex === i ? 'w-8 bg-gradient-to-r from-indigo-600 to-purple-600' : 'bg-slate-300'
+                            testimonialIndex === i ? 'w-8 bg-blue-600' : 'bg-slate-300'
                           }`}
                           aria-label={`Go to slide ${i + 1}`}
                         />
@@ -1782,7 +1671,7 @@ function App() {
                     </div>
                     <button
                       onClick={() => setTestimonialIndex((prev) => (prev + 1) % 4)}
-                      className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:border-indigo-400 transition-all shadow-sm cursor-pointer"
+                      className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 transition-all shadow-xs cursor-pointer"
                       aria-label="Next Review"
                     >
                       <ChevronRight size={18} />
@@ -1794,44 +1683,38 @@ function App() {
             </Scroll3DReveal>
           </section>
 
-          {/* 14. CONTACT & INQUIRY FORM */}
-          <section id="contact" className="py-24 px-6 bg-gradient-to-br from-indigo-100/90 via-blue-50/90 to-purple-100/80 border-t border-indigo-200/80 relative overflow-hidden">
-            {/* Ambient Background Glows */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-purple-500/20 via-pink-500/15 to-transparent rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-cyan-400/25 to-transparent rounded-full blur-3xl pointer-events-none" />
-
+          <section id="contact" className="py-24 px-6 bg-slate-100/70 border-t border-slate-200">
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start relative z-10">
+              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
                 
-                {/* Contact Left Info */}
                 <div className="lg:col-span-5 text-left space-y-6">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-700 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Send size={13} />
                     <span>Get In Touch</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Let's Build Something Exceptional
                   </h2>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-500 rounded-full" />
+                  <div className="w-16 h-[3px] bg-blue-600 rounded-full" />
                   <p className="text-slate-600 text-lg leading-relaxed">
                     Have a project in mind, need academic research support, or looking to integrate enterprise AI pipelines? Drop us a message and our team will get back to you within 24 hours.
                   </p>
 
                   <div className="space-y-4 pt-4">
-                    <div className="flex items-center space-x-4 p-4 rounded-2xl bg-white/90 border border-indigo-100 shadow-sm hover:border-indigo-300 transition-all">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+                    <div className="flex items-center space-x-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-xs hover:border-blue-300 transition-all">
+                      <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
                         <Mail size={20} />
                       </div>
                       <div className="flex flex-col text-left">
                         <span className="text-xs font-mono text-slate-400 uppercase font-bold">Email Direct</span>
-                        <a href="mailto:contactnexoratechs@gmail.com" className="text-sm font-bold text-slate-800 hover:text-indigo-600 transition-colors">
+                        <a href="mailto:contactnexoratechs@gmail.com" className="text-sm font-bold text-slate-800 hover:text-blue-600 transition-colors">
                           contactnexoratechs@gmail.com
                         </a>
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-4 p-4 rounded-2xl bg-white/90 border border-blue-100 shadow-sm hover:border-blue-300 transition-all">
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 text-white flex items-center justify-center shrink-0 shadow-sm">
+                    <div className="flex items-center space-x-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-xs hover:border-blue-300 transition-all">
+                      <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
                         <MapPin size={20} />
                       </div>
                       <div className="flex flex-col text-left">
@@ -1842,9 +1725,8 @@ function App() {
                   </div>
                 </div>
 
-                {/* Contact Right Form */}
                 <div className="lg:col-span-7">
-                  <div className="glass-panel rounded-3xl p-8 sm:p-10 border border-indigo-200/90 shadow-2xl bg-white/95 text-left">
+                  <div className="glass-panel rounded-3xl p-8 sm:p-10 border border-slate-200 shadow-xl bg-white text-left">
                     <form onSubmit={handleSubmit} className="space-y-5">
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -1857,7 +1739,7 @@ function App() {
                             onChange={handleInputChange} 
                             required 
                             placeholder="Alex Morgan" 
-                            className="w-full px-4 py-3.5 rounded-2xl bg-slate-50/80 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-sans"
+                            className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-sans"
                           />
                         </div>
 
@@ -1870,7 +1752,7 @@ function App() {
                             onChange={handleInputChange} 
                             required 
                             placeholder="alex@example.com" 
-                            className="w-full px-4 py-3.5 rounded-2xl bg-slate-50/80 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-sans"
+                            className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-sans"
                           />
                         </div>
                       </div>
@@ -1881,7 +1763,7 @@ function App() {
                           name="requirement" 
                           value={formData.requirement} 
                           onChange={handleInputChange} 
-                          className="w-full px-4 py-3.5 rounded-2xl bg-slate-50/80 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-sans"
+                          className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-sans"
                         >
                           <option value="Web Development">Web Application Development</option>
                           <option value="AI & Machine Learning Solutions">AI & Machine Learning Solutions</option>
@@ -1906,13 +1788,13 @@ function App() {
                           onChange={handleInputChange} 
                           required 
                           placeholder="Tell us about your project goals, timelines, and technical requirements..." 
-                          className="w-full px-4 py-3.5 rounded-2xl bg-slate-50/80 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-sans resize-none"
+                          className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-sans resize-none"
                         />
                       </div>
 
                       <button
                         type="submit"
-                        className="w-full py-4 rounded-2xl font-bold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 hover:shadow-xl hover:shadow-indigo-500/30 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 cursor-pointer flex items-center justify-center space-x-2 shadow-lg shadow-indigo-600/25"
+                        className="w-full py-4 rounded-2xl font-bold text-white bg-blue-600 hover:bg-blue-700 hover:shadow-md transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2 shadow-sm"
                       >
                         <Send size={16} />
                         <span>Send Project Inquiry</span>
@@ -1934,7 +1816,6 @@ function App() {
           </section>
         </main>
 
-        {/* 15. FUTURISTIC FOOTER */}
         <footer className="relative z-10 bg-slate-950 border-t border-slate-800 pt-16 pb-8 px-6 text-slate-400">
           <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-8 pb-12 border-b border-slate-800">
             
