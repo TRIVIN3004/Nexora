@@ -651,15 +651,17 @@ function App() {
         )}
       </AnimatePresence>
 
-      <div className="relative min-h-screen bg-slate-50/70 text-slate-800 font-sans selection:bg-indigo-500/15 selection:text-indigo-600">
+      <div className="relative min-h-screen bg-slate-50/70 text-slate-800 font-sans selection:bg-indigo-500/15 selection:text-indigo-600 overflow-hidden">
         
         {/* 3D Particle Network Canvas */}
         <Background3D />
 
-        {/* Ambient Glow Orbs */}
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-radial-gradient-glow pointer-events-none animate-pulse-slow z-0" />
-        <div className="absolute top-[30%] right-[-10%] w-[55%] h-[55%] bg-radial-gradient-glow pointer-events-none animate-pulse-slow z-0" />
-        <div className="absolute bottom-[10%] left-[5%] w-[45%] h-[45%] bg-radial-gradient-glow pointer-events-none animate-pulse-slow z-0" />
+        {/* Vibrant Multi-Color Ambient Aurora Glow Orbs */}
+        <div className="fixed top-[-8%] left-[-8%] w-[600px] h-[600px] bg-gradient-to-tr from-indigo-500/25 via-purple-500/20 to-pink-500/15 rounded-full blur-[140px] pointer-events-none animate-pulse-slow z-0" />
+        <div className="fixed top-[20%] right-[-10%] w-[650px] h-[650px] bg-gradient-to-bl from-cyan-400/25 via-blue-500/20 to-indigo-500/15 rounded-full blur-[150px] pointer-events-none animate-pulse-slow z-0" style={{ animationDelay: '2s' }} />
+        <div className="fixed top-[55%] left-[-5%] w-[550px] h-[550px] bg-gradient-to-tr from-emerald-400/20 via-teal-500/20 to-cyan-500/15 rounded-full blur-[130px] pointer-events-none animate-pulse-slow z-0" style={{ animationDelay: '4s' }} />
+        <div className="fixed bottom-[10%] right-[5%] w-[600px] h-[600px] bg-gradient-to-tl from-fuchsia-500/25 via-pink-500/20 to-amber-400/15 rounded-full blur-[140px] pointer-events-none animate-pulse-slow z-0" style={{ animationDelay: '3s' }} />
+        <div className="fixed bottom-[-10%] left-[20%] w-[500px] h-[500px] bg-gradient-to-tr from-blue-600/20 via-indigo-500/20 to-purple-500/15 rounded-full blur-[130px] pointer-events-none animate-pulse-slow z-0" style={{ animationDelay: '1s' }} />
 
         {/* 2. STICKY LIGHT GLASS NAVBAR */}
         <header className="fixed top-0 left-0 w-full z-50 glass-panel border-b border-slate-200/70 bg-white/80 transition-all duration-300">
@@ -911,12 +913,16 @@ function App() {
 
         {/* 3. HERO SECTION */}
         <main className="relative z-10 pt-20">
-          <section id="home" className="min-h-[calc(100vh-80px)] flex items-center py-16 px-6 max-w-7xl mx-auto">
+          <section id="home" className="min-h-[calc(100vh-80px)] flex items-center py-16 px-6 max-w-7xl mx-auto relative">
+            {/* Section Ambient Glows */}
+            <div className="absolute top-1/4 -left-20 w-96 h-96 bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse-slow" />
+            <div className="absolute bottom-10 right-0 w-96 h-96 bg-gradient-to-bl from-cyan-400/25 to-blue-500/20 rounded-full blur-3xl pointer-events-none -z-10" />
+
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
               
               {/* Left Hero Column */}
               <div className="lg:col-span-7 text-left space-y-6">
-                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-indigo-500/25 bg-indigo-500/10 text-indigo-700 text-xs font-semibold uppercase tracking-wider backdrop-blur-md">
+                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-indigo-500/30 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-cyan-500/10 text-indigo-700 text-xs font-semibold uppercase tracking-wider backdrop-blur-md shadow-xs">
                   <Sparkles size={13} className="text-indigo-600 animate-spin-slow" />
                   <span>Next-Gen Software, AI & Engineering Studio</span>
                 </div>
@@ -937,32 +943,32 @@ function App() {
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 pt-2">
                   <button
                     onClick={() => scrollToSection('contact')}
-                    className="px-8 py-4 rounded-2xl font-semibold text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-500 text-center hover:shadow-xl hover:shadow-indigo-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer flex items-center justify-center space-x-2"
+                    className="px-8 py-4 rounded-2xl font-semibold text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-500 text-center hover:shadow-xl hover:shadow-indigo-500/25 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 cursor-pointer flex items-center justify-center space-x-2 shadow-lg shadow-indigo-500/20"
                   >
                     <span>Get Started</span>
                     <ArrowRight size={16} />
                   </button>
                   <button
                     onClick={() => scrollToSection('portals')}
-                    className="px-8 py-4 rounded-2xl font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200/90 text-center shadow-xs hover:shadow-md transition-all duration-300 cursor-pointer flex items-center justify-center space-x-2"
+                    className="px-8 py-4 rounded-2xl font-semibold text-slate-700 bg-white/90 hover:bg-white border border-indigo-200/80 text-center shadow-md hover:shadow-lg hover:border-indigo-400 transition-all duration-300 cursor-pointer flex items-center justify-center space-x-2"
                   >
-                    <Sparkles size={16} className="text-indigo-600" />
+                    <Sparkles size={16} className="text-indigo-600 animate-pulse" />
                     <span>Explore Portals</span>
                   </button>
                 </div>
 
                 {/* Hero Feature Badges */}
-                <div className="flex flex-wrap gap-4 pt-4 border-t border-slate-200/60 text-xs font-semibold text-slate-500">
-                  <span className="flex items-center space-x-1.5">
+                <div className="flex flex-wrap gap-4 pt-4 border-t border-slate-200/70 text-xs font-semibold text-slate-600">
+                  <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/60 text-emerald-700">
                     <CheckCircle2 size={15} className="text-emerald-600" />
-                    <span>Production Grade Architecture</span>
+                    <span>Production Architecture</span>
                   </span>
-                  <span className="flex items-center space-x-1.5">
-                    <CheckCircle2 size={15} className="text-emerald-600" />
-                    <span>AI & Full-Stack Integration</span>
+                  <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200/60 text-blue-700">
+                    <CheckCircle2 size={15} className="text-blue-600" />
+                    <span>AI & Full-Stack</span>
                   </span>
-                  <span className="flex items-center space-x-1.5">
-                    <CheckCircle2 size={15} className="text-emerald-600" />
+                  <span className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-purple-50 border border-purple-200/60 text-purple-700">
+                    <CheckCircle2 size={15} className="text-purple-600" />
                     <span>24/7 Dedicated Support</span>
                   </span>
                 </div>
@@ -976,30 +982,30 @@ function App() {
                   transition={{ duration: 1, ease: "easeOut" }}
                   className="relative w-full h-[420px] sm:h-[500px] flex items-center justify-center cursor-grab active:cursor-grabbing"
                 >
-                  {/* Ambient Glows */}
-                  <div className="absolute w-[85%] h-[85%] bg-gradient-to-tr from-indigo-500/20 via-blue-500/15 to-cyan-500/20 rounded-full blur-3xl z-0 animate-pulse-slow pointer-events-none" />
+                  {/* Colorful Radiant Glows */}
+                  <div className="absolute w-[90%] h-[90%] bg-gradient-to-tr from-indigo-500/30 via-fuchsia-500/20 to-cyan-400/30 rounded-full blur-3xl z-0 animate-pulse-slow pointer-events-none" />
 
                   <div className="relative flex flex-col items-center justify-center">
                     <Tilt tiltMaxAngleX={12} tiltMaxAngleY={12} scale={1.04} transitionSpeed={2000} className="relative z-20">
-                      <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl border border-slate-200/70 bg-white/30 backdrop-blur-xl shadow-2xl flex items-center justify-center p-8 group">
-                        <div className="absolute inset-0 bg-grid-cyber opacity-20 rounded-3xl" />
+                      <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl border border-indigo-200/80 bg-white/40 backdrop-blur-2xl shadow-2xl flex items-center justify-center p-8 group">
+                        <div className="absolute inset-0 bg-grid-cyber opacity-25 rounded-3xl" />
                         
                         {/* Glow Core */}
-                        <div className="absolute w-44 h-44 rounded-full bg-gradient-to-tr from-indigo-500/30 to-blue-500/30 blur-2xl group-hover:scale-125 transition-transform duration-700" />
+                        <div className="absolute w-48 h-48 rounded-full bg-gradient-to-tr from-indigo-500/40 via-purple-500/30 to-cyan-400/40 blur-2xl group-hover:scale-125 transition-transform duration-700" />
                         
                         {/* 3D Interactive Logo */}
                         <Logo3D size="lg" animation={logoAnimation} interactive={true} layersCount={10} />
                         
                         {/* Corner Accents */}
-                        <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-indigo-500/40 rounded-tl-md" />
-                        <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-indigo-500/40 rounded-tr-md" />
-                        <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-blue-500/40 rounded-bl-md" />
-                        <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-blue-500/40 rounded-br-md" />
+                        <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-indigo-500/60 rounded-tl-md" />
+                        <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-cyan-500/60 rounded-tr-md" />
+                        <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-purple-500/60 rounded-bl-md" />
+                        <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-blue-500/60 rounded-br-md" />
                       </div>
                     </Tilt>
 
                     {/* Interactive Animation Mode Controls */}
-                    <div className="mt-6 flex space-x-2 bg-white/90 backdrop-blur-md border border-slate-200/80 px-3 py-1.5 rounded-full shadow-lg z-30 transition-transform duration-300 hover:scale-105">
+                    <div className="mt-6 flex space-x-2 bg-white/95 backdrop-blur-md border border-indigo-200/80 px-3.5 py-1.5 rounded-full shadow-xl z-30 transition-transform duration-300 hover:scale-105">
                       {[
                         { type: 'float', label: '3D Float' },
                         { type: 'spin', label: '3D Spin' },
@@ -1010,7 +1016,7 @@ function App() {
                           onClick={() => setLogoAnimation(anim.type)}
                           className={`text-xs px-3.5 py-1.5 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
                             logoAnimation === anim.type 
-                              ? 'bg-indigo-600 text-white shadow-md' 
+                              ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-md' 
                               : 'text-slate-600 hover:bg-slate-100 hover:text-indigo-600'
                           }`}
                         >
@@ -1026,8 +1032,8 @@ function App() {
           </section>
 
           {/* 4. STATS METRICS STRIP */}
-          <section className="py-12 bg-white/80 border-y border-slate-200/70 backdrop-blur-md relative overflow-hidden">
-            <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <section className="py-12 bg-gradient-to-r from-indigo-50/90 via-sky-50/90 to-purple-50/90 border-y border-indigo-200/70 backdrop-blur-xl relative overflow-hidden shadow-xs">
+            <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-center relative z-10">
               {[
                 { num: "50+", label: "Completed Projects", desc: "Production deployments" },
                 { num: "99.9%", label: "Client Satisfaction", desc: "Verified partner rating" },
@@ -1037,19 +1043,23 @@ function App() {
                 <div key={i} className="space-y-1">
                   <p className="text-3xl md:text-4xl font-extrabold font-display text-gradient-purple-blue">{stat.num}</p>
                   <p className="text-slate-900 text-sm font-bold tracking-tight">{stat.label}</p>
-                  <p className="text-slate-400 text-xs font-medium">{stat.desc}</p>
+                  <p className="text-slate-500 text-xs font-medium">{stat.desc}</p>
                 </div>
               ))}
             </div>
           </section>
 
           {/* 5. ECOSYSTEM & PORTALS LAUNCHPAD SECTION */}
-          <section id="portals" className="py-24 px-6 max-w-7xl mx-auto">
+          <section id="portals" className="py-24 px-6 max-w-7xl mx-auto relative">
+            {/* Ambient Aurora behind Portals */}
+            <div className="absolute top-10 right-10 w-96 h-96 bg-gradient-to-tr from-purple-500/20 via-pink-500/15 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+            <div className="absolute bottom-10 left-10 w-96 h-96 bg-gradient-to-tr from-cyan-400/20 via-blue-500/15 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+
             <Scroll3DReveal>
               <div className="space-y-12">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-xs font-semibold uppercase tracking-wider">
-                    <Zap size={13} />
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/25 bg-gradient-to-r from-indigo-500/10 to-blue-500/10 text-indigo-700 text-xs font-semibold uppercase tracking-wider">
+                    <Zap size={13} className="text-indigo-600" />
                     <span>Nexora Unified Ecosystem</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
@@ -1058,7 +1068,7 @@ function App() {
                   <p className="text-slate-500 text-lg">
                     Discover our suite of tailored web portals built for collaboration, daily progress tracking, talent recruitment, and internship workflows.
                   </p>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-600 to-blue-500 rounded-full mx-auto" />
+                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-500 rounded-full mx-auto" />
                 </div>
 
                 {/* Portals Bento Grid */}
@@ -1069,18 +1079,20 @@ function App() {
                     return (
                       <Tilt key={portal.id} tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.01} transitionSpeed={2000} className="h-full">
                         <div className={`glass-card-bento rounded-3xl p-7 flex flex-col justify-between h-full relative overflow-hidden group shadow-md ${
-                          isConnect ? 'border-indigo-300 ring-2 ring-indigo-500/20 bg-gradient-to-br from-indigo-50/40 to-white' : ''
+                          isConnect 
+                            ? 'border-indigo-300 ring-2 ring-indigo-500/30 bg-gradient-to-br from-indigo-50/70 via-white to-blue-50/40' 
+                            : 'hover:border-indigo-300'
                         }`}>
                           {/* Top Highlight Gradient Line */}
-                          <div className={`absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r ${portal.color}`} />
+                          <div className={`absolute top-0 left-0 w-full h-[3.5px] bg-gradient-to-r ${portal.color}`} />
                           
                           <div className="space-y-5">
                             {/* Header Row */}
                             <div className="flex items-center justify-between">
-                              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-tr ${portal.color} text-white shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-300`}>
+                              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center bg-gradient-to-tr ${portal.color} text-white shadow-md shadow-indigo-500/25 group-hover:scale-105 transition-transform duration-300`}>
                                 <Icon size={22} />
                               </div>
-                              <span className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider border ${portal.accent}`}>
+                              <span className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider border shadow-xs ${portal.accent}`}>
                                 {portal.badge}
                               </span>
                             </div>
@@ -1122,17 +1134,21 @@ function App() {
           </section>
 
           {/* 6. ABOUT US & MISSION SECTION */}
-          <section id="about" className="py-24 px-6 bg-slate-100/60 border-y border-slate-200/70">
+          <section id="about" className="py-24 px-6 bg-gradient-to-br from-indigo-50/90 via-sky-50/70 to-purple-50/80 border-y border-indigo-200/70 relative overflow-hidden">
+            {/* Ambient Background Orbs */}
+            <div className="absolute top-0 right-1/4 w-80 h-80 bg-gradient-to-br from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-gradient-to-tr from-purple-500/20 to-pink-500/20 rounded-full blur-3xl pointer-events-none" />
+
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
                 
                 {/* Left Visual Illustration */}
                 <div className="lg:col-span-5 relative flex justify-center">
-                  <div className="relative w-72 h-72 sm:w-88 sm:h-88 glass-panel rounded-3xl flex items-center justify-center p-8 border border-slate-200/90 shadow-xl bg-white/70">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-blue-500/10 rounded-3xl blur-md" />
+                  <div className="relative w-72 h-72 sm:w-88 sm:h-88 glass-panel rounded-3xl flex items-center justify-center p-8 border border-indigo-200/90 shadow-2xl bg-white/80">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/15 via-purple-500/10 to-cyan-500/15 rounded-3xl blur-md" />
                     
                     <div className="z-10 text-center space-y-4">
-                      <div className="w-18 h-18 rounded-2xl bg-indigo-50 flex items-center justify-center mx-auto border border-indigo-200 shadow-sm text-indigo-600">
+                      <div className="w-18 h-18 rounded-2xl bg-gradient-to-tr from-indigo-600 to-blue-600 flex items-center justify-center mx-auto shadow-lg shadow-indigo-600/30 text-white">
                         <Sparkles size={32} />
                       </div>
                       <h3 className="font-display font-extrabold text-2xl text-slate-900">Our North Star</h3>
@@ -1141,14 +1157,14 @@ function App() {
                       </p>
                     </div>
 
-                    <div className="absolute top-4 left-4 w-4 h-4 rounded-full bg-indigo-500/30 animate-ping" />
-                    <div className="absolute bottom-4 right-4 w-3 h-3 rounded-full bg-blue-500/40" />
+                    <div className="absolute top-4 left-4 w-4 h-4 rounded-full bg-indigo-500/40 animate-ping" />
+                    <div className="absolute bottom-4 right-4 w-3 h-3 rounded-full bg-cyan-500/50" />
                   </div>
                 </div>
 
                 {/* Right Text Description */}
                 <div className="lg:col-span-7 text-left space-y-6">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/5 text-blue-600 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/10 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Compass size={13} />
                     <span>Who We Are</span>
                   </div>
@@ -1157,7 +1173,7 @@ function App() {
                     Building Bridges Between Innovation & Execution
                   </h2>
 
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-600 to-blue-500 rounded-full" />
+                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-500 rounded-full" />
 
                   <p className="text-slate-600 text-lg leading-relaxed">
                     Nexora Technologies is a technology consulting and software studio dedicated to transforming complex challenges into intuitive, high-velocity digital products. From web and native mobile development to civil CAD engineering and production AI pipelines, our multidisciplinary team turns ambitious ideas into deployed reality.
@@ -1166,11 +1182,11 @@ function App() {
                   {/* 3 Core Value Pillars */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
                     {[
-                      { title: "Scalable Architecture", desc: "Built to support thousands of active users with minimal latency." },
-                      { title: "Enterprise Security", desc: "Rigorous standards, encrypted databases, and robust auth." },
-                      { title: "Agile Speed", desc: "From concept to prototype and production in lightning cycles." }
+                      { title: "Scalable Architecture", desc: "Built to support thousands of active users with minimal latency.", color: "border-indigo-200 bg-indigo-50/60" },
+                      { title: "Enterprise Security", desc: "Rigorous standards, encrypted databases, and robust auth.", color: "border-blue-200 bg-blue-50/60" },
+                      { title: "Agile Speed", desc: "From concept to prototype and production in lightning cycles.", color: "border-purple-200 bg-purple-50/60" }
                     ].map((pillar, i) => (
-                      <div key={i} className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-1.5">
+                      <div key={i} className={`p-4 rounded-2xl bg-white border ${pillar.color} shadow-xs space-y-1.5`}>
                         <h4 className="text-sm font-bold text-slate-900 font-display">{pillar.title}</h4>
                         <p className="text-xs text-slate-500 leading-relaxed">{pillar.desc}</p>
                       </div>
@@ -1183,7 +1199,10 @@ function App() {
           </section>
 
           {/* 7. SERVICES CATALOG SECTION */}
-          <section id="services" className="py-24 px-6 max-w-7xl mx-auto">
+          <section id="services" className="py-24 px-6 max-w-7xl mx-auto relative">
+            <div className="absolute top-1/3 left-0 w-96 h-96 bg-gradient-to-tr from-fuchsia-500/15 via-indigo-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+            <div className="absolute bottom-10 right-0 w-96 h-96 bg-gradient-to-bl from-cyan-500/15 via-teal-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+
             <Scroll3DReveal>
               <div className="space-y-12">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
@@ -1197,7 +1216,7 @@ function App() {
                   <p className="text-slate-500 text-lg">
                     Tailored software engineering, AI intelligence, and structural design disciplines tailored to deliver tangible impact.
                   </p>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-600 to-blue-500 rounded-full mx-auto" />
+                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 rounded-full mx-auto" />
                 </div>
 
                 {/* Services Bento Grid */}
@@ -1208,11 +1227,11 @@ function App() {
                       <Tilt key={service.title} tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.01} transitionSpeed={2000} className="h-full">
                         <div className="glass-card-bento rounded-3xl p-7 flex flex-col justify-between h-full group text-left relative overflow-hidden shadow-sm">
                           {/* Accent Gradient Header */}
-                          <div className={`absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-indigo-500 to-blue-500 opacity-60 group-hover:opacity-100 transition-opacity`} />
+                          <div className={`absolute top-0 left-0 w-full h-[3.5px] bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400 opacity-70 group-hover:opacity-100 transition-opacity`} />
                           
                           <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                              <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-xs">
+                              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-50 to-blue-50 border border-indigo-100 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300 shadow-xs">
                                 <Icon size={22} />
                               </div>
                               <span className="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200/60 text-slate-600 uppercase tracking-wider">
@@ -1251,17 +1270,21 @@ function App() {
           </section>
 
           {/* 8. TECHNOLOGIES MARQUEE STRIP */}
-          <section id="technologies" className="py-20 bg-slate-100/70 border-y border-slate-200/70 overflow-hidden">
+          <section id="technologies" className="py-20 bg-gradient-to-r from-slate-950 via-indigo-950 to-slate-950 text-white border-y border-indigo-950 overflow-hidden relative shadow-xl">
+            {/* Glowing neon background lines */}
+            <div className="absolute inset-0 bg-grid-cyber opacity-10 pointer-events-none" />
+            <div className="absolute top-0 left-1/3 w-96 h-full bg-indigo-500/10 blur-3xl pointer-events-none" />
+
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto px-6 text-center space-y-12">
+              <div className="max-w-7xl mx-auto px-6 text-center space-y-12 relative z-10">
                 <div className="space-y-3">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-400/30 bg-indigo-500/20 text-indigo-300 text-xs font-semibold uppercase tracking-wider">
                     <Terminal size={13} />
                     <span>Tech Stack</span>
                   </div>
-                  <h2 className="text-3xl md:text-4xl font-extrabold font-display text-slate-900">Technologies We Master</h2>
-                  <p className="text-slate-500 max-w-xl mx-auto">We leverage state-of-the-art developer environments, scalable cloud services, and reliable engineering frameworks.</p>
-                  <div className="w-16 h-[2px] bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full mx-auto" />
+                  <h2 className="text-3xl md:text-4xl font-extrabold font-display text-white">Technologies We Master</h2>
+                  <p className="text-slate-400 max-w-xl mx-auto">We leverage state-of-the-art developer environments, scalable cloud services, and reliable engineering frameworks.</p>
+                  <div className="w-16 h-[2px] bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500 rounded-full mx-auto" />
                 </div>
 
                 {/* Infinite Moving Marquee */}
@@ -1272,25 +1295,28 @@ function App() {
                       return (
                         <div 
                           key={idx}
-                          className={`flex-shrink-0 flex items-center space-x-3 px-6 py-4 bg-white border border-slate-200/80 rounded-2xl cursor-default transition-all duration-300 shadow-sm ${tech.color}`}
+                          className={`flex-shrink-0 flex items-center space-x-3 px-6 py-4 bg-slate-900/90 border border-slate-800 hover:border-indigo-500/80 rounded-2xl cursor-default transition-all duration-300 shadow-md ${tech.color}`}
                         >
-                          <Icon className="text-slate-500 group-hover:text-inherit" size={20} />
-                          <span className="text-sm font-bold text-slate-800">{tech.name}</span>
+                          <Icon className="text-slate-400 group-hover:text-inherit" size={20} />
+                          <span className="text-sm font-bold text-slate-200">{tech.name}</span>
                         </div>
                       );
                     })}
                   </div>
 
                   {/* Side Fades */}
-                  <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-100 to-transparent pointer-events-none" />
-                  <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-100 to-transparent pointer-events-none" />
+                  <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-950 to-transparent pointer-events-none" />
+                  <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-950 to-transparent pointer-events-none" />
                 </div>
               </div>
             </Scroll3DReveal>
           </section>
 
           {/* 9. FEATURED PROJECTS SHOWCASE */}
-          <section id="projects" className="py-24 px-6 max-w-7xl mx-auto">
+          <section id="projects" className="py-24 px-6 max-w-7xl mx-auto relative">
+            <div className="absolute top-10 left-10 w-96 h-96 bg-gradient-to-tr from-cyan-500/15 via-blue-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+            <div className="absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-tl from-purple-500/15 via-pink-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+
             <Scroll3DReveal>
               <div className="space-y-12 text-center">
                 <div className="space-y-4 max-w-2xl mx-auto">
@@ -1322,7 +1348,7 @@ function App() {
                       onClick={() => setProjectFilter(btn.filter)}
                       className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wider transition-all duration-300 cursor-pointer ${
                         projectFilter === btn.filter 
-                          ? 'bg-indigo-600 text-white shadow-md' 
+                          ? 'bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-md' 
                           : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200/90 shadow-xs'
                       }`}
                     >
@@ -1342,36 +1368,36 @@ function App() {
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.95 }}
                           transition={{ duration: 0.4 }}
-                          className="glass-panel glass-panel-hover rounded-3xl overflow-hidden flex flex-col justify-between border border-slate-200/80 shadow-md group/project h-full text-left"
+                          className="glass-panel glass-panel-hover rounded-3xl overflow-hidden flex flex-col justify-between border border-slate-200/80 shadow-md group/project h-full text-left bg-white"
                         >
                           {/* Preview Header Graphic */}
-                          <div className="relative h-48 bg-gradient-to-br from-slate-100 to-indigo-50/50 flex items-center justify-center p-6 overflow-hidden border-b border-slate-200/60">
+                          <div className="relative h-48 bg-gradient-to-br from-indigo-50/80 via-blue-50/50 to-purple-50/60 flex items-center justify-center p-6 overflow-hidden border-b border-slate-200/60">
                             <div className="absolute inset-0 bg-grid-cyber opacity-30" />
-                            <div className="absolute w-24 h-24 rounded-full bg-indigo-500/10 blur-xl group-hover/project:scale-150 transition-transform duration-500" />
+                            <div className="absolute w-28 h-28 rounded-full bg-gradient-to-tr from-indigo-500/20 to-cyan-400/20 blur-xl group-hover/project:scale-150 transition-transform duration-500" />
                             
                             <div className="relative z-10 flex flex-col items-center space-y-2">
                               {p.category === 'ai' && (
-                                <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20 text-indigo-600">
+                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-purple-500/20 to-indigo-500/20 flex items-center justify-center border border-indigo-500/30 text-indigo-600">
                                   <Cpu size={26} />
                                 </div>
                               )}
                               {p.category === 'web' && (
-                                <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 text-blue-600">
+                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-500/20 to-cyan-500/20 flex items-center justify-center border border-blue-500/30 text-blue-600">
                                   <Globe size={26} />
                                 </div>
                               )}
                               {p.category === 'mobile' && (
-                                <div className="w-14 h-14 rounded-2xl bg-cyan-500/10 flex items-center justify-center border border-cyan-500/20 text-cyan-600">
+                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-500/20 to-teal-500/20 flex items-center justify-center border border-cyan-500/30 text-cyan-600">
                                   <Smartphone size={26} />
                                 </div>
                               )}
                               {p.category === 'app' && (
-                                <div className="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-md">
+                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-600 to-blue-600 flex items-center justify-center text-white shadow-md">
                                   <Users size={26} />
                                 </div>
                               )}
                               {p.category === 'civil' && (
-                                <div className="w-14 h-14 rounded-2xl bg-orange-500/10 flex items-center justify-center border border-orange-500/20 text-orange-600">
+                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-500/20 to-orange-500/20 flex items-center justify-center border border-orange-500/30 text-orange-600">
                                   <Layers size={26} />
                                 </div>
                               )}
@@ -1380,7 +1406,7 @@ function App() {
                               </span>
                             </div>
 
-                            <div className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-500" />
+                            <div className="absolute bottom-0 left-0 w-full h-[3.5px] bg-gradient-to-r from-indigo-500 via-purple-500 to-cyan-400" />
                           </div>
 
                           {/* Details */}
@@ -1414,7 +1440,7 @@ function App() {
                                     href={p.liveUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 border border-indigo-200/70 text-xs font-bold text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all shadow-xs group/btn cursor-pointer"
+                                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-indigo-50 to-blue-50 border border-indigo-200/80 text-xs font-bold text-indigo-700 hover:from-indigo-600 hover:to-blue-600 hover:text-white transition-all shadow-xs group/btn cursor-pointer"
                                   >
                                     <span>Launch Portal</span>
                                     <ExternalLink size={12} className="group-hover/btn:translate-x-0.5 transition-transform" />
@@ -1446,25 +1472,27 @@ function App() {
           </section>
 
           {/* 10. WHY CHOOSE US */}
-          <section id="why-choose-us" className="py-24 px-6 bg-slate-100/60 border-y border-slate-200/70">
+          <section id="why-choose-us" className="py-24 px-6 bg-gradient-to-br from-blue-50/90 via-cyan-50/70 to-indigo-50/90 border-y border-indigo-200/70 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-indigo-500/20 to-transparent rounded-full blur-3xl pointer-events-none" />
+
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
                 
                 <div className="lg:col-span-5 text-left space-y-6">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-500/20 bg-blue-500/5 text-blue-600 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-500/25 bg-blue-500/10 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <CheckCircle2 size={13} />
                     <span>Our Core Strengths</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Why Choose Nexora?
                   </h2>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full" />
+                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 rounded-full" />
                   <p className="text-slate-600 text-lg leading-relaxed">
                     We combine rigorous software architectural standards, clean visual aesthetic design, and structural precision to construct platforms that truly scale.
                   </p>
                   <button
                     onClick={() => scrollToSection('contact')}
-                    className="px-8 py-3.5 rounded-2xl font-semibold text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
+                    className="px-8 py-3.5 rounded-2xl font-semibold text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-500 hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer shadow-md shadow-indigo-600/20"
                   >
                     Start Collaborating
                   </button>
@@ -1493,7 +1521,10 @@ function App() {
           </section>
 
           {/* 11. LEADERSHIP & TEAM SECTION */}
-          <section id="team" className="py-24 px-6 max-w-7xl mx-auto">
+          <section id="team" className="py-24 px-6 max-w-7xl mx-auto relative">
+            <div className="absolute top-10 right-0 w-96 h-96 bg-gradient-to-bl from-purple-500/20 via-pink-500/15 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+            <div className="absolute bottom-10 left-0 w-96 h-96 bg-gradient-to-tr from-indigo-500/20 via-blue-500/15 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+
             <Scroll3DReveal>
               <div className="space-y-16">
                 
@@ -1508,7 +1539,7 @@ function App() {
                   <p className="text-slate-500 text-lg">
                     Meet the founders driving Nexora’s strategic vision, engineering benchmarks, and brand growth.
                   </p>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full mx-auto" />
+                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 rounded-full mx-auto" />
                 </div>
 
                 {/* 3 Founders Grid */}
@@ -1516,11 +1547,11 @@ function App() {
                   {team.filter(t => t.founder).map((t, idx) => (
                     <Tilt key={idx} tiltMaxAngleX={5} tiltMaxAngleY={5} scale={1.02} transitionSpeed={2000} className="h-full">
                       <div className="glass-panel glass-panel-hover rounded-3xl p-8 text-left relative overflow-hidden flex flex-col justify-between group/card shadow-lg bg-white h-full">
-                        <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500" />
+                        <div className="absolute top-0 left-0 w-full h-[4px] bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-500" />
                         
                         <div className="space-y-6">
                           <div className="flex items-center space-x-5">
-                            <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-tr from-indigo-100 to-blue-100 border border-slate-200 flex items-center justify-center overflow-hidden shrink-0 shadow-md">
+                            <div className="relative w-20 h-20 rounded-2xl bg-gradient-to-tr from-indigo-100 to-purple-100 border border-slate-200 flex items-center justify-center overflow-hidden shrink-0 shadow-md">
                               {t.image ? (
                                 <img 
                                   src={t.image} 
@@ -1570,14 +1601,14 @@ function App() {
                 </div>
 
                 {/* Team CTA & Modal Trigger */}
-                <div className="p-8 rounded-3xl bg-gradient-to-r from-indigo-50 via-white to-blue-50 border border-indigo-200/70 shadow-md flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="p-8 rounded-3xl bg-gradient-to-r from-indigo-50/90 via-purple-50/80 to-blue-50/90 border border-indigo-200/80 shadow-md flex flex-col md:flex-row items-center justify-between gap-6">
                   <div className="text-left space-y-1">
                     <h3 className="text-xl font-bold font-display text-slate-900">Explore Our Full Engineering Network</h3>
                     <p className="text-sm text-slate-500">Discover all {team.length} specialists across AI, Java, Android, UI/UX, and Full-Stack.</p>
                   </div>
                   <button
                     onClick={() => setViewingAllTeam(true)}
-                    className="px-6 py-3 rounded-xl font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer flex items-center space-x-2 shrink-0"
+                    className="px-6 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:shadow-lg shadow-md hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer flex items-center space-x-2 shrink-0"
                   >
                     <Users size={16} />
                     <span>View All Team Members</span>
@@ -1589,11 +1620,13 @@ function App() {
           </section>
 
           {/* 12. CAREERS & MENTORSHIP SECTION */}
-          <section id="careers" className="py-24 px-6 bg-slate-100/60 border-y border-slate-200/70">
+          <section id="careers" className="py-24 px-6 bg-gradient-to-br from-purple-50/90 via-indigo-50/80 to-amber-50/70 border-y border-indigo-200/70 relative overflow-hidden">
+            <div className="absolute top-0 right-10 w-96 h-96 bg-gradient-to-br from-amber-400/20 to-transparent rounded-full blur-3xl pointer-events-none" />
+
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto space-y-12">
+              <div className="max-w-7xl mx-auto space-y-12 relative z-10">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/10 text-indigo-700 text-xs font-semibold uppercase tracking-wider">
                     <GraduationCap size={13} />
                     <span>Grow With Nexora</span>
                   </div>
@@ -1603,11 +1636,11 @@ function App() {
                   <p className="text-slate-500 text-lg">
                     Whether you are an experienced software architect or an aspiring student looking for hands-on mentorship, Nexora is where your potential accelerates.
                   </p>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full mx-auto" />
+                  <div className="w-20 h-[3px] bg-gradient-to-r from-purple-600 via-indigo-600 to-amber-500 rounded-full mx-auto" />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-sm flex flex-col justify-between">
+                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-sm flex flex-col justify-between hover:border-indigo-400">
                     <div className="space-y-3">
                       <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
                         <Briefcase size={22} />
@@ -1626,7 +1659,7 @@ function App() {
                     </button>
                   </div>
 
-                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-sm flex flex-col justify-between">
+                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-sm flex flex-col justify-between hover:border-blue-400">
                     <div className="space-y-3">
                       <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
                         <GraduationCap size={22} />
@@ -1647,7 +1680,7 @@ function App() {
                     </a>
                   </div>
 
-                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-sm flex flex-col justify-between">
+                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-sm flex flex-col justify-between hover:border-purple-400">
                     <div className="space-y-3">
                       <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
                         <BookOpen size={22} />
@@ -1675,12 +1708,14 @@ function App() {
           </section>
 
           {/* 13. TESTIMONIALS SLIDER */}
-          <section id="testimonials" className="py-24 px-6 max-w-7xl mx-auto">
+          <section id="testimonials" className="py-24 px-6 max-w-7xl mx-auto relative">
+            <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-gradient-to-tr from-amber-400/15 via-indigo-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+
             <Scroll3DReveal>
               <div className="space-y-12">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-xs font-semibold uppercase tracking-wider">
-                    <Star size={13} />
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-amber-500/25 bg-amber-500/10 text-amber-700 text-xs font-semibold uppercase tracking-wider">
+                    <Star size={13} className="text-amber-500 fill-amber-500" />
                     <span>Client Trust</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
@@ -1689,7 +1724,7 @@ function App() {
                   <p className="text-slate-500 text-lg">
                     Real feedback from academic deans, technology leaders, and enterprise partners.
                   </p>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full mx-auto" />
+                  <div className="w-20 h-[3px] bg-gradient-to-r from-amber-500 via-indigo-500 to-blue-500 rounded-full mx-auto" />
                 </div>
 
                 {/* Testimonial Active Slide */}
@@ -1701,11 +1736,11 @@ function App() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.4 }}
-                      className="glass-panel rounded-3xl p-8 md:p-12 text-center relative border border-slate-200/90 shadow-xl bg-white"
+                      className="glass-panel rounded-3xl p-8 md:p-12 text-center relative border border-indigo-200/80 shadow-2xl bg-white/95"
                     >
                       <div className="flex justify-center space-x-1 text-amber-400 mb-6">
                         {[...Array(testimonials[testimonialIndex].rating)].map((_, i) => (
-                          <Star key={i} size={20} fill="currentColor" />
+                          <Star key={i} size={22} fill="currentColor" />
                         ))}
                       </div>
 
@@ -1727,8 +1762,8 @@ function App() {
                   {/* Navigation Controls */}
                   <div className="flex items-center justify-center space-x-4 mt-8">
                     <button
-                      onClick={() => setTestimonialIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)}
-                      className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:border-indigo-400 transition-all shadow-xs cursor-pointer"
+                      onClick={() => setTestimonialIndex((prev) => (prev - 1 + 4) % 4)}
+                      className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:border-indigo-400 transition-all shadow-sm cursor-pointer"
                       aria-label="Previous Review"
                     >
                       <ChevronLeft size={18} />
@@ -1739,15 +1774,15 @@ function App() {
                           key={i}
                           onClick={() => setTestimonialIndex(i)}
                           className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
-                            testimonialIndex === i ? 'w-8 bg-indigo-600' : 'bg-slate-300'
+                            testimonialIndex === i ? 'w-8 bg-gradient-to-r from-indigo-600 to-purple-600' : 'bg-slate-300'
                           }`}
                           aria-label={`Go to slide ${i + 1}`}
                         />
                       ))}
                     </div>
                     <button
-                      onClick={() => setTestimonialIndex((prev) => (prev + 1) % testimonials.length)}
-                      className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:border-indigo-400 transition-all shadow-xs cursor-pointer"
+                      onClick={() => setTestimonialIndex((prev) => (prev + 1) % 4)}
+                      className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-indigo-600 hover:border-indigo-400 transition-all shadow-sm cursor-pointer"
                       aria-label="Next Review"
                     >
                       <ChevronRight size={18} />
@@ -1760,27 +1795,31 @@ function App() {
           </section>
 
           {/* 14. CONTACT & INQUIRY FORM */}
-          <section id="contact" className="py-24 px-6 bg-slate-100/60 border-t border-slate-200/70">
+          <section id="contact" className="py-24 px-6 bg-gradient-to-br from-indigo-100/90 via-blue-50/90 to-purple-100/80 border-t border-indigo-200/80 relative overflow-hidden">
+            {/* Ambient Background Glows */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-purple-500/20 via-pink-500/15 to-transparent rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-cyan-400/25 to-transparent rounded-full blur-3xl pointer-events-none" />
+
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start relative z-10">
                 
                 {/* Contact Left Info */}
                 <div className="lg:col-span-5 text-left space-y-6">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/20 bg-indigo-500/5 text-indigo-600 text-xs font-semibold uppercase tracking-wider">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-indigo-700 text-xs font-semibold uppercase tracking-wider">
                     <Send size={13} />
                     <span>Get In Touch</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Let's Build Something Exceptional
                   </h2>
-                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-500 to-blue-500 rounded-full" />
+                  <div className="w-20 h-[3px] bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-500 rounded-full" />
                   <p className="text-slate-600 text-lg leading-relaxed">
                     Have a project in mind, need academic research support, or looking to integrate enterprise AI pipelines? Drop us a message and our team will get back to you within 24 hours.
                   </p>
 
                   <div className="space-y-4 pt-4">
-                    <div className="flex items-center space-x-4 p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
-                      <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                    <div className="flex items-center space-x-4 p-4 rounded-2xl bg-white/90 border border-indigo-100 shadow-sm hover:border-indigo-300 transition-all">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-600 text-white flex items-center justify-center shrink-0 shadow-sm">
                         <Mail size={20} />
                       </div>
                       <div className="flex flex-col text-left">
@@ -1791,8 +1830,8 @@ function App() {
                       </div>
                     </div>
 
-                    <div className="flex items-center space-x-4 p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs">
-                      <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+                    <div className="flex items-center space-x-4 p-4 rounded-2xl bg-white/90 border border-blue-100 shadow-sm hover:border-blue-300 transition-all">
+                      <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 text-white flex items-center justify-center shrink-0 shadow-sm">
                         <MapPin size={20} />
                       </div>
                       <div className="flex flex-col text-left">
@@ -1805,7 +1844,7 @@ function App() {
 
                 {/* Contact Right Form */}
                 <div className="lg:col-span-7">
-                  <div className="glass-panel rounded-3xl p-8 sm:p-10 border border-slate-200/90 shadow-xl bg-white text-left">
+                  <div className="glass-panel rounded-3xl p-8 sm:p-10 border border-indigo-200/90 shadow-2xl bg-white/95 text-left">
                     <form onSubmit={handleSubmit} className="space-y-5">
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -1818,7 +1857,7 @@ function App() {
                             onChange={handleInputChange} 
                             required 
                             placeholder="Alex Morgan" 
-                            className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-sans"
+                            className="w-full px-4 py-3.5 rounded-2xl bg-slate-50/80 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-sans"
                           />
                         </div>
 
@@ -1831,7 +1870,7 @@ function App() {
                             onChange={handleInputChange} 
                             required 
                             placeholder="alex@example.com" 
-                            className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-sans"
+                            className="w-full px-4 py-3.5 rounded-2xl bg-slate-50/80 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-sans"
                           />
                         </div>
                       </div>
@@ -1842,7 +1881,7 @@ function App() {
                           name="requirement" 
                           value={formData.requirement} 
                           onChange={handleInputChange} 
-                          className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-sans"
+                          className="w-full px-4 py-3.5 rounded-2xl bg-slate-50/80 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-sans"
                         >
                           <option value="Web Development">Web Application Development</option>
                           <option value="AI & Machine Learning Solutions">AI & Machine Learning Solutions</option>
@@ -1867,13 +1906,13 @@ function App() {
                           onChange={handleInputChange} 
                           required 
                           placeholder="Tell us about your project goals, timelines, and technical requirements..." 
-                          className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-sans resize-none"
+                          className="w-full px-4 py-3.5 rounded-2xl bg-slate-50/80 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-indigo-500 focus:bg-white transition-all font-sans resize-none"
                         />
                       </div>
 
                       <button
                         type="submit"
-                        className="w-full py-4 rounded-2xl font-bold text-white bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-500 hover:shadow-xl hover:shadow-indigo-500/25 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 cursor-pointer flex items-center justify-center space-x-2"
+                        className="w-full py-4 rounded-2xl font-bold text-white bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 hover:shadow-xl hover:shadow-indigo-500/30 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 cursor-pointer flex items-center justify-center space-x-2 shadow-lg shadow-indigo-600/25"
                       >
                         <Send size={16} />
                         <span>Send Project Inquiry</span>
