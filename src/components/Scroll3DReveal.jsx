@@ -6,26 +6,24 @@ const Scroll3DReveal = ({ children, className = '' }) => {
     <motion.div
       initial={{ 
         opacity: 0, 
-        rotateX: 45, 
-        scale: 0.9,
-        y: 100 
+        scale: 0.96,
+        y: 40 
       }}
       whileInView={{ 
         opacity: 1, 
-        rotateX: 0, 
         scale: 1,
         y: 0 
       }}
-      viewport={{ once: true, amount: 0.2, margin: "0px 0px -50px 0px" }}
+      viewport={{ once: true, amount: 0.15, margin: "0px 0px -50px 0px" }}
       transition={{ 
-        duration: 0.8, 
+        duration: 0.6, 
         ease: [0.16, 1, 0.3, 1], // Custom easing for smooth fluid pop
         type: "spring",
-        damping: 20,
-        stiffness: 100
+        damping: 25,
+        stiffness: 120
       }}
       className={className}
-      style={{ transformStyle: 'preserve-3d', perspective: '1200px' }}
+      style={{ willChange: 'transform, opacity' }}
     >
       {children}
     </motion.div>
@@ -33,3 +31,4 @@ const Scroll3DReveal = ({ children, className = '' }) => {
 };
 
 export default Scroll3DReveal;
+
