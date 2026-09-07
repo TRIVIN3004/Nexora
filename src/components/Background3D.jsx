@@ -1,6 +1,5 @@
 import React, { useRef, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float } from '@react-three/drei';
 import * as THREE from 'three';
 
 // ==============================================================================
@@ -8,7 +7,7 @@ import * as THREE from 'three';
 // ==============================================================================
 const ColorfulParticleSwarm = () => {
   const pointsRef = useRef();
-  const count = 1200;
+  const count = 1400;
 
   // Generate 3D positions, random velocities, and vibrant distinct colors
   const [positions, colors, originalPositions] = useMemo(() => {
@@ -28,9 +27,9 @@ const ColorfulParticleSwarm = () => {
     ];
 
     for (let i = 0; i < count; i++) {
-      const x = (Math.random() - 0.5) * 32;
-      const y = (Math.random() - 0.5) * 22;
-      const z = (Math.random() - 0.5) * 12 - 2;
+      const x = (Math.random() - 0.5) * 34;
+      const y = (Math.random() - 0.5) * 24;
+      const z = (Math.random() - 0.5) * 14 - 2;
 
       pos[i * 3] = x;
       pos[i * 3 + 1] = y;
@@ -62,21 +61,21 @@ const ColorfulParticleSwarm = () => {
         const oz = originalPositions[i * 3 + 2];
 
         // Organic swirling oscillation
-        const wave = Math.sin(t * 0.5 + ox * 0.3) * 0.35 + Math.cos(t * 0.4 + oy * 0.3) * 0.25;
+        const wave = Math.sin(t * 0.45 + ox * 0.25) * 0.35 + Math.cos(t * 0.35 + oy * 0.25) * 0.25;
         
         // Mouse repulsion & interaction
-        const dx = ox - pointer.x * 12;
-        const dy = oy - pointer.y * 8;
+        const dx = ox - pointer.x * 14;
+        const dy = oy - pointer.y * 10;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        const force = Math.max(0, (4.5 - dist) / 4.5);
+        const force = Math.max(0, (5.0 - dist) / 5.0);
 
-        pos[i * 3] = ox + (dx / (dist || 1)) * force * 1.2;
-        pos[i * 3 + 1] = oy + wave + (dy / (dist || 1)) * force * 1.2;
-        pos[i * 3 + 2] = oz + Math.sin(t * 0.6 + i) * 0.3;
+        pos[i * 3] = ox + (dx / (dist || 1)) * force * 1.4;
+        pos[i * 3 + 1] = oy + wave + (dy / (dist || 1)) * force * 1.4;
+        pos[i * 3 + 2] = oz + Math.sin(t * 0.5 + i) * 0.25;
       }
 
       pointsRef.current.geometry.attributes.position.needsUpdate = true;
-      pointsRef.current.rotation.y = Math.sin(t * 0.05) * 0.05;
+      pointsRef.current.rotation.y = Math.sin(t * 0.04) * 0.04;
     }
   });
 
@@ -93,10 +92,10 @@ const ColorfulParticleSwarm = () => {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.16}
+        size={0.15}
         vertexColors
         transparent
-        opacity={0.85}
+        opacity={0.8}
         sizeAttenuation
         blending={THREE.NormalBlending}
       />
@@ -109,9 +108,9 @@ const ColorfulParticleSwarm = () => {
 // ==============================================================================
 const VibrantWaveMesh = () => {
   const geomRef = useRef();
-  const [cols, rows] = [54, 40];
-  const width = 34;
-  const height = 24;
+  const [cols, rows] = [56, 42];
+  const width = 36;
+  const height = 26;
 
   // Generate colorful vertex attributes
   const [positions, colors] = useMemo(() => {
@@ -176,9 +175,9 @@ const VibrantWaveMesh = () => {
           const y = (v - 0.5) * height;
 
           // Multi-frequency wave formula
-          const wave1 = Math.sin(x * 0.25 + t * 0.6) * 0.55;
-          const wave2 = Math.cos(y * 0.3 + t * 0.5) * 0.45;
-          const wave3 = Math.sin((x + y) * 0.2 + t * 0.8) * 0.3;
+          const wave1 = Math.sin(x * 0.22 + t * 0.55) * 0.5;
+          const wave2 = Math.cos(y * 0.28 + t * 0.45) * 0.4;
+          const wave3 = Math.sin((x + y) * 0.18 + t * 0.7) * 0.25;
 
           pos[idx * 3 + 2] = wave1 + wave2 + wave3;
           idx++;
@@ -190,7 +189,7 @@ const VibrantWaveMesh = () => {
   });
 
   return (
-    <group position={[0, -2.5, -4.5]} rotation={[-Math.PI / 3.2, 0, 0]}>
+    <group position={[0, -2.4, -4.5]} rotation={[-Math.PI / 3.2, 0, 0]}>
       {/* 1. Translucent Gradient Wave Plane */}
       <mesh>
         <bufferGeometry ref={geomRef}>
@@ -213,7 +212,7 @@ const VibrantWaveMesh = () => {
           metalness={0.3}
           transmission={0.5}
           transparent
-          opacity={0.35}
+          opacity={0.3}
           side={THREE.DoubleSide}
           clearcoat={1.0}
         />
@@ -221,12 +220,12 @@ const VibrantWaveMesh = () => {
 
       {/* 2. Glowing Colorful Wireframe Overlay */}
       <mesh position={[0, 0, 0.02]}>
-        <planeGeometry args={[width, height, 40, 28]} />
+        <planeGeometry args={[width, height, 42, 30]} />
         <meshStandardMaterial
           color="#38bdf8"
           wireframe
           transparent
-          opacity={0.15}
+          opacity={0.12}
         />
       </mesh>
     </group>
@@ -234,152 +233,15 @@ const VibrantWaveMesh = () => {
 };
 
 // ==============================================================================
-// 3. FLOATING VIBRANT 3D SHAPES (Torus Knot, Prismatic Octahedron & Rings)
-// ==============================================================================
-const VibrantFloatingShapes = () => {
-  const torusKnotRef = useRef();
-  const octaRef = useRef();
-  const ring1Ref = useRef();
-  const ring2Ref = useRef();
-  const sphereRef = useRef();
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-
-    if (torusKnotRef.current) {
-      torusKnotRef.current.rotation.x = t * 0.2;
-      torusKnotRef.current.rotation.y = t * 0.3;
-    }
-    if (octaRef.current) {
-      octaRef.current.rotation.y = -t * 0.25;
-      octaRef.current.rotation.z = t * 0.15;
-    }
-    if (ring1Ref.current) {
-      ring1Ref.current.rotation.x = t * 0.18;
-      ring1Ref.current.rotation.y = t * 0.22;
-    }
-    if (ring2Ref.current) {
-      ring2Ref.current.rotation.x = -t * 0.15;
-      ring2Ref.current.rotation.z = t * 0.2;
-    }
-    if (sphereRef.current) {
-      sphereRef.current.position.y = 1.2 + Math.sin(t * 0.8) * 0.3;
-    }
-  });
-
-  return (
-    <group>
-      {/* 1. Vivid Neon Purple/Pink Torus Knot (Top Right) */}
-      <Float speed={1.5} rotationIntensity={0.6} floatIntensity={0.8}>
-        <group position={[7.2, 2.5, -2.8]} scale={0.75}>
-          <mesh ref={torusKnotRef}>
-            <torusKnotGeometry args={[1.2, 0.3, 100, 16]} />
-            <meshPhysicalMaterial
-              color="#c084fc"
-              emissive="#7c3aed"
-              emissiveIntensity={0.4}
-              roughness={0.1}
-              metalness={0.5}
-              clearcoat={1.0}
-              transparent
-              opacity={0.75}
-            />
-          </mesh>
-          {/* Wireframe Glow Shell */}
-          <mesh scale={1.08}>
-            <torusKnotGeometry args={[1.2, 0.3, 50, 8]} />
-            <meshBasicMaterial color="#f472b6" wireframe transparent opacity={0.25} />
-          </mesh>
-        </group>
-      </Float>
-
-      {/* 2. Prismatic Cyan / Emerald Octahedron (Left Center) */}
-      <Float speed={1.3} rotationIntensity={0.5} floatIntensity={0.7}>
-        <group position={[-7.5, 1.0, -2.5]} scale={0.9}>
-          <mesh ref={octaRef}>
-            <octahedronGeometry args={[1.3, 0]} />
-            <meshPhysicalMaterial
-              color="#06b6d4"
-              emissive="#0284c7"
-              emissiveIntensity={0.35}
-              roughness={0.12}
-              metalness={0.4}
-              transmission={0.7}
-              thickness={1.5}
-              clearcoat={1.0}
-              transparent
-              opacity={0.8}
-            />
-          </mesh>
-          {/* Neon Edge Frame */}
-          <mesh scale={1.02}>
-            <octahedronGeometry args={[1.3, 0]} />
-            <meshBasicMaterial color="#34d399" wireframe transparent opacity={0.35} />
-          </mesh>
-        </group>
-      </Float>
-
-      {/* 3. Dual Electric Blue & Magenta Orbital Rings (Bottom Left) */}
-      <Float speed={1.2} rotationIntensity={0.4} floatIntensity={0.6}>
-        <group position={[-6.5, -3.2, -3]}>
-          <mesh ref={ring1Ref}>
-            <torusGeometry args={[1.8, 0.05, 16, 80]} />
-            <meshStandardMaterial
-              color="#3b82f6"
-              emissive="#1d4ed8"
-              emissiveIntensity={0.6}
-              roughness={0.1}
-              metalness={0.8}
-              transparent
-              opacity={0.7}
-            />
-          </mesh>
-          <mesh ref={ring2Ref} scale={0.75}>
-            <torusGeometry args={[1.8, 0.04, 16, 80]} />
-            <meshStandardMaterial
-              color="#ec4899"
-              emissive="#be185d"
-              emissiveIntensity={0.6}
-              roughness={0.1}
-              metalness={0.8}
-              transparent
-              opacity={0.7}
-            />
-          </mesh>
-        </group>
-      </Float>
-
-      {/* 4. Glowing Warm Amber Glass Sphere (Bottom Right) */}
-      <Float speed={1.4} rotationIntensity={0.3} floatIntensity={0.7}>
-        <mesh ref={sphereRef} position={[6.8, -2.8, -3.2]} scale={0.8}>
-          <sphereGeometry args={[1.1, 32, 32]} />
-          <meshPhysicalMaterial
-            color="#fbbf24"
-            emissive="#f59e0b"
-            emissiveIntensity={0.3}
-            roughness={0.15}
-            metalness={0.2}
-            transmission={0.8}
-            clearcoat={1.0}
-            transparent
-            opacity={0.75}
-          />
-        </mesh>
-      </Float>
-    </group>
-  );
-};
-
-// ==============================================================================
-// 4. INTERACTIVE PARALLAX & DYNAMIC MULTI-COLOR LIGHTING
+// 3. INTERACTIVE PARALLAX & DYNAMIC MULTI-COLOR LIGHTING
 // ==============================================================================
 const ParallaxAndColorfulLighting = () => {
   const lightRef = useRef();
 
   useFrame((state) => {
     const { pointer, camera } = state;
-    camera.position.x = THREE.MathUtils.lerp(camera.position.x, pointer.x * 0.6, 0.04);
-    camera.position.y = THREE.MathUtils.lerp(camera.position.y, pointer.y * 0.45, 0.04);
+    camera.position.x = THREE.MathUtils.lerp(camera.position.x, pointer.x * 0.55, 0.04);
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, pointer.y * 0.4, 0.04);
     camera.lookAt(0, 0, 0);
 
     if (lightRef.current) {
@@ -467,16 +329,13 @@ export default function Background3D() {
             color="#ffffff"
           />
 
-          {/* 1. Multi-Color Particle Swarm (1200+ particles reacting to cursor) */}
+          {/* 1. Multi-Color Particle Swarm (1400+ colorful particles reacting to cursor) */}
           <ColorfulParticleSwarm />
 
           {/* 2. Multi-Color Gradient Wave Terrain */}
           <VibrantWaveMesh />
 
-          {/* 3. Floating 3D Shapes (Torus Knot, Octahedron, Neon Rings, Amber Sphere) */}
-          <VibrantFloatingShapes />
-
-          {/* 4. Multi-Color Dynamic Lighting & Mouse Parallax */}
+          {/* 3. Multi-Color Dynamic Lighting & Mouse Parallax */}
           <ParallaxAndColorfulLighting />
         </Canvas>
       </div>
