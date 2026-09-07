@@ -1,30 +1,30 @@
 import React, { useRef, useMemo, useState, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 // Global Event Bridge for Touch/Click Shockwaves
 const shockwaveQueue = [];
 
 // ==============================================================================
-// 1. TOUCH & CLICK EXPANDING ENERGY SHOCKWAVE RINGS
+// 1. RESPONSIVE TOUCH & CLICK 3D SHOCKWAVE RINGS
 // ==============================================================================
 const TouchShockwaveRings = () => {
   const [activeRings, setActiveRings] = useState([]);
+  const { size } = useThree();
+  const isMobile = size.width < 768;
 
   useFrame((state, delta) => {
-    // Process new shockwaves queued from DOM pointer events
     while (shockwaveQueue.length > 0) {
       const newWave = shockwaveQueue.shift();
-      setActiveRings((prev) => [...prev.slice(-6), newWave]);
+      setActiveRings((prev) => [...prev.slice(-5), newWave]);
     }
 
-    // Expand and fade active rings
     if (activeRings.length > 0) {
       setActiveRings((prev) =>
         prev
           .map((ring) => ({
             ...ring,
-            radius: ring.radius + delta * ring.speed,
+            radius: ring.radius + delta * (isMobile ? ring.speed * 0.85 : ring.speed),
             opacity: ring.opacity - delta * ring.fadeSpeed,
           }))
           .filter((ring) => ring.opacity > 0.01 && ring.radius < ring.maxRadius)
@@ -38,17 +38,17 @@ const TouchShockwaveRings = () => {
         <group key={ring.id} position={[ring.x, ring.y, ring.z]}>
           {/* Main Glowing Shockwave Ring */}
           <mesh rotation={[-Math.PI / 3.2, 0, 0]} scale={ring.radius}>
-            <ringGeometry args={[0.95, 1.0, 48]} />
+            <ringGeometry args={[0.94, 1.0, isMobile ? 32 : 48]} />
             <meshBasicMaterial
               color={ring.color}
               transparent
-              opacity={ring.opacity * 0.7}
+              opacity={ring.opacity * 0.75}
               side={THREE.DoubleSide}
             />
           </mesh>
           {/* Outer Soft Light Halo */}
           <mesh rotation={[-Math.PI / 3.2, 0, 0]} scale={ring.radius * 1.08}>
-            <ringGeometry args={[0.88, 1.0, 36]} />
+            <ringGeometry args={[0.88, 1.0, isMobile ? 24 : 36]} />
             <meshBasicMaterial
               color={ring.secondaryColor}
               transparent
@@ -63,13 +63,14 @@ const TouchShockwaveRings = () => {
 };
 
 // ==============================================================================
-// 2. TOUCH-REACTIVE MULTI-COLOR PARTICLE SWARM WITH IMPULSE PHYSICS
+// 2. MOBILE-OPTIMIZED TOUCH-REACTIVE PARTICLE SWARM WITH PHYSICS
 // ==============================================================================
 const TouchReactiveParticleSwarm = () => {
   const pointsRef = useRef();
-  const count = 1500;
+  const { size } = useThree();
+  const isMobile = size.width < 768;
+  const count = isMobile ? 900 : 1500;
 
-  // 3D Positions, baseline anchors, velocities, and curated vibrant colors
   const [positions, colors, basePositions, velocities] = useMemo(() => {
     const pos = new Float32Array(count * 3);
     const base = new Float32Array(count * 3);
@@ -86,10 +87,15 @@ const TouchReactiveParticleSwarm = () => {
       new THREE.Color('#fbbf24'), // Warm Amber
     ];
 
+    // Responsive distribution bounds
+    const spreadX = isMobile ? 18 : 36;
+    const spreadY = isMobile ? 32 : 24;
+    const spreadZ = isMobile ? 12 : 14;
+
     for (let i = 0; i < count; i++) {
-      const x = (Math.random() - 0.5) * 36;
-      const y = (Math.random() - 0.5) * 24;
-      const z = (Math.random() - 0.5) * 14 - 2;
+      const x = (Math.random() - 0.5) * spreadX;
+      const y = (Math.random() - 0.5) * spreadY;
+      const z = (Math.random() - 0.5) * spreadZ - 2;
 
       pos[i * 3] = x;
       pos[i * 3 + 1] = y;
@@ -110,7 +116,7 @@ const TouchReactiveParticleSwarm = () => {
     }
 
     return [pos, col, base, vel];
-  }, [count]);
+  }, [count, isMobile]);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
@@ -119,8 +125,9 @@ const TouchReactiveParticleSwarm = () => {
     if (pointsRef.current) {
       const posArray = pointsRef.current.geometry.attributes.position.array;
 
-      const targetPointerX = pointer.x * 14;
-      const targetPointerY = pointer.y * 10;
+      const targetPointerX = pointer.x * (isMobile ? 8 : 14);
+      const targetPointerY = pointer.y * (isMobile ? 12 : 10);
+      const repulsionRadius = isMobile ? 4.2 : 5.5;
 
       for (let i = 0; i < count; i++) {
         const i3 = i * 3;
@@ -132,27 +139,25 @@ const TouchReactiveParticleSwarm = () => {
         const waveY = Math.sin(t * 0.45 + bx * 0.22) * 0.35 + Math.cos(t * 0.35 + by * 0.22) * 0.25;
         const waveZ = Math.sin(t * 0.5 + i) * 0.2;
 
-        // 2. Interactive Touch / Cursor Repulsion & Magnetic Vortex
+        // 2. Interactive Touch / Cursor Repulsion
         const dx = posArray[i3] - targetPointerX;
         const dy = posArray[i3 + 1] - targetPointerY;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        const radius = 5.5;
 
         let forceX = 0;
         let forceY = 0;
 
-        if (dist < radius && dist > 0.01) {
-          const power = Math.pow((radius - dist) / radius, 1.8) * 1.8;
-          // Outward repulsion
+        if (dist < repulsionRadius && dist > 0.01) {
+          const power = Math.pow((repulsionRadius - dist) / repulsionRadius, 1.8) * 1.8;
           forceX = (dx / dist) * power;
           forceY = (dy / dist) * power;
 
-          // Subtle tangential swirl force
-          forceX += (-dy / dist) * power * 0.4;
-          forceY += (dx / dist) * power * 0.4;
+          // Gentle vortex spin
+          forceX += (-dy / dist) * power * 0.35;
+          forceY += (dx / dist) * power * 0.35;
         }
 
-        // Apply velocity with damping / spring back to base position
+        // Apply velocity with damping
         velocities[i3] = (velocities[i3] + forceX) * 0.88;
         velocities[i3 + 1] = (velocities[i3 + 1] + forceY) * 0.88;
 
@@ -173,10 +178,10 @@ const TouchReactiveParticleSwarm = () => {
         <bufferAttribute attach="attributes-color" args={[colors, 3]} />
       </bufferGeometry>
       <pointsMaterial
-        size={0.16}
+        size={isMobile ? 0.22 : 0.16}
         vertexColors
         transparent
-        opacity={0.82}
+        opacity={0.85}
         sizeAttenuation
         blending={THREE.NormalBlending}
       />
@@ -185,13 +190,16 @@ const TouchReactiveParticleSwarm = () => {
 };
 
 // ==============================================================================
-// 3. VIBRANT MULTI-COLOR GRADIENT WAVE TERRAIN
+// 3. RESPONSIVE MULTI-COLOR GRADIENT WAVE TERRAIN
 // ==============================================================================
 const VibrantWaveMesh = () => {
   const geomRef = useRef();
-  const [cols, rows] = [58, 42];
-  const width = 36;
-  const height = 26;
+  const { size } = useThree();
+  const isMobile = size.width < 768;
+
+  const [cols, rows] = isMobile ? [40, 30] : [58, 42];
+  const width = isMobile ? 22 : 36;
+  const height = isMobile ? 30 : 26;
 
   const [positions, colors] = useMemo(() => {
     const pos = new Float32Array((cols + 1) * (rows + 1) * 3);
@@ -209,7 +217,6 @@ const VibrantWaveMesh = () => {
         pos[idx * 3 + 1] = y;
         pos[idx * 3 + 2] = 0;
 
-        // Gradient: Cyan -> Blue -> Purple -> Pink -> Amber
         const r = 0.2 + u * 0.65 + Math.sin(v * Math.PI) * 0.2;
         const g = 0.45 + (1 - u) * 0.35 + v * 0.2;
         const b = 0.95;
@@ -252,8 +259,8 @@ const VibrantWaveMesh = () => {
           const x = (u - 0.5) * width;
           const y = (v - 0.5) * height;
 
-          const wave1 = Math.sin(x * 0.22 + t * 0.55) * 0.48;
-          const wave2 = Math.cos(y * 0.26 + t * 0.45) * 0.38;
+          const wave1 = Math.sin(x * (isMobile ? 0.35 : 0.22) + t * 0.55) * 0.48;
+          const wave2 = Math.cos(y * (isMobile ? 0.3 : 0.26) + t * 0.45) * 0.38;
           const wave3 = Math.sin((x + y) * 0.18 + t * 0.7) * 0.22;
 
           pos[idx * 3 + 2] = wave1 + wave2 + wave3;
@@ -266,8 +273,10 @@ const VibrantWaveMesh = () => {
   });
 
   return (
-    <group position={[0, -2.4, -4.5]} rotation={[-Math.PI / 3.2, 0, 0]}>
-      {/* 1. Translucent Physical Surface */}
+    <group 
+      position={isMobile ? [0, -3.2, -4.5] : [0, -2.4, -4.5]} 
+      rotation={[-Math.PI / 3.2, 0, 0]}
+    >
       <mesh>
         <bufferGeometry ref={geomRef}>
           <bufferAttribute attach="attributes-position" args={[positions, 3]} />
@@ -286,9 +295,8 @@ const VibrantWaveMesh = () => {
         />
       </mesh>
 
-      {/* 2. Soft Glowing Cyan Wireframe Grid */}
       <mesh position={[0, 0, 0.02]}>
-        <planeGeometry args={[width, height, 42, 30]} />
+        <planeGeometry args={[width, height, isMobile ? 28 : 42, isMobile ? 20 : 30]} />
         <meshStandardMaterial
           color="#38bdf8"
           wireframe
@@ -301,29 +309,45 @@ const VibrantWaveMesh = () => {
 };
 
 // ==============================================================================
-// 4. FLOWING 3D BEZIER ENERGY STREAMLINES (Stripe / Linear Vector Trails)
+// 4. FLOWING 3D BEZIER ENERGY STREAMLINES
 // ==============================================================================
 const FlowingEnergyStreamlines = () => {
   const stream1 = useRef();
   const stream2 = useRef();
+  const { size } = useThree();
+  const isMobile = size.width < 768;
 
   const curves = useMemo(() => {
-    const c1 = new THREE.CubicBezierCurve3(
-      new THREE.Vector3(-16, 4.5, -4),
-      new THREE.Vector3(-5, 7, -2),
-      new THREE.Vector3(4, 1.5, -1.5),
-      new THREE.Vector3(16, 4, -4)
-    );
+    const c1 = isMobile
+      ? new THREE.CubicBezierCurve3(
+          new THREE.Vector3(-9, 8, -4),
+          new THREE.Vector3(-3, 10, -2),
+          new THREE.Vector3(3, 2, -1.5),
+          new THREE.Vector3(9, 7, -4)
+        )
+      : new THREE.CubicBezierCurve3(
+          new THREE.Vector3(-16, 4.5, -4),
+          new THREE.Vector3(-5, 7, -2),
+          new THREE.Vector3(4, 1.5, -1.5),
+          new THREE.Vector3(16, 4, -4)
+        );
 
-    const c2 = new THREE.CubicBezierCurve3(
-      new THREE.Vector3(-15, -4, -3.5),
-      new THREE.Vector3(-4, -1, -1.5),
-      new THREE.Vector3(5, 5.5, -2),
-      new THREE.Vector3(15, 0.5, -4)
-    );
+    const c2 = isMobile
+      ? new THREE.CubicBezierCurve3(
+          new THREE.Vector3(-8, -6, -3.5),
+          new THREE.Vector3(-2, -2, -1.5),
+          new THREE.Vector3(3, 7, -2),
+          new THREE.Vector3(8, 1, -4)
+        )
+      : new THREE.CubicBezierCurve3(
+          new THREE.Vector3(-15, -4, -3.5),
+          new THREE.Vector3(-4, -1, -1.5),
+          new THREE.Vector3(5, 5.5, -2),
+          new THREE.Vector3(15, 0.5, -4)
+        );
 
     return { c1, c2 };
-  }, []);
+  }, [isMobile]);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
@@ -333,9 +357,8 @@ const FlowingEnergyStreamlines = () => {
 
   return (
     <group>
-      {/* Streamline 1 (Cyan to Blue) */}
       <mesh ref={stream1}>
-        <tubeGeometry args={[curves.c1, 80, 0.035, 8, false]} />
+        <tubeGeometry args={[curves.c1, isMobile ? 50 : 80, isMobile ? 0.045 : 0.035, 8, false]} />
         <meshStandardMaterial
           color="#38bdf8"
           emissive="#0284c7"
@@ -347,9 +370,8 @@ const FlowingEnergyStreamlines = () => {
         />
       </mesh>
 
-      {/* Streamline 2 (Purple to Pink) */}
       <mesh ref={stream2}>
-        <tubeGeometry args={[curves.c2, 80, 0.03, 8, false]} />
+        <tubeGeometry args={[curves.c2, isMobile ? 50 : 80, isMobile ? 0.04 : 0.03, 8, false]} />
         <meshStandardMaterial
           color="#c084fc"
           emissive="#a855f7"
@@ -365,26 +387,43 @@ const FlowingEnergyStreamlines = () => {
 };
 
 // ==============================================================================
-// 5. INTERACTIVE PARALLAX & DYNAMIC MULTI-COLOR TOUCH LIGHTING
+// 5. RESPONSIVE CAMERA & TOUCH PARALLAX CONTROLLER
 // ==============================================================================
-const ParallaxAndColorfulLighting = () => {
+const ResponsiveSceneController = () => {
   const lightRef = useRef();
+  const { size, camera } = useThree();
+  const isMobile = size.width < 768;
+
+  useEffect(() => {
+    // Dynamically adjust camera parameters on mobile portrait vs desktop
+    if (isMobile) {
+      camera.fov = 62;
+      camera.position.z = 8.8;
+    } else {
+      camera.fov = 48;
+      camera.position.z = 7.5;
+    }
+    camera.updateProjectionMatrix();
+  }, [isMobile, camera]);
 
   useFrame((state) => {
-    const { pointer, camera } = state;
-    camera.position.x = THREE.MathUtils.lerp(camera.position.x, pointer.x * 0.5, 0.04);
-    camera.position.y = THREE.MathUtils.lerp(camera.position.y, pointer.y * 0.38, 0.04);
+    const { pointer } = state;
+    const factorX = isMobile ? 0.35 : 0.5;
+    const factorY = isMobile ? 0.25 : 0.38;
+
+    camera.position.x = THREE.MathUtils.lerp(camera.position.x, pointer.x * factorX, 0.04);
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, pointer.y * factorY, 0.04);
     camera.lookAt(0, 0, 0);
 
     if (lightRef.current) {
-      lightRef.current.position.x = pointer.x * 14;
-      lightRef.current.position.y = pointer.y * 10;
+      lightRef.current.position.x = pointer.x * (isMobile ? 8 : 14);
+      lightRef.current.position.y = pointer.y * (isMobile ? 12 : 10);
     }
   });
 
   return (
     <>
-      {/* Interactive Cursor Point Light */}
+      {/* Interactive Cursor/Touch Light */}
       <pointLight
         ref={lightRef}
         position={[0, 0, 5]}
@@ -393,22 +432,21 @@ const ParallaxAndColorfulLighting = () => {
         distance={25}
       />
 
-      {/* Ambient Multi-Color Studio Fill Lights */}
-      <pointLight position={[-12, 6, 4]} color="#06b6d4" intensity={2.0} distance={30} />
-      <pointLight position={[12, -6, 4]} color="#d946ef" intensity={2.0} distance={30} />
+      {/* Multi-Color Studio Fill Lights */}
+      <pointLight position={[-10, 6, 4]} color="#06b6d4" intensity={2.0} distance={28} />
+      <pointLight position={[10, -6, 4]} color="#d946ef" intensity={2.0} distance={28} />
       <pointLight position={[0, 10, 4]} color="#3b82f6" intensity={1.8} distance={25} />
-      <pointLight position={[-6, -8, 3]} color="#10b981" intensity={1.5} distance={25} />
+      <pointLight position={[-4, -8, 3]} color="#10b981" intensity={1.5} distance={25} />
     </>
   );
 };
 
 // ==============================================================================
-// MAIN 3D BACKGROUND COMPONENT WITH TOUCH & CLICK CAPTURE
+// MAIN 3D BACKGROUND COMPONENT WITH TOUCH & RESIZE ADAPTATION
 // ==============================================================================
 export default function Background3D() {
   const [touchEffect, setTouchEffect] = useState(null);
 
-  // Handle Touch / Click on the window to spawn shockwaves & interactive pulses
   useEffect(() => {
     const shockwaveColors = [
       { main: '#38bdf8', sec: '#818cf8' },
@@ -418,8 +456,9 @@ export default function Background3D() {
     ];
 
     const triggerShockwave = (clientX, clientY) => {
-      const normX = (clientX / window.innerWidth - 0.5) * 28;
-      const normY = -(clientY / window.innerHeight - 0.5) * 18;
+      const isMobile = window.innerWidth < 768;
+      const normX = (clientX / window.innerWidth - 0.5) * (isMobile ? 16 : 28);
+      const normY = -(clientY / window.innerHeight - 0.5) * (isMobile ? 24 : 18);
 
       const randomColor = shockwaveColors[Math.floor(Math.random() * shockwaveColors.length)];
 
@@ -429,21 +468,19 @@ export default function Background3D() {
         y: normY,
         z: -1.5,
         radius: 0.2,
-        maxRadius: 6.5,
-        speed: 4.8,
+        maxRadius: isMobile ? 5.0 : 6.5,
+        speed: isMobile ? 4.2 : 4.8,
         opacity: 0.95,
-        fadeSpeed: 0.8,
+        fadeSpeed: isMobile ? 0.9 : 0.8,
         color: randomColor.main,
         secondaryColor: randomColor.sec,
       });
 
-      // Show temporary touch click feedback ripple on the DOM
       setTouchEffect({ x: clientX, y: clientY, id: Date.now() });
-      setTimeout(() => setTouchEffect(null), 700);
+      setTimeout(() => setTouchEffect(null), 600);
     };
 
     const handlePointerDown = (e) => {
-      // Don't interfere with interactive buttons or links
       if (e.target.closest('button, a, input, textarea, select')) return;
       triggerShockwave(e.clientX, e.clientY);
     };
@@ -467,46 +504,46 @@ export default function Background3D() {
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none">
-      {/* 1. Luminous Ambient Gradient Aurora Backing (High Contrast & Legibility) */}
+      {/* 1. Luminous Ambient Gradient Aurora Backing */}
       <div className="absolute inset-0 bg-[#f8fafc]/90" />
 
-      {/* Multi-Color Ambient Auroras */}
-      <div className="absolute -top-[15%] -left-[10%] w-[650px] h-[650px] rounded-full bg-gradient-to-tr from-cyan-400/20 to-blue-600/20 blur-[130px] pointer-events-none" />
-      <div className="absolute top-[35%] -right-[15%] w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-purple-500/20 via-pink-500/20 to-indigo-600/15 blur-[140px] pointer-events-none" />
-      <div className="absolute -bottom-[15%] left-[20%] w-[700px] h-[700px] rounded-full bg-gradient-to-tr from-emerald-400/15 via-teal-500/15 to-blue-500/20 blur-[150px] pointer-events-none" />
+      {/* Multi-Color Ambient Glow Auroras (Responsive Sizing) */}
+      <div className="absolute -top-[15%] -left-[15%] w-[350px] sm:w-[650px] h-[350px] sm:h-[650px] rounded-full bg-gradient-to-tr from-cyan-400/20 to-blue-600/20 blur-[100px] sm:blur-[130px] pointer-events-none" />
+      <div className="absolute top-[35%] -right-[20%] w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] rounded-full bg-gradient-to-bl from-purple-500/20 via-pink-500/20 to-indigo-600/15 blur-[100px] sm:blur-[140px] pointer-events-none" />
+      <div className="absolute -bottom-[15%] left-[10%] w-[380px] sm:w-[700px] h-[380px] sm:h-[700px] rounded-full bg-gradient-to-tr from-emerald-400/15 via-teal-500/15 to-blue-500/20 blur-[110px] sm:blur-[150px] pointer-events-none" />
 
       {/* 2. Interactive Real-Time 3D Canvas */}
       <div className="absolute inset-0">
         <Canvas
-          camera={{ position: [0, 0, 7.5], fov: 48 }}
+          camera={{ position: [0, 0, 8.0], fov: 52 }}
           gl={{
             antialias: true,
             alpha: true,
             powerPreference: 'high-performance',
           }}
-          dpr={[1, 2]}
+          dpr={[1, typeof window !== 'undefined' ? Math.min(window.devicePixelRatio || 1, 2) : 1.5]}
         >
           <ambientLight intensity={1.1} />
           <directionalLight position={[8, 12, 6]} intensity={1.4} color="#ffffff" />
 
-          {/* Touch & Click Expanding 3D Shockwave Rings */}
+          {/* Touch & Click Expanding Shockwaves */}
           <TouchShockwaveRings />
 
-          {/* 1,500+ Touch & Physics Reactive Colorful Particles */}
+          {/* Multi-Color Particle Swarm */}
           <TouchReactiveParticleSwarm />
 
-          {/* Multi-Color 3D Gradient Wave Terrain */}
+          {/* Multi-Color Wave Terrain */}
           <VibrantWaveMesh />
 
-          {/* Flowing 3D Energy Streamlines */}
+          {/* Flowing Energy Streamlines */}
           <FlowingEnergyStreamlines />
 
-          {/* Multi-Color Dynamic Lighting & Cursor Parallax */}
-          <ParallaxAndColorfulLighting />
+          {/* Responsive Camera & Parallax */}
+          <ResponsiveSceneController />
         </Canvas>
       </div>
 
-      {/* 3. Subtle Cyber Dot Matrix Grid Overlay */}
+      {/* 3. Cyber Dot Matrix Texture */}
       <div 
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
@@ -515,15 +552,15 @@ export default function Background3D() {
         }}
       />
 
-      {/* 4. Interactive Touch Ripple Ring Visual Feedback */}
+      {/* 4. Touch Feedback Ripple */}
       {touchEffect && (
         <div
           key={touchEffect.id}
-          className="absolute w-20 h-20 -ml-10 -mt-10 rounded-full border-2 border-cyan-400/60 bg-cyan-400/10 animate-ping pointer-events-none"
+          className="absolute w-16 h-16 -ml-8 -mt-8 rounded-full border-2 border-cyan-400/60 bg-cyan-400/10 animate-ping pointer-events-none"
           style={{
             left: touchEffect.x,
             top: touchEffect.y,
-            animationDuration: '600ms',
+            animationDuration: '500ms',
           }}
         />
       )}
