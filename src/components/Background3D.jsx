@@ -4,287 +4,229 @@ import { Float } from '@react-three/drei';
 import * as THREE from 'three';
 
 // ==============================================================================
-// 1. DUAL-LAYER 3D LUXURY SILK RIBBON (Sweeping Glass-Silk Wave)
+// 1. VIBRANT MULTI-COLOR 3D PARTICLE SWARM (Interactive Floating Constellation)
 // ==============================================================================
-const LiquidSilkRibbonMesh = ({ isCore = false, position = [0, 0, 0] }) => {
-  const geomRef = useRef();
-  const meshRef = useRef();
+const ColorfulParticleSwarm = () => {
+  const pointsRef = useRef();
+  const count = 1200;
 
-  const segments = 160;
-  const ribbonWidth = isCore ? 1.9 : 2.4;
+  // Generate 3D positions, random velocities, and vibrant distinct colors
+  const [positions, colors, originalPositions] = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    const orig = new Float32Array(count * 3);
+    const col = new Float32Array(count * 3);
 
-  // Define 3D Catmull-Rom Trajectory (Sweeping S-curve with cresting loop)
-  const curve = useMemo(() => {
-    return new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-16, -3.2, -1.8),
-      new THREE.Vector3(-10, 1.8, -0.2),
-      new THREE.Vector3(-3.5, -1.5, 0.8),
-      new THREE.Vector3(2.5, 2.8, 0.4),
-      new THREE.Vector3(8.5, -0.8, -0.6),
-      new THREE.Vector3(16, 2.2, -2.0)
-    ], false, 'catmullrom', 0.5);
-  }, []);
+    // Curated vibrant color palette: Cyan, Electric Purple, Neon Magenta, Azure Blue, Emerald, Gold
+    const palette = [
+      new THREE.Color('#38bdf8'), // Cyan
+      new THREE.Color('#818cf8'), // Indigo
+      new THREE.Color('#c084fc'), // Purple
+      new THREE.Color('#f472b6'), // Pink / Magenta
+      new THREE.Color('#3b82f6'), // Electric Blue
+      new THREE.Color('#34d399'), // Emerald
+      new THREE.Color('#fbbf24'), // Warm Amber
+    ];
 
-  // Construct thick 3D lofted ribbon geometry
-  const initialGeometry = useMemo(() => {
-    const geom = new THREE.BufferGeometry();
-    const positions = new Float32Array((segments + 1) * 2 * 3);
-    const normals = new Float32Array((segments + 1) * 2 * 3);
-    const uvs = new Float32Array((segments + 1) * 2 * 2);
-    const indices = [];
+    for (let i = 0; i < count; i++) {
+      const x = (Math.random() - 0.5) * 32;
+      const y = (Math.random() - 0.5) * 22;
+      const z = (Math.random() - 0.5) * 12 - 2;
 
-    for (let i = 0; i <= segments; i++) {
-      const u = i / segments;
-      const pt = curve.getPointAt(u);
-      const tangent = curve.getTangentAt(u);
+      pos[i * 3] = x;
+      pos[i * 3 + 1] = y;
+      pos[i * 3 + 2] = z;
 
-      // Normal and binormal orientation
-      const up = new THREE.Vector3(0, 1, 0);
-      const normal = new THREE.Vector3().crossVectors(tangent, up).normalize();
-      const binormal = new THREE.Vector3().crossVectors(tangent, normal).normalize();
+      orig[i * 3] = x;
+      orig[i * 3 + 1] = y;
+      orig[i * 3 + 2] = z;
 
-      // Dynamic twist angle along curve for natural liquid silk flow
-      const twist = Math.sin(u * Math.PI * 2.2) * 1.1 + Math.cos(u * Math.PI) * 0.5;
-      const w = ribbonWidth * (0.7 + Math.sin(u * Math.PI) * 0.5);
-
-      const offset = normal.clone().multiplyScalar(Math.cos(twist) * (w * 0.5))
-        .add(binormal.clone().multiplyScalar(Math.sin(twist) * (w * 0.5)));
-
-      // Upper vertex
-      positions[i * 6] = pt.x + offset.x;
-      positions[i * 6 + 1] = pt.y + offset.y;
-      positions[i * 6 + 2] = pt.z + offset.z + (isCore ? 0.05 : 0);
-
-      // Lower vertex
-      positions[i * 6 + 3] = pt.x - offset.x;
-      positions[i * 6 + 4] = pt.y - offset.y;
-      positions[i * 6 + 5] = pt.z - offset.z + (isCore ? 0.05 : 0);
-
-      // UVs
-      uvs[i * 4] = u;
-      uvs[i * 4 + 1] = 1;
-      uvs[i * 4 + 2] = u;
-      uvs[i * 4 + 3] = 0;
-
-      if (i < segments) {
-        const a = i * 2;
-        const b = (i + 1) * 2;
-        indices.push(a, a + 1, b);
-        indices.push(a + 1, b + 1, b);
-      }
+      const chosenColor = palette[Math.floor(Math.random() * palette.length)];
+      col[i * 3] = chosenColor.r;
+      col[i * 3 + 1] = chosenColor.g;
+      col[i * 3 + 2] = chosenColor.b;
     }
 
-    geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geom.setAttribute('normal', new THREE.BufferAttribute(normals, 3));
-    geom.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
-    geom.setIndex(indices);
-    geom.computeVertexNormals();
-    return geom;
-  }, [curve, ribbonWidth, segments, isCore]);
+    return [pos, col, orig];
+  }, [count]);
 
-  // Real-time undulating fluid wave motion
   useFrame((state) => {
-    const t = state.clock.getElapsedTime() * 0.45;
-    if (geomRef.current) {
-      const pos = geomRef.current.attributes.position;
-      const orig = initialGeometry.attributes.position;
+    const t = state.clock.getElapsedTime();
+    const { pointer } = state;
 
-      for (let i = 0; i <= segments; i++) {
-        const u = i / segments;
-        const waveY = Math.sin(u * 5 - t) * 0.32 + Math.cos(u * 3 + t * 0.7) * 0.18;
-        const waveZ = Math.sin(u * 4 + t * 0.8) * 0.22;
+    if (pointsRef.current) {
+      const pos = pointsRef.current.geometry.attributes.position.array;
 
-        pos.setY(i * 2, orig.getY(i * 2) + waveY);
-        pos.setZ(i * 2, orig.getZ(i * 2) + waveZ);
+      for (let i = 0; i < count; i++) {
+        const ox = originalPositions[i * 3];
+        const oy = originalPositions[i * 3 + 1];
+        const oz = originalPositions[i * 3 + 2];
 
-        pos.setY(i * 2 + 1, orig.getY(i * 2 + 1) + waveY);
-        pos.setZ(i * 2 + 1, orig.getZ(i * 2 + 1) + waveZ);
+        // Organic swirling oscillation
+        const wave = Math.sin(t * 0.5 + ox * 0.3) * 0.35 + Math.cos(t * 0.4 + oy * 0.3) * 0.25;
+        
+        // Mouse repulsion & interaction
+        const dx = ox - pointer.x * 12;
+        const dy = oy - pointer.y * 8;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const force = Math.max(0, (4.5 - dist) / 4.5);
+
+        pos[i * 3] = ox + (dx / (dist || 1)) * force * 1.2;
+        pos[i * 3 + 1] = oy + wave + (dy / (dist || 1)) * force * 1.2;
+        pos[i * 3 + 2] = oz + Math.sin(t * 0.6 + i) * 0.3;
       }
-      pos.needsUpdate = true;
-      geomRef.current.computeVertexNormals();
-    }
 
-    if (meshRef.current) {
-      meshRef.current.rotation.z = Math.sin(t * 0.2) * 0.02;
+      pointsRef.current.geometry.attributes.position.needsUpdate = true;
+      pointsRef.current.rotation.y = Math.sin(t * 0.05) * 0.05;
     }
   });
 
   return (
-    <group position={position}>
-      <mesh ref={meshRef}>
-        <bufferGeometry ref={geomRef} {...initialGeometry} />
-        {isCore ? (
-          // Inner Glowing Sapphire Liquid Core
-          <meshPhysicalMaterial
-            color="#2563eb"
-            emissive="#1d4ed8"
-            emissiveIntensity={0.35}
-            roughness={0.08}
-            metalness={0.4}
-            transmission={0.5}
-            thickness={1.8}
-            ior={1.45}
-            transparent
-            opacity={0.85}
-            side={THREE.DoubleSide}
-            clearcoat={1.0}
-            clearcoatRoughness={0.05}
-          />
-        ) : (
-          // Outer Frosted Glass-Silk Shell with Iridescent Pearl Specular
-          <meshPhysicalMaterial
-            color="#f8fafc"
-            emissive="#38bdf8"
-            emissiveIntensity={0.08}
-            roughness={0.12}
-            metalness={0.15}
-            transmission={0.82}
-            thickness={1.4}
-            ior={1.5}
-            transparent
-            opacity={0.78}
-            side={THREE.DoubleSide}
-            clearcoat={1.0}
-            clearcoatRoughness={0.08}
-            reflectivity={0.95}
-          />
-        )}
-      </mesh>
-    </group>
-  );
-};
-
-// ==============================================================================
-// 2. SECONDARY HORIZON SILK STREAM (Atmospheric Depth Flow)
-// ==============================================================================
-const HorizonSilkStream = () => {
-  const geomRef = useRef();
-
-  const curve = useMemo(() => {
-    return new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-18, 3.5, -4.5),
-      new THREE.Vector3(-9, -1.8, -3.8),
-      new THREE.Vector3(0, 2.2, -3.2),
-      new THREE.Vector3(9, -1.2, -4.0),
-      new THREE.Vector3(18, 1.5, -4.8)
-    ], false, 'catmullrom', 0.5);
-  }, []);
-
-  const segments = 100;
-  const initialGeometry = useMemo(() => {
-    const geom = new THREE.BufferGeometry();
-    const positions = new Float32Array((segments + 1) * 2 * 3);
-    const indices = [];
-
-    for (let i = 0; i <= segments; i++) {
-      const u = i / segments;
-      const pt = curve.getPointAt(u);
-      const tangent = curve.getTangentAt(u);
-      const up = new THREE.Vector3(0, 1, 0);
-      const normal = new THREE.Vector3().crossVectors(tangent, up).normalize();
-      const w = 2.8 * (0.6 + Math.sin(u * Math.PI) * 0.5);
-
-      positions[i * 6] = pt.x + normal.x * (w * 0.5);
-      positions[i * 6 + 1] = pt.y + normal.y * (w * 0.5);
-      positions[i * 6 + 2] = pt.z;
-
-      positions[i * 6 + 3] = pt.x - normal.x * (w * 0.5);
-      positions[i * 6 + 4] = pt.y - normal.y * (w * 0.5);
-      positions[i * 6 + 5] = pt.z;
-
-      if (i < segments) {
-        const a = i * 2;
-        const b = (i + 1) * 2;
-        indices.push(a, a + 1, b);
-        indices.push(a + 1, b + 1, b);
-      }
-    }
-
-    geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geom.setIndex(indices);
-    geom.computeVertexNormals();
-    return geom;
-  }, [curve, segments]);
-
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime() * 0.35;
-    if (geomRef.current) {
-      const pos = geomRef.current.attributes.position;
-      const orig = initialGeometry.attributes.position;
-      for (let i = 0; i <= segments; i++) {
-        const u = i / segments;
-        const wave = Math.sin(u * 4 - t) * 0.25;
-        pos.setY(i * 2, orig.getY(i * 2) + wave);
-        pos.setY(i * 2 + 1, orig.getY(i * 2 + 1) + wave);
-      }
-      pos.needsUpdate = true;
-      geomRef.current.computeVertexNormals();
-    }
-  });
-
-  return (
-    <group position={[0, 0, 0]}>
-      <mesh>
-        <bufferGeometry ref={geomRef} {...initialGeometry} />
-        <meshPhysicalMaterial
-          color="#0ea5e9"
-          emissive="#1e40af"
-          emissiveIntensity={0.12}
-          roughness={0.2}
-          metalness={0.2}
-          transmission={0.7}
-          thickness={1.2}
-          transparent
-          opacity={0.45}
-          side={THREE.DoubleSide}
-          clearcoat={0.9}
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          args={[positions, 3]}
         />
-      </mesh>
-    </group>
+        <bufferAttribute
+          attach="attributes-color"
+          args={[colors, 3]}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.16}
+        vertexColors
+        transparent
+        opacity={0.85}
+        sizeAttenuation
+        blending={THREE.NormalBlending}
+      />
+    </points>
   );
 };
 
 // ==============================================================================
-// 3. SOFT AQUATIC CAUSTICS FLOOR (Dynamic Liquid Light Ripples)
+// 2. VIBRANT MULTI-COLOR 3D WAVE TERRAIN (Rich Gradient Undulation)
 // ==============================================================================
-const AquaticCausticsFloor = () => {
+const VibrantWaveMesh = () => {
   const geomRef = useRef();
+  const [cols, rows] = [54, 40];
+  const width = 34;
+  const height = 24;
+
+  // Generate colorful vertex attributes
+  const [positions, colors] = useMemo(() => {
+    const pos = new Float32Array((cols + 1) * (rows + 1) * 3);
+    const col = new Float32Array((cols + 1) * (rows + 1) * 3);
+
+    let idx = 0;
+    for (let i = 0; i <= rows; i++) {
+      const v = i / rows;
+      for (let j = 0; j <= cols; j++) {
+        const u = j / cols;
+        const x = (u - 0.5) * width;
+        const y = (v - 0.5) * height;
+
+        pos[idx * 3] = x;
+        pos[idx * 3 + 1] = y;
+        pos[idx * 3 + 2] = 0;
+
+        // Dynamic Multi-Color Gradient: Cyan -> Royal Blue -> Violet -> Pink
+        const r = 0.2 + u * 0.6 + Math.sin(v * Math.PI) * 0.2;
+        const g = 0.4 + (1 - u) * 0.4 + v * 0.2;
+        const b = 0.95;
+
+        col[idx * 3] = Math.min(1, r);
+        col[idx * 3 + 1] = Math.min(1, g);
+        col[idx * 3 + 2] = Math.min(1, b);
+
+        idx++;
+      }
+    }
+    return [pos, col];
+  }, [cols, rows, width, height]);
+
+  // Generate triangle indices
+  const indices = useMemo(() => {
+    const ind = [];
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        const a = i * (cols + 1) + j;
+        const b = (i + 1) * (cols + 1) + j;
+        const c = a + 1;
+        const d = b + 1;
+
+        ind.push(a, b, d);
+        ind.push(a, d, c);
+      }
+    }
+    return ind;
+  }, [cols, rows]);
 
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
     if (geomRef.current) {
-      const pos = geomRef.current.attributes.position;
-      for (let i = 0; i < pos.count; i++) {
-        const x = pos.getX(i);
-        const y = pos.getY(i);
-        // Harmonic aquatic caustics interference pattern
-        const z =
-          Math.sin(x * 0.28 + t * 0.4) * Math.cos(y * 0.22 + t * 0.35) * 0.4 +
-          Math.sin((x + y) * 0.2 + t * 0.5) * 0.25 +
-          Math.sin(Math.sqrt(x * x + y * y) * 0.45 - t * 0.7) * 0.15;
-        pos.setZ(i, z);
+      const pos = geomRef.current.attributes.position.array;
+      let idx = 0;
+
+      for (let i = 0; i <= rows; i++) {
+        const v = i / rows;
+        for (let j = 0; j <= cols; j++) {
+          const u = j / cols;
+          const x = (u - 0.5) * width;
+          const y = (v - 0.5) * height;
+
+          // Multi-frequency wave formula
+          const wave1 = Math.sin(x * 0.25 + t * 0.6) * 0.55;
+          const wave2 = Math.cos(y * 0.3 + t * 0.5) * 0.45;
+          const wave3 = Math.sin((x + y) * 0.2 + t * 0.8) * 0.3;
+
+          pos[idx * 3 + 2] = wave1 + wave2 + wave3;
+          idx++;
+        }
       }
-      pos.needsUpdate = true;
+      geomRef.current.attributes.position.needsUpdate = true;
       geomRef.current.computeVertexNormals();
     }
   });
 
   return (
-    <group position={[0, -2.2, -5.5]} rotation={[-Math.PI / 3.4, 0, 0]}>
-      {/* Translucent Deep Liquid Bed */}
+    <group position={[0, -2.5, -4.5]} rotation={[-Math.PI / 3.2, 0, 0]}>
+      {/* 1. Translucent Gradient Wave Plane */}
       <mesh>
-        <planeGeometry ref={geomRef} args={[38, 26, 52, 40]} />
+        <bufferGeometry ref={geomRef}>
+          <bufferAttribute
+            attach="attributes-position"
+            args={[positions, 3]}
+          />
+          <bufferAttribute
+            attach="attributes-color"
+            args={[colors, 3]}
+          />
+          <bufferAttribute
+            attach="index"
+            args={[new Uint16Array(indices), 1]}
+          />
+        </bufferGeometry>
         <meshPhysicalMaterial
-          color="#0b1a30"
-          emissive="#0284c7"
-          emissiveIntensity={0.06}
-          roughness={0.15}
+          vertexColors
+          roughness={0.2}
           metalness={0.3}
-          transmission={0.7}
+          transmission={0.5}
           transparent
-          opacity={0.3}
+          opacity={0.35}
           side={THREE.DoubleSide}
           clearcoat={1.0}
+        />
+      </mesh>
+
+      {/* 2. Glowing Colorful Wireframe Overlay */}
+      <mesh position={[0, 0, 0.02]}>
+        <planeGeometry args={[width, height, 40, 28]} />
+        <meshStandardMaterial
+          color="#38bdf8"
+          wireframe
+          transparent
+          opacity={0.15}
         />
       </mesh>
     </group>
@@ -292,33 +234,203 @@ const AquaticCausticsFloor = () => {
 };
 
 // ==============================================================================
-// 4. INTERACTIVE 3D MOUSE LIGHT & PARALLAX RIG
+// 3. FLOATING VIBRANT 3D SHAPES (Torus Knot, Prismatic Octahedron & Rings)
 // ==============================================================================
-const InteractiveParallaxRig = () => {
-  const lightRef = useRef();
+const VibrantFloatingShapes = () => {
+  const torusKnotRef = useRef();
+  const octaRef = useRef();
+  const ring1Ref = useRef();
+  const ring2Ref = useRef();
+  const sphereRef = useRef();
 
   useFrame((state) => {
-    const { pointer, camera } = state;
-    // Smooth camera parallax
-    camera.position.x = THREE.MathUtils.lerp(camera.position.x, pointer.x * 0.55, 0.035);
-    camera.position.y = THREE.MathUtils.lerp(camera.position.y, pointer.y * 0.4, 0.035);
-    camera.lookAt(0, 0, 0);
+    const t = state.clock.getElapsedTime();
 
-    // Dynamic mouse point light to cast glints on the silk curves
-    if (lightRef.current) {
-      lightRef.current.position.x = pointer.x * 12;
-      lightRef.current.position.y = pointer.y * 8 + 2;
+    if (torusKnotRef.current) {
+      torusKnotRef.current.rotation.x = t * 0.2;
+      torusKnotRef.current.rotation.y = t * 0.3;
+    }
+    if (octaRef.current) {
+      octaRef.current.rotation.y = -t * 0.25;
+      octaRef.current.rotation.z = t * 0.15;
+    }
+    if (ring1Ref.current) {
+      ring1Ref.current.rotation.x = t * 0.18;
+      ring1Ref.current.rotation.y = t * 0.22;
+    }
+    if (ring2Ref.current) {
+      ring2Ref.current.rotation.x = -t * 0.15;
+      ring2Ref.current.rotation.z = t * 0.2;
+    }
+    if (sphereRef.current) {
+      sphereRef.current.position.y = 1.2 + Math.sin(t * 0.8) * 0.3;
     }
   });
 
   return (
-    <pointLight
-      ref={lightRef}
-      position={[0, 3, 4]}
-      color="#e0f2fe"
-      intensity={1.2}
-      distance={20}
-    />
+    <group>
+      {/* 1. Vivid Neon Purple/Pink Torus Knot (Top Right) */}
+      <Float speed={1.5} rotationIntensity={0.6} floatIntensity={0.8}>
+        <group position={[7.2, 2.5, -2.8]} scale={0.75}>
+          <mesh ref={torusKnotRef}>
+            <torusKnotGeometry args={[1.2, 0.3, 100, 16]} />
+            <meshPhysicalMaterial
+              color="#c084fc"
+              emissive="#7c3aed"
+              emissiveIntensity={0.4}
+              roughness={0.1}
+              metalness={0.5}
+              clearcoat={1.0}
+              transparent
+              opacity={0.75}
+            />
+          </mesh>
+          {/* Wireframe Glow Shell */}
+          <mesh scale={1.08}>
+            <torusKnotGeometry args={[1.2, 0.3, 50, 8]} />
+            <meshBasicMaterial color="#f472b6" wireframe transparent opacity={0.25} />
+          </mesh>
+        </group>
+      </Float>
+
+      {/* 2. Prismatic Cyan / Emerald Octahedron (Left Center) */}
+      <Float speed={1.3} rotationIntensity={0.5} floatIntensity={0.7}>
+        <group position={[-7.5, 1.0, -2.5]} scale={0.9}>
+          <mesh ref={octaRef}>
+            <octahedronGeometry args={[1.3, 0]} />
+            <meshPhysicalMaterial
+              color="#06b6d4"
+              emissive="#0284c7"
+              emissiveIntensity={0.35}
+              roughness={0.12}
+              metalness={0.4}
+              transmission={0.7}
+              thickness={1.5}
+              clearcoat={1.0}
+              transparent
+              opacity={0.8}
+            />
+          </mesh>
+          {/* Neon Edge Frame */}
+          <mesh scale={1.02}>
+            <octahedronGeometry args={[1.3, 0]} />
+            <meshBasicMaterial color="#34d399" wireframe transparent opacity={0.35} />
+          </mesh>
+        </group>
+      </Float>
+
+      {/* 3. Dual Electric Blue & Magenta Orbital Rings (Bottom Left) */}
+      <Float speed={1.2} rotationIntensity={0.4} floatIntensity={0.6}>
+        <group position={[-6.5, -3.2, -3]}>
+          <mesh ref={ring1Ref}>
+            <torusGeometry args={[1.8, 0.05, 16, 80]} />
+            <meshStandardMaterial
+              color="#3b82f6"
+              emissive="#1d4ed8"
+              emissiveIntensity={0.6}
+              roughness={0.1}
+              metalness={0.8}
+              transparent
+              opacity={0.7}
+            />
+          </mesh>
+          <mesh ref={ring2Ref} scale={0.75}>
+            <torusGeometry args={[1.8, 0.04, 16, 80]} />
+            <meshStandardMaterial
+              color="#ec4899"
+              emissive="#be185d"
+              emissiveIntensity={0.6}
+              roughness={0.1}
+              metalness={0.8}
+              transparent
+              opacity={0.7}
+            />
+          </mesh>
+        </group>
+      </Float>
+
+      {/* 4. Glowing Warm Amber Glass Sphere (Bottom Right) */}
+      <Float speed={1.4} rotationIntensity={0.3} floatIntensity={0.7}>
+        <mesh ref={sphereRef} position={[6.8, -2.8, -3.2]} scale={0.8}>
+          <sphereGeometry args={[1.1, 32, 32]} />
+          <meshPhysicalMaterial
+            color="#fbbf24"
+            emissive="#f59e0b"
+            emissiveIntensity={0.3}
+            roughness={0.15}
+            metalness={0.2}
+            transmission={0.8}
+            clearcoat={1.0}
+            transparent
+            opacity={0.75}
+          />
+        </mesh>
+      </Float>
+    </group>
+  );
+};
+
+// ==============================================================================
+// 4. INTERACTIVE PARALLAX & DYNAMIC MULTI-COLOR LIGHTING
+// ==============================================================================
+const ParallaxAndColorfulLighting = () => {
+  const lightRef = useRef();
+
+  useFrame((state) => {
+    const { pointer, camera } = state;
+    camera.position.x = THREE.MathUtils.lerp(camera.position.x, pointer.x * 0.6, 0.04);
+    camera.position.y = THREE.MathUtils.lerp(camera.position.y, pointer.y * 0.45, 0.04);
+    camera.lookAt(0, 0, 0);
+
+    if (lightRef.current) {
+      lightRef.current.position.x = pointer.x * 14;
+      lightRef.current.position.y = pointer.y * 10;
+    }
+  });
+
+  return (
+    <>
+      {/* Dynamic Cursor Light */}
+      <pointLight
+        ref={lightRef}
+        position={[0, 0, 5]}
+        color="#38bdf8"
+        intensity={2.2}
+        distance={25}
+      />
+
+      {/* Vivid Left Cyan Light */}
+      <pointLight
+        position={[-12, 6, 4]}
+        color="#06b6d4"
+        intensity={2.0}
+        distance={30}
+      />
+
+      {/* Vivid Right Purple/Pink Light */}
+      <pointLight
+        position={[12, -6, 4]}
+        color="#d946ef"
+        intensity={2.0}
+        distance={30}
+      />
+
+      {/* Top Electric Blue Light */}
+      <pointLight
+        position={[0, 10, 4]}
+        color="#3b82f6"
+        intensity={1.8}
+        distance={25}
+      />
+
+      {/* Bottom Emerald Light */}
+      <pointLight
+        position={[-6, -8, 3]}
+        color="#10b981"
+        intensity={1.5}
+        distance={25}
+      />
+    </>
   );
 };
 
@@ -327,69 +439,56 @@ const InteractiveParallaxRig = () => {
 // ==============================================================================
 export default function Background3D() {
   return (
-    <div 
-      className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none bg-gradient-to-b from-[#0b1329] via-[#0f172a] to-[#080d1a]"
-      style={{ willChange: 'transform' }}
-    >
-      <Canvas
-        camera={{ position: [0, 0, 7.5], fov: 46 }}
-        gl={{
-          antialias: true,
-          alpha: true,
-          powerPreference: 'high-performance',
+    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden select-none">
+      {/* 1. Luminous Ambient Gradient Aurora Backing (High Contrast & Legibility) */}
+      <div className="absolute inset-0 bg-[#f8fafc]/90" />
+
+      {/* Vibrant Ambient Glow Orbs */}
+      <div className="absolute -top-[15%] -left-[10%] w-[650px] h-[650px] rounded-full bg-gradient-to-tr from-cyan-400/20 to-blue-600/20 blur-[130px] pointer-events-none" />
+      <div className="absolute top-[35%] -right-[15%] w-[600px] h-[600px] rounded-full bg-gradient-to-bl from-purple-500/20 via-pink-500/20 to-indigo-600/15 blur-[140px] pointer-events-none" />
+      <div className="absolute -bottom-[15%] left-[20%] w-[700px] h-[700px] rounded-full bg-gradient-to-tr from-emerald-400/15 via-teal-500/15 to-blue-500/20 blur-[150px] pointer-events-none" />
+
+      {/* 2. Interactive Real-time 3D Canvas */}
+      <div className="absolute inset-0">
+        <Canvas
+          camera={{ position: [0, 0, 7.5], fov: 48 }}
+          gl={{
+            antialias: true,
+            alpha: true,
+            powerPreference: 'high-performance',
+          }}
+          dpr={[1, 2]}
+        >
+          <ambientLight intensity={1.1} />
+          
+          <directionalLight
+            position={[8, 12, 6]}
+            intensity={1.4}
+            color="#ffffff"
+          />
+
+          {/* 1. Multi-Color Particle Swarm (1200+ particles reacting to cursor) */}
+          <ColorfulParticleSwarm />
+
+          {/* 2. Multi-Color Gradient Wave Terrain */}
+          <VibrantWaveMesh />
+
+          {/* 3. Floating 3D Shapes (Torus Knot, Octahedron, Neon Rings, Amber Sphere) */}
+          <VibrantFloatingShapes />
+
+          {/* 4. Multi-Color Dynamic Lighting & Mouse Parallax */}
+          <ParallaxAndColorfulLighting />
+        </Canvas>
+      </div>
+
+      {/* 3. Subtle Cyber Dot Matrix Texture */}
+      <div 
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: 'radial-gradient(#2563eb 1.5px, transparent 1.5px)',
+          backgroundSize: '32px 32px'
         }}
-        dpr={[1, 1.75]}
-      >
-        {/* Soft Ambient & Studio Key Lights */}
-        <ambientLight intensity={0.9} />
-
-        {/* Primary Sun Light for High-Gloss Specular Ribbons */}
-        <directionalLight
-          position={[10, 14, 8]}
-          intensity={1.8}
-          color="#ffffff"
-        />
-
-        {/* Soft Aquatic Cyan Rim Light */}
-        <pointLight
-          position={[-12, 6, 4]}
-          color="#38bdf8"
-          intensity={1.8}
-          distance={28}
-        />
-
-        {/* Deep Sapphire Fill Light */}
-        <pointLight
-          position={[12, -8, 4]}
-          color="#1e40af"
-          intensity={1.5}
-          distance={28}
-        />
-
-        {/* 1. Underlying Soft Aquatic Caustics Bed */}
-        <AquaticCausticsFloor />
-
-        {/* 2. Secondary Horizon Silk Stream (Deep Layer) */}
-        <Float speed={0.9} rotationIntensity={0.2} floatIntensity={0.4}>
-          <HorizonSilkStream />
-        </Float>
-
-        {/* 3. Primary Liquid Silk Ribbon - Outer Glass Shell */}
-        <Float speed={1.1} rotationIntensity={0.25} floatIntensity={0.5}>
-          <LiquidSilkRibbonMesh isCore={false} position={[0, -0.2, 0]} />
-        </Float>
-
-        {/* 4. Primary Liquid Silk Ribbon - Inner Sapphire Core */}
-        <Float speed={1.1} rotationIntensity={0.25} floatIntensity={0.5}>
-          <LiquidSilkRibbonMesh isCore={true} position={[0, -0.2, 0]} />
-        </Float>
-
-        {/* 5. Interactive Mouse Light & Camera Parallax */}
-        <InteractiveParallaxRig />
-      </Canvas>
-
-      {/* Subtle Bottom Vignette for Clean Reading Hierarchy */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#080d1a]/70 via-transparent to-transparent pointer-events-none" />
+      />
     </div>
   );
 }
