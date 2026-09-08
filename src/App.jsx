@@ -110,6 +110,16 @@ function App() {
   const [portalsDropdownOpen, setPortalsDropdownOpen] = useState(false);
   const [logoAnimation, setLogoAnimation] = useState('float');
 
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Dismiss welcome preloader
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -126,12 +136,13 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // Update active section on scroll
+  // Update active section on scroll (throttled with requestAnimationFrame)
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['home', 'portals', 'about', 'services', 'technologies', 'projects', 'why-choose-us', 'team', 'careers', 'testimonials', 'contact'];
-      const scrollPosition = window.scrollY + 200;
+    let ticking = false;
+    const sections = ['home', 'portals', 'about', 'services', 'technologies', 'projects', 'why-choose-us', 'team', 'careers', 'testimonials', 'contact'];
 
+    const updateActiveSection = () => {
+      const scrollPosition = window.scrollY + 200;
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
@@ -143,8 +154,17 @@ function App() {
           }
         }
       }
+      ticking = false;
     };
-    window.addEventListener('scroll', handleScroll);
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateActiveSection);
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -950,10 +970,10 @@ function App() {
                   className="relative w-full h-[420px] sm:h-[500px] flex items-center justify-center cursor-grab active:cursor-grabbing"
                 >
                   <div className="relative flex flex-col items-center justify-center">
-                    <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10} scale={1.03} transitionSpeed={2000} className="relative z-20">
+                    <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10} scale={1.03} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="relative z-20">
                       <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl border border-slate-200/90 bg-white/70 backdrop-blur-xl shadow-xl flex items-center justify-center p-8 group">
                         
-                        <Logo3D size="lg" animation={logoAnimation} interactive={true} layersCount={10} />
+                        <Logo3D size="lg" animation={logoAnimation} interactive={true} layersCount={6} />
                         
                         <div className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-slate-300 rounded-tl-md" />
                         <div className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-slate-300 rounded-tr-md" />
@@ -1027,7 +1047,7 @@ function App() {
                     const Icon = portal.icon;
                     const isConnect = portal.id === 'nexora-connect';
                     return (
-                      <Tilt key={portal.id} tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} className="h-full">
+                      <Tilt key={portal.id} tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="h-full">
                         <div className={`glass-card-bento rounded-3xl p-7 flex flex-col justify-between h-full relative overflow-hidden group ${
                           isConnect 
                             ? 'border-blue-300 ring-2 ring-blue-500/20 bg-blue-50/30' 
@@ -1153,7 +1173,7 @@ function App() {
                   {services.map((service) => {
                     const Icon = service.icon;
                     return (
-                      <Tilt key={service.title} tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} className="h-full">
+                      <Tilt key={service.title} tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="h-full">
                         <div className="glass-card-bento rounded-3xl p-7 flex flex-col justify-between h-full group text-left relative overflow-hidden shadow-xs">
                           <div className="absolute top-0 left-0 w-full h-[3px] bg-blue-600 opacity-60 group-hover:opacity-100 transition-opacity" />
                           
@@ -1276,7 +1296,7 @@ function App() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   <AnimatePresence>
                     {filteredProjects.map((p) => (
-                      <Tilt key={p.title} tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} className="h-full">
+                      <Tilt key={p.title} tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="h-full">
                         <motion.div
                           layout
                           initial={{ opacity: 0, scale: 0.98 }}
@@ -1444,7 +1464,7 @@ function App() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {team.filter(t => t.founder).map((t, idx) => (
-                    <Tilt key={idx} tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.02} transitionSpeed={2000} className="h-full">
+                    <Tilt key={idx} tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.02} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="h-full">
                       <div className="glass-panel glass-panel-hover rounded-3xl p-8 text-left relative overflow-hidden flex flex-col justify-between group/card shadow-md bg-white h-full">
                         <div className="absolute top-0 left-0 w-full h-[4px] bg-blue-600" />
                         

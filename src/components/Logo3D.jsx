@@ -1,27 +1,28 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import logo from '../assets/logo.png';
 
 export default function Logo3D({ 
   size = "md", // 'xs', 'sm', 'md', 'lg', 'xl' or custom class
   animation = "float", // 'spin', 'swing', 'float', 'none'
   interactive = true, 
-  layersCount = 8,
+  layersCount = 6,
   className = ""
 }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef(null);
-  const [pulseScale, setPulseScale] = useState(1);
+
+  // Check if touch/mobile environment
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   const handleMouseMove = (e) => {
-    if (!interactive || !containerRef.current) return;
+    if (!interactive || isMobile || !containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
-    // Normalize coordinates from -1 to 1 (tilt max 25 degrees)
-    const rotateX = -((y / rect.height) - 0.5) * 25; 
-    const rotateY = ((x / rect.width) - 0.5) * 25; 
+    const rotateX = -((y / rect.height) - 0.5) * 20; 
+    const rotateY = ((x / rect.width) - 0.5) * 20; 
     
     setTilt({ x: rotateX, y: rotateY });
   };
@@ -30,21 +31,6 @@ export default function Logo3D({
     setIsHovered(false);
     setTilt({ x: 0, y: 0 });
   };
-
-  // Pulse effect logic for the shadow when floating
-  useEffect(() => {
-    if (animation === 'float' && !isHovered) {
-      let frameId;
-      const animate = () => {
-        const time = Date.now() * 0.0025; // Speed multiplier
-        const pulse = 1 + Math.sin(time) * 0.08;
-        setPulseScale(pulse);
-        frameId = requestAnimationFrame(animate);
-      };
-      animate();
-      return () => cancelAnimationFrame(frameId);
-    }
-  }, [animation, isHovered]);
 
   // Size map conversions
   const sizeMap = {
@@ -69,14 +55,18 @@ export default function Logo3D({
           100% { transform: rotateY(360deg); }
         }
         @keyframes logo3d-swing {
-          0% { transform: rotateY(-18deg) rotateX(8deg) rotateZ(-4deg); }
-          50% { transform: rotateY(18deg) rotateX(-8deg) rotateZ(4deg); }
-          100% { transform: rotateY(-18deg) rotateX(8deg) rotateZ(-4deg); }
+          0% { transform: rotateY(-16deg) rotateX(6deg); }
+          50% { transform: rotateY(16deg) rotateX(-6deg); }
+          100% { transform: rotateY(-16deg) rotateX(6deg); }
         }
         @keyframes logo3d-float {
-          0% { transform: translateY(0px) rotateY(-4deg) rotateX(4deg); }
-          50% { transform: translateY(-16px) rotateY(4deg) rotateX(-4deg); }
-          100% { transform: translateY(0px) rotateY(-4deg) rotateX(4deg); }
+          0% { transform: translateY(0px) rotateY(-3deg) rotateX(3deg); }
+          50% { transform: translateY(-12px) rotateY(3deg) rotateX(-3deg); }
+          100% { transform: translateY(0px) rotateY(-3deg) rotateX(3deg); }
+        }
+        @keyframes logo3d-shadow-pulse {
+          0%, 100% { transform: rotateX(90deg) translateZ(-40px) scale(0.92); opacity: 0.35; }
+          50% { transform: rotateX(90deg) translateZ(-40px) scale(1.08); opacity: 0.55; }
         }
         .animate-logo3d-spin {
           animation: logo3d-spin 8s linear infinite;
@@ -86,6 +76,9 @@ export default function Logo3D({
         }
         .animate-logo3d-float {
           animation: logo3d-float 4.5s ease-in-out infinite;
+        }
+        .animate-logo3d-shadow-pulse {
+          animation: logo3d-shadow-pulse 4.5s ease-in-out infinite;
         }
       `;
       document.head.appendChild(style);
@@ -100,14 +93,22 @@ export default function Logo3D({
     else if (animation === "float") animationClass = "animate-logo3d-float";
   }
 
-  const layers = Array.from({ length: layersCount }, (_, i) => i);
+  // Optimize layer count: 2-3 layers on mobile, 4-6 on desktop
+  const effectiveLayersCount = useMemo(() => {
+    if (isMobile) return Math.min(layersCount, 3);
+    return Math.min(layersCount, 6);
+  }, [isMobile, layersCount]);
+
+  const layers = useMemo(() => {
+    return Array.from({ length: effectiveLayersCount }, (_, i) => i);
+  }, [effectiveLayersCount]);
 
   return (
     <div 
       ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={interactive && !isMobile ? handleMouseMove : undefined}
+      onMouseEnter={interactive && !isMobile ? () => setIsHovered(true) : undefined}
+      onMouseLeave={interactive && !isMobile ? handleMouseLeave : undefined}
       className={`relative flex items-center justify-center select-none ${sizeClass} ${className}`}
       style={{
         perspective: '1000px',
@@ -116,11 +117,11 @@ export default function Logo3D({
     >
       {/* Ambient background glow */}
       <div 
-        className="absolute rounded-full bg-gradient-to-tr from-indigo-500/20 to-blue-500/20 blur-xl pointer-events-none transition-all duration-500"
+        className="absolute rounded-full bg-gradient-to-tr from-indigo-500/20 to-blue-500/20 blur-lg pointer-events-none transition-all duration-300"
         style={{
-          width: '130%',
-          height: '130%',
-          transform: `translateZ(-25px) scale(${isHovered ? 1.2 : 1})`,
+          width: '120%',
+          height: '120%',
+          transform: `translateZ(-20px) scale(${isHovered ? 1.15 : 1})`,
           opacity: isHovered ? 0.9 : 0.6,
         }}
       />
@@ -131,7 +132,7 @@ export default function Logo3D({
         style={{
           transformStyle: 'preserve-3d',
           transform: isHovered 
-            ? `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.08)` 
+            ? `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.06)` 
             : 'rotateX(0deg) rotateY(0deg) scale(1)',
         }}
       >
@@ -148,19 +149,18 @@ export default function Logo3D({
               className="absolute w-full h-full object-contain pointer-events-none select-none"
               style={{
                 transform: `translateZ(${zTranslation}px)`,
-                // Darken layers as they go back to simulate shadow and thickness
                 filter: isMain 
-                  ? 'drop-shadow(0 10px 20px rgba(79, 70, 229, 0.2))' 
-                  : `brightness(${75 - layer * 7}%) contrast(${115 + layer * 2}%) saturate(${100 + layer * 4}%)`,
-                opacity: isMain ? 1 : 0.85 - (layer * 0.08),
-                zIndex: layersCount - layer,
+                  ? 'drop-shadow(0 8px 16px rgba(79, 70, 229, 0.2))' 
+                  : `brightness(${75 - layer * 7}%)`,
+                opacity: isMain ? 1 : 0.85 - (layer * 0.12),
+                zIndex: effectiveLayersCount - layer,
               }}
             />
           );
         })}
 
-        {/* Dynamic Specular lighting overlay reflection on hover */}
-        {isHovered && (
+        {/* Dynamic Specular reflection on hover (desktop only) */}
+        {isHovered && !isMobile && (
           <div
             className="absolute inset-0 rounded-2xl pointer-events-none z-50 mix-blend-overlay"
             style={{
@@ -171,12 +171,13 @@ export default function Logo3D({
         )}
       </div>
 
-      {/* Bottom Drop Shadow */}
+      {/* Bottom Drop Shadow (Pure CSS Animation) */}
       <div
-        className="absolute bottom-[-15%] w-[85%] h-[15%] rounded-full bg-slate-950/15 blur-lg pointer-events-none transition-all duration-300"
+        className={`absolute bottom-[-15%] w-[85%] h-[15%] rounded-full bg-slate-950/15 blur-md pointer-events-none ${
+          animation === 'float' && !isHovered ? 'animate-logo3d-shadow-pulse' : ''
+        }`}
         style={{
-          transform: `rotateX(90deg) translateZ(-40px) scale(${isHovered ? 1.15 : pulseScale})`,
-          opacity: isHovered ? 0.6 : 0.4 / (pulseScale || 1),
+          transform: isHovered ? 'rotateX(90deg) translateZ(-40px) scale(1.1)' : undefined,
         }}
       />
     </div>

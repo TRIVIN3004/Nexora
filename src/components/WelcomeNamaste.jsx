@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Volume2, VolumeX } from 'lucide-react';
 import namasteCharacter from '../assets/namaste_character.png';
@@ -46,20 +46,20 @@ export default function WelcomeNamaste() {
     // 1. Trigger hand join / welcome states
     const joinTimer = setTimeout(() => {
       setJoined(true);
-    }, 500);
+    }, 400);
 
     // 2. Trigger particles and voice greeting
     const particleTimer = setTimeout(() => {
       setShowParticles(true);
       trySpeak();
-    }, 1500);
+    }, 1200);
 
     const trySpeak = () => {
       if (voicePlayedRef.current) return;
       speakGreeting();
     };
 
-    const events = ['click', 'mousedown', 'keydown', 'touchstart', 'pointerdown', 'mousemove'];
+    const events = ['click', 'touchstart', 'keydown'];
     const handleUserInteraction = () => {
       if (!voicePlayedRef.current && joined) {
         trySpeak();
@@ -67,7 +67,7 @@ export default function WelcomeNamaste() {
     };
 
     events.forEach(event => {
-      window.addEventListener(event, handleUserInteraction, { passive: true });
+      window.addEventListener(event, handleUserInteraction, { passive: true, once: true });
     });
 
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
@@ -96,29 +96,31 @@ export default function WelcomeNamaste() {
     speakGreeting();
   };
 
-  // Particles coordinates for the welcome burst
-  const particleCount = 18;
-  const particles = Array.from({ length: particleCount }).map((_, i) => {
-    const angle = (i * 360) / particleCount;
-    const rad = (angle * Math.PI) / 180;
-    const distance = 45 + Math.random() * 30;
-    return {
-      id: i,
-      x: Math.cos(rad) * distance,
-      y: Math.sin(rad) * distance,
-      size: 1.5 + Math.random() * 2
-    };
-  });
+  // Particles coordinates for the welcome burst (memoized)
+  const particles = useMemo(() => {
+    const particleCount = 14;
+    return Array.from({ length: particleCount }).map((_, i) => {
+      const angle = (i * 360) / particleCount;
+      const rad = (angle * Math.PI) / 180;
+      const distance = 40 + (i % 3) * 10;
+      return {
+        id: i,
+        x: Math.cos(rad) * distance,
+        y: Math.sin(rad) * distance,
+        size: 1.5 + (i % 2)
+      };
+    });
+  }, []);
 
-  // Continuous floating background sparkles configs
-  const floatingSparkles = [
+  // Continuous floating background sparkles configs (memoized)
+  const floatingSparkles = useMemo(() => [
     { id: 1, x: "20%", startY: 150, delay: 0, duration: 4, scale: 0.8 },
     { id: 2, x: "75%", startY: 160, delay: 1, duration: 5, scale: 1.1 },
     { id: 3, x: "45%", startY: 140, delay: 0.5, duration: 3.5, scale: 0.7 },
     { id: 4, x: "85%", startY: 150, delay: 1.8, duration: 4.5, scale: 1.0 },
     { id: 5, x: "15%", startY: 130, delay: 2.2, duration: 4.2, scale: 0.9 },
     { id: 6, x: "60%", startY: 165, delay: 0.8, duration: 4.8, scale: 1.2 }
-  ];
+  ], []);
 
   return (
     <div className="relative flex flex-col items-center justify-center select-none">
@@ -151,9 +153,9 @@ export default function WelcomeNamaste() {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(139,92,26,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(139,92,26,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
 
         {/* Ambient background glow */}
-        <div className="absolute w-[80%] h-[80%] rounded-full bg-gradient-to-b from-[#fffbeb] to-[#fef3c7] opacity-80 blur-xl pointer-events-none" />
+        <div className="absolute w-[80%] h-[80%] rounded-full bg-gradient-to-b from-[#fffbeb] to-[#fef3c7] opacity-80 blur-lg pointer-events-none" />
 
-        {/* Continuous Floating Ghibli Sparkles (Leaves/Glow) */}
+        {/* Continuous Floating Sparkles */}
         <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
           {floatingSparkles.map((sparkle) => (
             <motion.div
@@ -165,7 +167,7 @@ export default function WelcomeNamaste() {
                 y: [sparkle.startY, -10],
                 scale: [0, sparkle.scale, 0],
                 opacity: [0, 0.7, 0],
-                x: [0, Math.sin(sparkle.id) * 15, -Math.sin(sparkle.id) * 10]
+                x: [0, Math.sin(sparkle.id) * 12, -Math.sin(sparkle.id) * 8]
               }}
               transition={{
                 repeat: Infinity,
@@ -177,24 +179,23 @@ export default function WelcomeNamaste() {
           ))}
         </div>
 
-        {/* Ghibli character image with custom cartoon breathing animation */}
+        {/* Character image with breathing animation */}
         <motion.div
           className="absolute w-36 h-36 flex items-center justify-center z-10 bottom-4"
           initial={{ scale: 0.3, opacity: 0, y: 30 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, type: "spring", stiffness: 60 }}
+          transition={{ duration: 1.0, type: "spring", stiffness: 70 }}
         >
           <motion.img
             src={namasteCharacter}
             alt="Traditional Indian Welcome Namaste"
             className="w-full h-full object-contain"
             animate={{ 
-              y: [0, -3.5, 0],
-              rotate: [0, 0.5, -0.5, 0]
+              y: [0, -3, 0],
             }}
             transition={{
               repeat: Infinity,
-              duration: 3.6,
+              duration: 3.2,
               ease: "easeInOut"
             }}
           />
@@ -211,7 +212,7 @@ export default function WelcomeNamaste() {
               fill="#fbbf24"
               initial={{ opacity: 1, scale: 0.5, x: 0, y: 0 }}
               animate={{ opacity: 0, scale: 1.8, x: p.x, y: p.y }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
+              transition={{ duration: 1.2, ease: "easeOut" }}
             />
           ))}
 
@@ -223,7 +224,7 @@ export default function WelcomeNamaste() {
               r="8" 
               fill="#fbbf24" 
               initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: [1, 1.4, 1], opacity: [0.2, 0.5, 0.2] }}
+              animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.45, 0.2] }}
               transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut" }}
               className="mix-blend-screen filter blur-[2px]"
             />
