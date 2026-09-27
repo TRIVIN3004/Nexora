@@ -188,9 +188,9 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.name && formData.email && formData.message) {
-      const subject = encodeURIComponent(`Nexora Project Inquiry - ${formData.requirement}`);
+      const subject = encodeURIComponent(`GoNexora Project Inquiry - ${formData.requirement}`);
       const body = encodeURIComponent(
-        `Hello Nexora Technologies,\n\n` +
+        `Hello GoNexora Techs,\n\n` +
         `You have received a new project inquiry:\n\n` +
         `Name: ${formData.name}\n` +
         `Email: ${formData.email}\n` +
@@ -538,19 +538,19 @@ function App() {
 
   const testimonials = [
     {
-      text: "Nexora Technologies transformed our legacy paper clearances into a lightning-fast 'Smart No Dues' portal. The visual style is premium and our administrative efficiency skyrocketed by 90%!",
+      text: "GoNexora Techs transformed our legacy paper clearances into a lightning-fast 'Smart No Dues' portal. The visual style is premium and our administrative efficiency skyrocketed by 90%!",
       author: "Prof. Ramachandran K.",
       position: "Dean of Academic Affairs, SEC",
       rating: 5
     },
     {
-      text: "The AI Chatbot Nexora developed was stellar. It integrates seamlessly into our website, handles 80% of our customer queries automatically, and has a sleek, interactive modern UI.",
+      text: "The AI Chatbot GoNexora developed was stellar. It integrates seamlessly into our website, handles 80% of our customer queries automatically, and has a sleek, interactive modern UI.",
       author: "Meera Sen",
       position: "Product Lead, Zenic Media",
       rating: 5
     },
     {
-      text: "I hired Nexora for my major college project and research paper implementation. The code was exceptionally structured and their team helped me publish in a high-ranking journal!",
+      text: "I hired GoNexora for my major college project and research paper implementation. The code was exceptionally structured and their team helped me publish in a high-ranking journal!",
       author: "Arjun Sharma",
       position: "Computer Science Graduate",
       rating: 5
@@ -622,7 +622,7 @@ function App() {
                   transition={{ delay: 0.3, duration: 0.8 }}
                   className="text-3xl sm:text-4xl font-extrabold tracking-widest font-display bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent"
                 >
-                  NEXORA
+                  GONEXORA
                 </motion.h1>
                 <motion.p 
                   initial={{ opacity: 0 }}
@@ -630,7 +630,7 @@ function App() {
                   transition={{ delay: 0.6, duration: 0.8 }}
                   className="text-xs sm:text-sm font-mono tracking-[0.25em] text-indigo-400 uppercase font-semibold"
                 >
-                  Technologies
+                  TECHS
                 </motion.p>
               </div>
 
@@ -686,15 +686,15 @@ function App() {
               onClick={(e) => { e.preventDefault(); scrollToSection('home'); }} 
               className="flex items-center space-x-3 group"
             >
-              <div className="relative w-10 h-10 flex items-center justify-center transition-transform group-hover:scale-105 duration-300">
+              <div className="relative w-10 h-10 rounded-xl bg-slate-950 flex items-center justify-center border border-slate-800 shadow-md transition-transform group-hover:scale-105 duration-300">
                 <Logo3D size="sm" animation="swing" interactive={false} />
               </div>
               <div className="flex flex-col text-left">
                 <span className="font-display font-extrabold text-xl tracking-wider text-slate-900">
-                  NEXORA
+                  GONEXORA
                 </span>
                 <span className="text-[9px] font-mono tracking-widest text-blue-600 font-bold uppercase -mt-1">
-                  Technologies
+                  TECHS
                 </span>
               </div>
             </a>
@@ -971,14 +971,14 @@ function App() {
                 >
                   <div className="relative flex flex-col items-center justify-center">
                     <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10} scale={1.03} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="relative z-20">
-                      <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl border border-slate-200/90 bg-white/70 backdrop-blur-xl shadow-xl flex items-center justify-center p-8 group">
+                      <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 shadow-2xl flex items-center justify-center p-8 group">
                         
                         <Logo3D size="lg" animation={logoAnimation} interactive={true} layersCount={6} />
                         
-                        <div className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-slate-300 rounded-tl-md" />
-                        <div className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-slate-300 rounded-tr-md" />
-                        <div className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-slate-300 rounded-bl-md" />
-                        <div className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-slate-300 rounded-br-md" />
+                        <div className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-indigo-500/50 rounded-tl-md" />
+                        <div className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-indigo-500/50 rounded-tr-md" />
+                        <div className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-indigo-500/50 rounded-bl-md" />
+                        <div className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-indigo-500/50 rounded-br-md" />
                       </div>
                     </Tilt>
 
@@ -1031,7 +1031,7 @@ function App() {
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
                   <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Zap size={13} className="text-blue-600" />
-                    <span>Nexora Unified Ecosystem</span>
+                    <span>GoNexora Unified Ecosystem</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Explore Our Active Portals
@@ -1131,7 +1131,7 @@ function App() {
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full" />
 
                   <p className="text-slate-600 text-lg leading-relaxed">
-                    Nexora Technologies is a technology consulting and software studio dedicated to transforming complex challenges into intuitive, high-velocity digital products. From web and native mobile development to civil CAD engineering and production AI pipelines, our multidisciplinary team turns ambitious ideas into deployed reality.
+                    GoNexora Techs is a technology consulting and software studio dedicated to transforming complex challenges into intuitive, high-velocity digital products. From web and native mobile development to civil CAD engineering and production AI pipelines, our multidisciplinary team turns ambitious ideas into deployed reality.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
@@ -1408,7 +1408,7 @@ function App() {
                     <span>Our Core Strengths</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
-                    Why Choose Nexora?
+                    Why Choose GoNexora?
                   </h2>
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full" />
                   <p className="text-slate-600 text-lg leading-relaxed">
@@ -1457,7 +1457,7 @@ function App() {
                     Executive Leadership
                   </h2>
                   <p className="text-slate-600 text-lg">
-                    Meet the founders driving Nexora’s strategic vision, engineering benchmarks, and brand growth.
+                    Meet the founders driving GoNexora’s strategic vision, engineering benchmarks, and brand growth.
                   </p>
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
@@ -1542,13 +1542,13 @@ function App() {
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
                   <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <GraduationCap size={13} />
-                    <span>Grow With Nexora</span>
+                    <span>Grow With GoNexora</span>
                   </div>
                   <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Careers & Internships
                   </h2>
                   <p className="text-slate-600 text-lg">
-                    Whether you are an experienced software architect or an aspiring student looking for hands-on mentorship, Nexora is where your potential accelerates.
+                    Whether you are an experienced software architect or an aspiring student looking for hands-on mentorship, GoNexora is where your potential accelerates.
                   </p>
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
@@ -1846,15 +1846,15 @@ function App() {
                 onClick={(e) => { e.preventDefault(); scrollToSection('home'); }} 
                 className="flex items-center space-x-3 group w-max"
               >
-                <div className="w-9 h-9 flex items-center justify-center transition-transform group-hover:scale-110 duration-300">
+                <div className="w-9 h-9 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-center transition-transform group-hover:scale-110 duration-300">
                   <Logo3D size="xs" animation="spin" interactive={false} />
                 </div>
                 <div className="flex flex-col">
                   <span className="font-display font-bold text-lg tracking-wider text-white">
-                    NEXORA
+                    GONEXORA
                   </span>
                   <span className="text-[9px] font-mono tracking-widest text-indigo-400 uppercase -mt-1 font-bold">
-                    Technologies
+                    TECHS
                   </span>
                 </div>
               </a>
@@ -2003,7 +2003,7 @@ function App() {
 
           {/* Copyright Row */}
           <div className="max-w-7xl mx-auto pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 space-y-4 md:space-y-0">
-            <p>© {new Date().getFullYear()} Nexora Technologies. All rights reserved. "Building Tomorrow, Today."</p>
+            <p>© {new Date().getFullYear()} GoNexora Techs. All rights reserved. "Building Tomorrow, Today."</p>
             <div className="flex space-x-6">
               <a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about'); }} className="hover:text-slate-300 transition-colors">About</a>
               <a href="#services" onClick={(e) => { e.preventDefault(); scrollToSection('services'); }} className="hover:text-slate-300 transition-colors">Services</a>

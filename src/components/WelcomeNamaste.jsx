@@ -15,7 +15,7 @@ export default function WelcomeNamaste() {
 
     try {
       window.speechSynthesis.cancel();
-      const text = "Welcome to Nexora Technologies";
+      const text = "Welcome to GoNexora Techs";
       const utterance = new SpeechSynthesisUtterance(text);
       
       const voices = window.speechSynthesis.getVoices();

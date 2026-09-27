@@ -145,7 +145,7 @@ export default function Logo3D({
             <img
               key={layer}
               src={logo}
-              alt="Nexora Logo 3D Layer"
+              alt="GoNexora Techs Logo 3D Layer"
               className="absolute w-full h-full object-contain pointer-events-none select-none"
               style={{
                 transform: `translateZ(${zTranslation}px)`,
