@@ -162,7 +162,7 @@ export default function Logo3D({
         {/* Dynamic Specular reflection on hover (desktop only) */}
         {isHovered && !isMobile && (
           <div
-            className="absolute inset-0 rounded-2xl pointer-events-none z-50 mix-blend-overlay"
+            className="absolute inset-0 rounded-full pointer-events-none z-50 mix-blend-overlay"
             style={{
               background: `radial-gradient(circle at ${tilt.y * 2 + 50}% ${-tilt.x * 2 + 50}%, rgba(255, 255, 255, 0.45) 0%, transparent 60%)`,
               transform: 'translateZ(2px)',

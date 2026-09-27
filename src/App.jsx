@@ -13,6 +13,7 @@ import {
 import trivinPhoto from './assets/trivin.png';
 import aakashrajPhoto from './assets/aakashraj.png';
 import arutselvanPhoto from './assets/arutselvan.png';
+import naveenPhoto from './assets/naveen.png';
 import Logo3D from './components/Logo3D';
 import WelcomeNamaste from './components/WelcomeNamaste';
 import Scroll3DReveal from './components/Scroll3DReveal';
@@ -486,10 +487,18 @@ function App() {
     },
     {
       name: "Arutselvan",
-      role: "Co-Founder & Team Leader",
-      desc: "Directs project execution, orchestrates cross-functional engineering groups, and ensures top-tier quality delivery across all client solutions.",
-      skills: ["Project Leadership", "Software Architecture", "Agile Workflows", "Team Coordination", "Client Relations"],
+      role: "Director",
+      desc: "Directs organizational operations, strategic execution, and cross-functional engineering groups to ensure top-tier quality delivery across all solutions.",
+      skills: ["Director", "Operations Strategy", "Software Architecture", "Agile Leadership", "Client Relations"],
       image: arutselvanPhoto,
+      founder: true
+    },
+    {
+      name: "Naveen",
+      role: "Co-Founder",
+      desc: "Drives product strategy, technical architecture, and collaborative development initiatives to engineer future-ready digital platforms.",
+      skills: ["Product Strategy", "Technical Leadership", "System Design", "Agile Execution"],
+      image: naveenPhoto,
       founder: true
     },
     {
@@ -686,7 +695,7 @@ function App() {
               onClick={(e) => { e.preventDefault(); scrollToSection('home'); }} 
               className="flex items-center space-x-3 group"
             >
-              <div className="relative w-10 h-10 rounded-xl bg-slate-950 flex items-center justify-center border border-slate-800 shadow-md transition-transform group-hover:scale-105 duration-300">
+              <div className="relative w-10 h-10 rounded-full bg-slate-950 flex items-center justify-center border border-slate-800 shadow-md transition-transform group-hover:scale-105 duration-300 ring-1 ring-blue-500/20">
                 <Logo3D size="sm" animation="swing" interactive={false} />
               </div>
               <div className="flex flex-col text-left">
@@ -971,14 +980,14 @@ function App() {
                 >
                   <div className="relative flex flex-col items-center justify-center">
                     <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10} scale={1.03} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="relative z-20">
-                      <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-3xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 shadow-2xl flex items-center justify-center p-8 group">
+                      <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-full border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 shadow-2xl flex items-center justify-center p-8 group overflow-hidden ring-1 ring-indigo-500/20">
+                        
+                        {/* Concentric subtle circular rings */}
+                        <div className="absolute inset-3 rounded-full border border-indigo-500/20 pointer-events-none animate-spin-slow" style={{ animationDuration: '25s' }} />
+                        <div className="absolute inset-8 rounded-full border border-blue-500/15 pointer-events-none" />
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-600/10 via-transparent to-indigo-600/10 pointer-events-none" />
                         
                         <Logo3D size="lg" animation={logoAnimation} interactive={true} layersCount={6} />
-                        
-                        <div className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-indigo-500/50 rounded-tl-md" />
-                        <div className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-indigo-500/50 rounded-tr-md" />
-                        <div className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-indigo-500/50 rounded-bl-md" />
-                        <div className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-indigo-500/50 rounded-br-md" />
                       </div>
                     </Tilt>
 
@@ -1457,12 +1466,12 @@ function App() {
                     Executive Leadership
                   </h2>
                   <p className="text-slate-600 text-lg">
-                    Meet the founders driving GoNexora’s strategic vision, engineering benchmarks, and brand growth.
+                    Meet the founders and directors driving GoNexora’s strategic vision, engineering benchmarks, and brand growth.
                   </p>
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                   {team.filter(t => t.founder).map((t, idx) => (
                     <Tilt key={idx} tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.02} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="h-full">
                       <div className="glass-panel glass-panel-hover rounded-3xl p-8 text-left relative overflow-hidden flex flex-col justify-between group/card shadow-md bg-white h-full">
@@ -1846,7 +1855,7 @@ function App() {
                 onClick={(e) => { e.preventDefault(); scrollToSection('home'); }} 
                 className="flex items-center space-x-3 group w-max"
               >
-                <div className="w-9 h-9 rounded-lg bg-slate-950 border border-slate-800 flex items-center justify-center transition-transform group-hover:scale-110 duration-300">
+                <div className="w-9 h-9 rounded-full bg-slate-950 border border-slate-800 flex items-center justify-center transition-transform group-hover:scale-110 duration-300 ring-1 ring-blue-500/20">
                   <Logo3D size="xs" animation="spin" interactive={false} />
                 </div>
                 <div className="flex flex-col">
