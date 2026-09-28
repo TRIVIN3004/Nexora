@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import { motion } from 'framer-motion';
 import { Zap, ArrowRight, Bot } from 'lucide-react';
 import logoImg from '../assets/logo.png';
-
-const introAudioFile = '/nexora_intro.mpeg';
+import { introAudioDataUri } from '../assets/audioData';
 
 export default function LogoCreationAnimation({ onComplete, onSkip }) {
   const [stage, setStage] = useState(0); 
@@ -14,19 +13,66 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
   const audioRef = useRef(null);
   const audioCtxRef = useRef(null);
   const audioPlayedRef = useRef(false);
+  const voicePlayedRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
 
-  // Multi-Channel Automatic Audio Engine (Zero-Interaction Autoplay)
-  const triggerAutoAudio = useCallback(async () => {
+  // Web Audio Context for synthesized sound backup
+  const getAudioContext = useCallback(() => {
+    if (typeof window === 'undefined') return null;
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return null;
+    if (!audioCtxRef.current) {
+      audioCtxRef.current = new AudioCtx();
+    }
+    if (audioCtxRef.current.state === 'suspended') {
+      audioCtxRef.current.resume().catch(() => {});
+    }
+    return audioCtxRef.current;
+  }, []);
+
+  // J.A.R.V.I.S. British AI Voice Output
+  const speakJarvisVoice = useCallback(() => {
+    if (voicePlayedRef.current) return;
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance("Good day. Nexora online, systems fully operational.");
+      const voices = window.speechSynthesis.getVoices();
+      
+      const jarvisVoice = voices.find(v => 
+        v.name.includes('Google UK English Male') ||
+        v.name.toLowerCase().includes('daniel') ||
+        v.name.includes('George') ||
+        v.name.includes('Oliver') ||
+        v.lang === 'en-GB' ||
+        v.lang === 'en_GB' ||
+        v.name.includes('Google US English') ||
+        v.lang.startsWith('en')
+      );
+
+      if (jarvisVoice) utterance.voice = jarvisVoice;
+      utterance.pitch = 0.92;
+      utterance.rate = 0.94;
+      utterance.volume = 1.0;
+
+      window.speechSynthesis.speak(utterance);
+      voicePlayedRef.current = true;
+    } catch (e) {
+      console.warn("JARVIS Speech error:", e);
+    }
+  }, []);
+
+  // Play Unmuted Audio Immediately (Zero Click Required)
+  const playUnmutedAudio = useCallback(() => {
     if (audioPlayedRef.current) return;
 
-    // Channel 1: HTML5 Audio with instant un-mute bypass
+    // 1. Play Base64 Embedded MP3 Audio
     try {
       if (audioRef.current) {
         audioRef.current.volume = 1.0;
-        audioRef.current.loop = false;
-        
+        audioRef.current.muted = false;
         const playPromise = audioRef.current.play();
         if (playPromise !== undefined) {
           playPromise
@@ -34,90 +80,54 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
               audioPlayedRef.current = true;
             })
             .catch(() => {
-              // If browser blocked unmuted autoplay, start muted and immediately unmute
-              if (audioRef.current) {
-                audioRef.current.muted = true;
-                audioRef.current.play().then(() => {
-                  setTimeout(() => {
-                    if (audioRef.current) {
-                      audioRef.current.muted = false;
-                      audioRef.current.volume = 1.0;
-                      audioPlayedRef.current = true;
-                    }
-                  }, 30);
-                }).catch(() => {});
-              }
+              // If browser initially blocked unmuted, speak aloud & auto-resume on first movement
+              speakJarvisVoice();
             });
         }
       }
     } catch (e) {
-      console.warn("HTML5 audio auto play error:", e);
+      console.warn("Audio play error:", e);
     }
 
-    // Channel 2: Web Audio API ArrayBuffer decoding (High-reliability browser channel)
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx && !audioCtxRef.current) {
-        const ctx = new AudioCtx();
-        audioCtxRef.current = ctx;
+    // 2. Play Web Speech Synthesis Voice
+    speakJarvisVoice();
+  }, [speakJarvisVoice]);
 
-        if (ctx.state === 'suspended') {
-          ctx.resume().catch(() => {});
-        }
-
-        fetch(introAudioFile)
-          .then(res => res.arrayBuffer())
-          .then(buffer => ctx.decodeAudioData(buffer))
-          .then(decodedBuffer => {
-            if (!audioPlayedRef.current && ctx.state === 'running') {
-              const source = ctx.createBufferSource();
-              source.buffer = decodedBuffer;
-              const gainNode = ctx.createGain();
-              gainNode.gain.setValueAtTime(1.0, ctx.currentTime);
-              source.connect(gainNode);
-              gainNode.connect(ctx.destination);
-              source.start(0);
-              audioPlayedRef.current = true;
-            }
-          })
-          .catch(() => {});
-      }
-    } catch (e) {
-      console.warn("Web Audio buffer auto play error:", e);
-    }
-  }, []);
-
-  // Automatic Audio Trigger on Mount
+  // Automatic Audio on Mount & Passive Signals
   useEffect(() => {
-    // 1. Immediately trigger audio on initial mount without any clicks or touches
-    triggerAutoAudio();
+    // Immediate unmuted playback attempt
+    playUnmutedAudio();
 
-    // 2. Passive window event triggers (in case browser requires any initial page render micro-signal)
-    const handlePassiveSignal = () => {
+    const handleAutoSignal = () => {
       if (!audioPlayedRef.current) {
-        triggerAutoAudio();
+        playUnmutedAudio();
       }
     };
 
-    const signals = ['pointermove', 'mousemove', 'wheel', 'scroll', 'touchstart', 'focus', 'DOMContentLoaded', 'load'];
-    signals.forEach(sig => window.addEventListener(sig, handlePassiveSignal, { passive: true }));
+    const signals = ['pointermove', 'mousemove', 'wheel', 'scroll', 'touchstart', 'pointerdown', 'keydown', 'focus', 'load'];
+    signals.forEach(sig => window.addEventListener(sig, handleAutoSignal, { passive: true }));
+
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = () => {
+        if (!voicePlayedRef.current) {
+          speakJarvisVoice();
+        }
+      };
+    }
 
     return () => {
-      signals.forEach(sig => window.removeEventListener(sig, handlePassiveSignal));
+      signals.forEach(sig => window.removeEventListener(sig, handleAutoSignal));
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
       }
-      if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
-        audioCtxRef.current.close().catch(() => {});
-      }
     };
-  }, [triggerAutoAudio]);
+  }, [playUnmutedAudio, speakJarvisVoice]);
 
   // 5-Second Loading Screen Timeline (5,000ms)
   useEffect(() => {
     const startTime = Date.now();
-    const duration = 5000; // Exactly 5.0 seconds total
+    const duration = 5000;
 
     const timer = setInterval(() => {
       const elapsed = Date.now() - startTime;
@@ -134,7 +144,6 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
 
       if (pct >= 100) {
         clearInterval(timer);
-        // Automatically enter site at 5.0s
         const autoProceedTimer = setTimeout(() => {
           if (onCompleteRef.current) onCompleteRef.current();
         }, 150);
@@ -183,10 +192,10 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       className="relative w-full max-w-xl mx-auto flex flex-col items-center justify-center select-none py-4 px-4 text-white"
       style={{ perspective: '1200px' }}
     >
-      {/* Native Auto-Playing Audio Element */}
+      {/* Native Auto-Playing Audio Element using embedded Base64 */}
       <audio 
         ref={audioRef} 
-        src={introAudioFile} 
+        src={introAudioDataUri} 
         autoPlay 
         playsInline 
         preload="auto"
