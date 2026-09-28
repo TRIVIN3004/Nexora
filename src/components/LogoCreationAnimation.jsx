@@ -5,10 +5,10 @@ import logoImg from '../assets/logo.png';
 import { introAudioDataUri } from '../assets/audioData';
 
 export default function LogoCreationAnimation({ onComplete, onSkip }) {
-  const [stage, setStage] = useState(0); 
-  const [progress, setProgress] = useState(0);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
+  const [ stage, setStage ] = useState(0);
+  const [ progress, setProgress ] = useState(0);
+  const [ mousePos, setMousePos ] = useState({ x: 0, y: 0 });
+  const [ isHovered, setIsHovered ] = useState(false);
   const containerRef = useRef(null);
   const audioRef = useRef(null);
   const audioCtxRef = useRef(null);
@@ -26,8 +26,8 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance("Good day. Nexora online, systems fully operational.");
       const voices = window.speechSynthesis.getVoices();
-      
-      const jarvisVoice = voices.find(v => 
+
+      const jarvisVoice = voices.find(v =>
         v.name.includes('Google UK English Male') ||
         v.name.toLowerCase().includes('daniel') ||
         v.name.includes('George') ||
@@ -61,7 +61,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       globalAudio.muted = false;
       globalAudio.play().then(() => {
         audioPlayedRef.current = true;
-      }).catch(() => {});
+      }).catch(() => { });
     }
 
     // 2. Play React component Base64 audio element directly unmuted
@@ -73,7 +73,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       }).catch(() => {
         // Fallback: start muted & unmute immediately
         if (audioRef.current) {
-          audioRef.current.muted = true;
+          audioRef.current.muted = false;
           audioRef.current.play().then(() => {
             setTimeout(() => {
               if (audioRef.current) {
@@ -82,14 +82,14 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
                 audioPlayedRef.current = true;
               }
             }, 20);
-          }).catch(() => {});
+          }).catch(() => { });
         }
       });
     }
 
     // 3. Web Speech Synthesis Voice Channel
     speakJarvisVoice();
-  }, [speakJarvisVoice]);
+  }, [ speakJarvisVoice ]);
 
   // Automatic Audio on Mount & Universal Event Listeners
   useEffect(() => {
@@ -101,7 +101,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       }
     };
 
-    const events = ['pointerdown', 'touchstart', 'click', 'mousemove', 'wheel', 'scroll', 'keydown', 'focus'];
+    const events = [ 'pointerdown', 'touchstart', 'click', 'mousemove', 'wheel', 'scroll', 'keydown', 'focus' ];
     events.forEach(e => window.addEventListener(e, handleAutoUnlock, { passive: true }));
 
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
@@ -124,7 +124,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
         audioRef.current.currentTime = 0;
       }
     };
-  }, [playAllAudioUnmuted, speakJarvisVoice]);
+  }, [ playAllAudioUnmuted, speakJarvisVoice ]);
 
   // 5-Second Loading Screen Timeline (5,000ms)
   useEffect(() => {
@@ -186,7 +186,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
   }, []);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
@@ -197,11 +197,11 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       style={{ perspective: '1200px' }}
     >
       {/* Embedded Base64 Audio Element */}
-      <audio 
-        ref={audioRef} 
-        src={introAudioDataUri} 
-        autoPlay 
-        playsInline 
+      <audio
+        ref={audioRef}
+        src={introAudioDataUri}
+        autoPlay
+        playsInline
         preload="auto"
         onPlay={() => { audioPlayedRef.current = true; }}
       />
@@ -215,7 +215,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       </div>
 
       {/* 3D LOGO CREATION CANVAS */}
-      <div 
+      <div
         className="relative w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center my-2"
         style={{
           transformStyle: 'preserve-3d',
@@ -224,10 +224,10 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
         }}
       >
         {/* Arc Reactor Radial Blue Glow */}
-        <div 
+        <div
           className="absolute inset-0 rounded-full blur-[45px] pointer-events-none transition-all duration-500"
           style={{
-            background: stage >= 1 
+            background: stage >= 1
               ? 'radial-gradient(circle, rgba(56, 189, 248, 0.5) 0%, rgba(99, 102, 241, 0.3) 50%, transparent 75%)'
               : 'radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(30, 58, 138, 0.2) 50%, transparent 70%)',
             transform: 'scale(1.25)'
@@ -264,19 +264,19 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
 
         {/* LOGO PIECES CONVERGING */}
         <div className="relative w-44 h-44 sm:w-48 sm:h-48 z-20 flex items-center justify-center">
-          
+
           {/* PIECE 1: Left 'G' Arc */}
           <motion.div
             className="absolute inset-0 w-full h-full"
             style={{ clipPath: 'polygon(0% 0%, 54% 0%, 30% 100%, 0% 100%)' }}
             initial={{ x: -80, opacity: 0, scale: 0.75, rotateY: -30 }}
             animate={{ x: 0, opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, ease: [ 0.16, 1, 0.3, 1 ] }}
           >
-            <img 
-              src={logoImg} 
-              alt="Nexora G" 
-              className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(56,189,248,0.75)]" 
+            <img
+              src={logoImg}
+              alt="Nexora G"
+              className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(56,189,248,0.75)]"
             />
           </motion.div>
 
@@ -286,12 +286,12 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
             style={{ clipPath: 'polygon(48% 28%, 100% 28%, 100% 100%, 26% 100%)' }}
             initial={{ x: 80, opacity: 0, scale: 0.75, rotateY: 30 }}
             animate={{ x: 0, opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [ 0.16, 1, 0.3, 1 ] }}
           >
-            <img 
-              src={logoImg} 
-              alt="Nexora N" 
-              className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(129,140,248,0.75)]" 
+            <img
+              src={logoImg}
+              alt="Nexora N"
+              className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(129,140,248,0.75)]"
             />
           </motion.div>
 
@@ -301,12 +301,12 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
             style={{ clipPath: 'polygon(56% 0%, 100% 0%, 100% 28%, 56% 28%)' }}
             initial={{ y: -60, opacity: 0, scaleY: 0.4 }}
             animate={{ y: 0, opacity: 1, scaleY: 1 }}
-            transition={{ duration: 0.7, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, delay: 0.25, ease: [ 0.16, 1, 0.3, 1 ] }}
           >
-            <img 
-              src={logoImg} 
-              alt="Nexora T" 
-              className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(56,189,248,0.75)]" 
+            <img
+              src={logoImg}
+              alt="Nexora T"
+              className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(56,189,248,0.75)]"
             />
           </motion.div>
 
@@ -324,7 +324,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
                 boxShadow: '0 0 20px #ffffff, 0 0 35px #00f2fe'
               }}
               initial={{ scaleX: 0, opacity: 0 }}
-              animate={{ scaleX: [0, 1.6, 0], opacity: [0, 1, 0] }}
+              animate={{ scaleX: [ 0, 1.6, 0 ], opacity: [ 0, 1, 0 ] }}
               transition={{ duration: 0.9, ease: "easeOut" }}
             />
           )}
@@ -334,18 +334,18 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
             <motion.div
               className="absolute inset-0 w-full h-full z-30 flex items-center justify-center"
               initial={{ scale: 0.94, opacity: 0 }}
-              animate={{ 
-                scale: 1, 
+              animate={{
+                scale: 1,
                 opacity: 1,
-                y: [0, -4, 0]
+                y: [ 0, -4, 0 ]
               }}
-              transition={{ 
+              transition={{
                 scale: { duration: 0.6, ease: "easeOut" },
                 y: { repeat: Infinity, duration: 3.5, ease: "easeInOut" }
               }}
               style={{ transformStyle: 'preserve-3d' }}
             >
-              {[2, 1].map((depth) => (
+              {[ 2, 1 ].map((depth) => (
                 <img
                   key={depth}
                   src={logoImg}
@@ -368,7 +368,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
               <motion.div
                 className="absolute inset-0 overflow-hidden pointer-events-none rounded-xl"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 1, 0] }}
+                animate={{ opacity: [ 0, 1, 0 ] }}
                 transition={{ duration: 1.2 }}
               >
                 <motion.div
@@ -441,7 +441,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
           </div>
 
           <div className="h-1.5 w-full bg-slate-900 rounded-full overflow-hidden p-[1px] border border-cyan-500/30">
-            <motion.div 
+            <motion.div
               className="h-full rounded-full bg-gradient-to-r from-blue-600 via-cyan-400 to-emerald-400"
               style={{ width: `${progress}%` }}
               transition={{ ease: "linear" }}
@@ -465,11 +465,10 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
             if (onSkip) onSkip();
             else if (onComplete) onComplete();
           }}
-          className={`flex items-center gap-1.5 px-5 py-2 rounded-full text-xs font-mono tracking-wider transition-all duration-200 cursor-pointer ${
-            stage >= 2
+          className={`flex items-center gap-1.5 px-5 py-2 rounded-full text-xs font-mono tracking-wider transition-all duration-200 cursor-pointer ${stage >= 2
               ? 'bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600 text-white font-bold border border-cyan-300/50 shadow-[0_0_20px_rgba(6,182,212,0.4)]'
               : 'bg-white/5 border border-white/10 text-slate-300 hover:text-white'
-          }`}
+            }`}
         >
           <span>{stage >= 2 ? "ENTER SITE" : "SKIP"}</span>
           <ArrowRight className="w-3.5 h-3.5" />
