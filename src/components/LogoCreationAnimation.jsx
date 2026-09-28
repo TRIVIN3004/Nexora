@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { Zap, ArrowRight, Bot, Cpu } from 'lucide-react';
+import { Zap, ArrowRight, Bot } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 
 export default function LogoCreationAnimation({ onComplete, onSkip }) {
@@ -29,7 +29,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
     return audioCtxRef.current;
   }, []);
 
-  // Nexora Audio FX Synthesizer (Cybernetic AI Boot Sequence)
+  // Nexora Audio FX Synthesizer
   const playNexoraSfx = useCallback((type) => {
     const ctx = getAudioContext();
     if (!ctx) return;
@@ -41,26 +41,26 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
         const subOsc = ctx.createOscillator();
         const subGain = ctx.createGain();
         subOsc.type = 'sine';
-        subOsc.frequency.setValueAtTime(70, now);
-        subOsc.frequency.exponentialRampToValueAtTime(260, now + 0.25);
-        subGain.gain.setValueAtTime(0.2, now);
-        subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+        subOsc.frequency.setValueAtTime(65, now);
+        subOsc.frequency.exponentialRampToValueAtTime(260, now + 0.4);
+        subGain.gain.setValueAtTime(0.22, now);
+        subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
         subOsc.connect(subGain);
         subGain.connect(ctx.destination);
         subOsc.start(now);
-        subOsc.stop(now + 0.3);
+        subOsc.stop(now + 0.45);
 
-        [980, 1318.5, 1760].forEach((freq, i) => {
+        [980, 1318.5, 1760, 2093].forEach((freq, i) => {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, now + 0.05 + i * 0.04);
-          gain.gain.setValueAtTime(0.05, now + 0.05 + i * 0.04);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12 + i * 0.04);
+          osc.frequency.setValueAtTime(freq, now + 0.08 + i * 0.07);
+          gain.gain.setValueAtTime(0.06, now + 0.08 + i * 0.07);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18 + i * 0.07);
           osc.connect(gain);
           gain.connect(ctx.destination);
-          osc.start(now + 0.05 + i * 0.04);
-          osc.stop(now + 0.13 + i * 0.04);
+          osc.start(now + 0.08 + i * 0.07);
+          osc.stop(now + 0.19 + i * 0.07);
         });
       } else if (type === 'slash') {
         const osc = ctx.createOscillator();
@@ -69,46 +69,59 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
 
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(1600, now);
-        osc.frequency.exponentialRampToValueAtTime(200, now + 0.25);
+        osc.frequency.exponentialRampToValueAtTime(200, now + 0.35);
 
         filter.type = 'lowpass';
         filter.frequency.setValueAtTime(3200, now);
-        filter.frequency.exponentialRampToValueAtTime(500, now + 0.25);
+        filter.frequency.exponentialRampToValueAtTime(500, now + 0.35);
 
         gain.gain.setValueAtTime(0.18, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.26);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
 
         osc.connect(filter);
         filter.connect(gain);
         gain.connect(ctx.destination);
 
         osc.start(now);
-        osc.stop(now + 0.26);
+        osc.stop(now + 0.38);
       } else if (type === 'complete') {
         const thump = ctx.createOscillator();
         const thumpGain = ctx.createGain();
         thump.type = 'triangle';
         thump.frequency.setValueAtTime(130, now);
-        thump.frequency.exponentialRampToValueAtTime(40, now + 0.35);
+        thump.frequency.exponentialRampToValueAtTime(40, now + 0.45);
         thumpGain.gain.setValueAtTime(0.2, now);
-        thumpGain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+        thumpGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
         thump.connect(thumpGain);
         thumpGain.connect(ctx.destination);
         thump.start(now);
-        thump.stop(now + 0.38);
+        thump.stop(now + 0.5);
 
-        [587.33, 739.99, 880, 1174.66].forEach((freq, i) => {
+        [587.33, 739.99, 880, 1174.66, 1479.98].forEach((freq, i) => {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, now + i * 0.03);
-          gain.gain.setValueAtTime(0.07, now + i * 0.03);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6 + i * 0.03);
+          osc.frequency.setValueAtTime(freq, now + i * 0.04);
+          gain.gain.setValueAtTime(0.07, now + i * 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8 + i * 0.04);
           osc.connect(gain);
           gain.connect(ctx.destination);
-          osc.start(now + i * 0.03);
-          osc.stop(now + 0.7 + i * 0.03);
+          osc.start(now + i * 0.04);
+          osc.stop(now + 0.9 + i * 0.04);
         });
+      } else if (type === 'touch') {
+        // Interactive tactile spark sound on touching screen
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1200, now);
+        osc.frequency.exponentialRampToValueAtTime(1800, now + 0.08);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.08);
       }
     } catch (e) {
       console.warn("Nexora Audio error:", e);
@@ -117,7 +130,6 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
 
   // Nexora AI Voice Output
   const speakNexoraVoice = useCallback(() => {
-    if (voicePlayedRef.current) return;
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
 
     try {
@@ -137,7 +149,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       );
 
       if (nexoraVoice) utterance.voice = nexoraVoice;
-      utterance.rate = 1.02;
+      utterance.rate = 0.98;
       utterance.pitch = 1.0;
       utterance.volume = 1.0;
 
@@ -148,28 +160,37 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
     }
   }, []);
 
-  // Autoplay Unlocker for Web Browsers (Compulsory Audio)
+  // Automatic Audio on Screen Touch / Interaction Handler
+  const handleTouchScreen = useCallback(() => {
+    getAudioContext();
+    if (!sfxPlayedRef.current.boot) {
+      playNexoraSfx('boot');
+      sfxPlayedRef.current.boot = true;
+    } else {
+      playNexoraSfx('touch');
+    }
+    if (!voicePlayedRef.current && stage >= 2) {
+      speakNexoraVoice();
+    }
+  }, [getAudioContext, playNexoraSfx, speakNexoraVoice, stage]);
+
+  // Automatic Global Touch / Click Audio Unlocking
   useEffect(() => {
-    const unlockAudio = () => {
-      getAudioContext();
-      if (!sfxPlayedRef.current.boot) {
-        playNexoraSfx('boot');
-        sfxPlayedRef.current.boot = true;
-      }
+    const handleGlobalInteraction = () => {
+      handleTouchScreen();
     };
 
-    unlockAudio();
-    const events = ['click', 'touchstart', 'mousemove', 'keydown', 'scroll'];
-    events.forEach(e => window.addEventListener(e, unlockAudio, { passive: true, once: true }));
+    const events = ['touchstart', 'touchend', 'pointerdown', 'mousedown', 'click', 'keydown'];
+    events.forEach(e => window.addEventListener(e, handleGlobalInteraction, { passive: true }));
     return () => {
-      events.forEach(e => window.removeEventListener(e, unlockAudio));
+      events.forEach(e => window.removeEventListener(e, handleGlobalInteraction));
     };
-  }, [getAudioContext, playNexoraSfx]);
+  }, [handleTouchScreen]);
 
-  // Guaranteed Fast Single-Run Timeline (1.5s Total)
+  // Balanced Timeline (2.8s Total)
   useEffect(() => {
     const startTime = Date.now();
-    const duration = 1500; // Fast 1.5 seconds total
+    const duration = 2800;
 
     if (!sfxPlayedRef.current.boot) {
       playNexoraSfx('boot');
@@ -200,13 +221,12 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
 
       if (pct >= 100) {
         clearInterval(timer);
-        // Automatically enter site smoothly after 1.5s
         const autoProceedTimer = setTimeout(() => {
           if (onCompleteRef.current) onCompleteRef.current();
-        }, 150);
+        }, 250);
         return () => clearTimeout(autoProceedTimer);
       }
-    }, 20);
+    }, 25);
 
     return () => clearInterval(timer);
   }, [playNexoraSfx, speakNexoraVoice]);
@@ -227,10 +247,10 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
 
   // Spark Particles
   const sparks = useMemo(() => {
-    return Array.from({ length: 16 }).map((_, i) => {
-      const angle = (i * 360) / 16;
+    return Array.from({ length: 18 }).map((_, i) => {
+      const angle = (i * 360) / 18;
       const rad = (angle * Math.PI) / 180;
-      const dist = 60 + (i % 3) * 18;
+      const dist = 65 + (i % 3) * 20;
       return {
         id: i,
         x: Math.cos(rad) * dist,
@@ -246,11 +266,14 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      className="relative w-full max-w-xl mx-auto flex flex-col items-center justify-center select-none py-3 px-4 text-white"
+      onTouchStart={handleTouchScreen}
+      onPointerDown={handleTouchScreen}
+      onClick={handleTouchScreen}
+      className="relative w-full max-w-xl mx-auto flex flex-col items-center justify-center select-none py-4 px-4 text-white cursor-pointer"
       style={{ perspective: '1200px' }}
     >
       {/* Top NEXORA Protocol Status */}
-      <div className="w-full flex items-center justify-center mb-1 z-50 px-2">
+      <div className="w-full flex items-center justify-center mb-2 z-50 px-2">
         <div className="flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/70 border border-cyan-400/40 text-[10px] font-mono text-cyan-300 tracking-widest shadow-[0_0_15px_rgba(6,182,212,0.3)]">
           <Bot className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
           <span>NEXORA AI PROTOCOL ACTIVE</span>
@@ -259,21 +282,21 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
 
       {/* 3D LOGO CREATION CANVAS */}
       <div 
-        className="relative w-52 h-52 sm:w-60 sm:h-60 flex items-center justify-center my-2"
+        className="relative w-56 h-56 sm:w-64 sm:h-64 flex items-center justify-center my-2"
         style={{
           transformStyle: 'preserve-3d',
           transform: `rotateX(${-mousePos.y * 10}deg) rotateY(${mousePos.x * 10}deg)`,
-          transition: isHovered ? 'transform 0.08s ease-out' : 'transform 0.35s ease-out',
+          transition: isHovered ? 'transform 0.08s ease-out' : 'transform 0.4s ease-out',
         }}
       >
         {/* Arc Reactor Radial Blue Glow */}
         <div 
-          className="absolute inset-0 rounded-full blur-[40px] pointer-events-none transition-all duration-400"
+          className="absolute inset-0 rounded-full blur-[45px] pointer-events-none transition-all duration-500"
           style={{
             background: stage >= 1 
               ? 'radial-gradient(circle, rgba(56, 189, 248, 0.5) 0%, rgba(99, 102, 241, 0.3) 50%, transparent 75%)'
               : 'radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(30, 58, 138, 0.2) 50%, transparent 70%)',
-            transform: 'scale(1.2)'
+            transform: 'scale(1.25)'
           }}
         />
 
@@ -288,7 +311,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
             strokeWidth="1"
             strokeDasharray="6 8"
             animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
+            transition={{ repeat: Infinity, duration: 16, ease: "linear" }}
             style={{ transformOrigin: "120px 120px" }}
           />
           <motion.circle
@@ -300,21 +323,21 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
             strokeWidth="1.5"
             strokeDasharray="25 15"
             animate={{ rotate: -360 }}
-            transition={{ repeat: Infinity, duration: 9, ease: "linear" }}
+            transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
             style={{ transformOrigin: "120px 120px" }}
           />
         </svg>
 
         {/* LOGO PIECES CONVERGING */}
-        <div className="relative w-40 h-40 sm:w-44 sm:h-44 z-20 flex items-center justify-center">
+        <div className="relative w-44 h-44 sm:w-48 sm:h-48 z-20 flex items-center justify-center">
           
           {/* PIECE 1: Left 'G' Arc */}
           <motion.div
             className="absolute inset-0 w-full h-full"
             style={{ clipPath: 'polygon(0% 0%, 54% 0%, 30% 100%, 0% 100%)' }}
-            initial={{ x: -60, opacity: 0, scale: 0.8 }}
-            animate={{ x: 0, opacity: 1, scale: 1 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
+            initial={{ x: -80, opacity: 0, scale: 0.75, rotateY: -30 }}
+            animate={{ x: 0, opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
           >
             <img 
               src={logoImg} 
@@ -327,9 +350,9 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
           <motion.div
             className="absolute inset-0 w-full h-full"
             style={{ clipPath: 'polygon(48% 28%, 100% 28%, 100% 100%, 26% 100%)' }}
-            initial={{ x: 60, opacity: 0, scale: 0.8 }}
-            animate={{ x: 0, opacity: 1, scale: 1 }}
-            transition={{ duration: 0.25, delay: 0.04, ease: "easeOut" }}
+            initial={{ x: 80, opacity: 0, scale: 0.75, rotateY: 30 }}
+            animate={{ x: 0, opacity: 1, scale: 1, rotateY: 0 }}
+            transition={{ duration: 0.55, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           >
             <img 
               src={logoImg} 
@@ -342,9 +365,9 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
           <motion.div
             className="absolute inset-0 w-full h-full"
             style={{ clipPath: 'polygon(56% 0%, 100% 0%, 100% 28%, 56% 28%)' }}
-            initial={{ y: -45, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.22, delay: 0.08, ease: "easeOut" }}
+            initial={{ y: -60, opacity: 0, scaleY: 0.4 }}
+            animate={{ y: 0, opacity: 1, scaleY: 1 }}
+            transition={{ duration: 0.5, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
           >
             <img 
               src={logoImg} 
@@ -360,7 +383,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
               style={{
                 top: '50%',
                 left: '50%',
-                width: '180px',
+                width: '185px',
                 height: '4px',
                 transform: 'translate(-50%, -50%) rotate(-45deg)',
                 background: 'linear-gradient(90deg, transparent, #ffffff, #38bdf8, transparent)',
@@ -368,7 +391,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
               }}
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ scaleX: [0, 1.6, 0], opacity: [0, 1, 0] }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
             />
           )}
 
@@ -376,9 +399,16 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
           {stage >= 2 && (
             <motion.div
               className="absolute inset-0 w-full h-full z-30 flex items-center justify-center"
-              initial={{ scale: 0.96, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
+              initial={{ scale: 0.94, opacity: 0 }}
+              animate={{ 
+                scale: 1, 
+                opacity: 1,
+                y: [0, -4, 0]
+              }}
+              transition={{ 
+                scale: { duration: 0.45, ease: "easeOut" },
+                y: { repeat: Infinity, duration: 3.5, ease: "easeInOut" }
+              }}
               style={{ transformStyle: 'preserve-3d' }}
             >
               {[2, 1].map((depth) => (
@@ -405,13 +435,13 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
                 className="absolute inset-0 overflow-hidden pointer-events-none rounded-xl"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: [0, 1, 0] }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.9 }}
               >
                 <motion.div
                   className="w-[200%] h-full bg-gradient-to-r from-transparent via-white/80 to-transparent -skew-x-45"
                   initial={{ x: '-150%' }}
                   animate={{ x: '150%' }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  transition={{ duration: 0.9, ease: "easeOut" }}
                 />
               </motion.div>
             </motion.div>
@@ -422,8 +452,8 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
             <motion.div
               className="absolute rounded-full border border-cyan-400/90 pointer-events-none z-10"
               initial={{ width: 30, height: 30, opacity: 1, scale: 0.4 }}
-              animate={{ width: 220, height: 220, opacity: 0, scale: 1.25 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              animate={{ width: 240, height: 240, opacity: 0, scale: 1.25 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
             />
           )}
 
@@ -440,19 +470,19 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
               }}
               initial={{ x: 0, y: 0, opacity: 1 }}
               animate={{ x: s.x, y: s.y, opacity: 0 }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
+              transition={{ duration: 0.55, ease: "easeOut" }}
             />
           ))}
         </div>
       </div>
 
       {/* BRAND TYPOGRAPHY & NEXORA STATUS */}
-      <div className="mt-1 flex flex-col items-center text-center space-y-1.5 z-40 max-w-sm">
+      <div className="mt-2 flex flex-col items-center text-center space-y-2 z-40 max-w-sm">
         <motion.div
           className="flex items-center gap-2"
-          initial={{ opacity: 0, y: 6 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.4 }}
         >
           <h1 className="text-3xl sm:text-4xl font-black tracking-[0.2em] font-display bg-gradient-to-r from-white via-cyan-100 to-slate-200 bg-clip-text text-transparent drop-shadow-[0_2px_12px_rgba(56,189,248,0.4)]">
             GONEXORA
@@ -487,7 +517,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       </div>
 
       {/* QUICK ENTER / SKIP BUTTON */}
-      <div className="mt-3 flex items-center gap-2 z-50">
+      <div className="mt-4 flex items-center gap-2 z-50">
         <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -504,7 +534,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
               : 'bg-white/5 border border-white/10 text-slate-300 hover:text-white'
           }`}
         >
-          <span>{stage >= 2 ? "ENTER NOW" : "SKIP"}</span>
+          <span>{stage >= 2 ? "ENTER SITE" : "SKIP"}</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </motion.button>
       </div>
