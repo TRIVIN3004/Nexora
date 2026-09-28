@@ -12,53 +12,107 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef(null);
   const audioRef = useRef(null);
+  const audioCtxRef = useRef(null);
   const audioPlayedRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
 
-  // Single-play Automatic Audio Engine
-  const startAudioAuto = useCallback(() => {
+  // Multi-Channel Automatic Audio Engine (Zero-Interaction Autoplay)
+  const triggerAutoAudio = useCallback(async () => {
     if (audioPlayedRef.current) return;
 
-    if (audioRef.current) {
-      audioRef.current.volume = 1.0;
-      audioRef.current.loop = false;
-      const playPromise = audioRef.current.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            audioPlayedRef.current = true;
-          })
-          .catch(() => {
-            // Browser autoplay policy - will trigger on passive window interaction
-          });
+    // Channel 1: HTML5 Audio with instant un-mute bypass
+    try {
+      if (audioRef.current) {
+        audioRef.current.volume = 1.0;
+        audioRef.current.loop = false;
+        
+        const playPromise = audioRef.current.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              audioPlayedRef.current = true;
+            })
+            .catch(() => {
+              // If browser blocked unmuted autoplay, start muted and immediately unmute
+              if (audioRef.current) {
+                audioRef.current.muted = true;
+                audioRef.current.play().then(() => {
+                  setTimeout(() => {
+                    if (audioRef.current) {
+                      audioRef.current.muted = false;
+                      audioRef.current.volume = 1.0;
+                      audioPlayedRef.current = true;
+                    }
+                  }, 30);
+                }).catch(() => {});
+              }
+            });
+        }
       }
+    } catch (e) {
+      console.warn("HTML5 audio auto play error:", e);
+    }
+
+    // Channel 2: Web Audio API ArrayBuffer decoding (High-reliability browser channel)
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx && !audioCtxRef.current) {
+        const ctx = new AudioCtx();
+        audioCtxRef.current = ctx;
+
+        if (ctx.state === 'suspended') {
+          ctx.resume().catch(() => {});
+        }
+
+        fetch(introAudioFile)
+          .then(res => res.arrayBuffer())
+          .then(buffer => ctx.decodeAudioData(buffer))
+          .then(decodedBuffer => {
+            if (!audioPlayedRef.current && ctx.state === 'running') {
+              const source = ctx.createBufferSource();
+              source.buffer = decodedBuffer;
+              const gainNode = ctx.createGain();
+              gainNode.gain.setValueAtTime(1.0, ctx.currentTime);
+              source.connect(gainNode);
+              gainNode.connect(ctx.destination);
+              source.start(0);
+              audioPlayedRef.current = true;
+            }
+          })
+          .catch(() => {});
+      }
+    } catch (e) {
+      console.warn("Web Audio buffer auto play error:", e);
     }
   }, []);
 
-  // Automatic Audio Trigger on Mount & Passive Window Events
+  // Automatic Audio Trigger on Mount
   useEffect(() => {
-    // 1. Attempt immediate play on mount
-    startAudioAuto();
+    // 1. Immediately trigger audio on initial mount without any clicks or touches
+    triggerAutoAudio();
 
-    // 2. Passive unblockers (plays automatically on first micro-interaction without clicking logo)
-    const handlePassiveTrigger = () => {
+    // 2. Passive window event triggers (in case browser requires any initial page render micro-signal)
+    const handlePassiveSignal = () => {
       if (!audioPlayedRef.current) {
-        startAudioAuto();
+        triggerAutoAudio();
       }
     };
 
-    const events = ['pointermove', 'mousemove', 'wheel', 'scroll', 'touchstart', 'pointerdown', 'keydown', 'focus'];
-    events.forEach(e => window.addEventListener(e, handlePassiveTrigger, { passive: true }));
+    const signals = ['pointermove', 'mousemove', 'wheel', 'scroll', 'touchstart', 'focus', 'DOMContentLoaded', 'load'];
+    signals.forEach(sig => window.addEventListener(sig, handlePassiveSignal, { passive: true }));
 
     return () => {
-      events.forEach(e => window.removeEventListener(e, handlePassiveTrigger));
+      signals.forEach(sig => window.removeEventListener(sig, handlePassiveSignal));
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
       }
+      if (audioCtxRef.current && audioCtxRef.current.state !== 'closed') {
+        audioCtxRef.current.close().catch(() => {});
+      }
     };
-  }, [startAudioAuto]);
+  }, [triggerAutoAudio]);
 
   // 5-Second Loading Screen Timeline (5,000ms)
   useEffect(() => {
@@ -83,7 +137,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
         // Automatically enter site at 5.0s
         const autoProceedTimer = setTimeout(() => {
           if (onCompleteRef.current) onCompleteRef.current();
-        }, 200);
+        }, 150);
         return () => clearTimeout(autoProceedTimer);
       }
     }, 25);
