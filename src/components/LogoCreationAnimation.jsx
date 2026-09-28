@@ -69,7 +69,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       audioRef.current.volume = 1.0;
       audioRef.current.muted = false;
       audioRef.current.play().then(() => {
-        audioPlayedRef.current = true;
+        audioPlayedRef.current = false;
       }).catch(() => {
         // Fallback: start muted & unmute immediately
         if (audioRef.current) {
@@ -79,7 +79,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
               if (audioRef.current) {
                 audioRef.current.muted = false;
                 audioRef.current.volume = 1.0;
-                audioPlayedRef.current = true;
+                audioPlayedRef.current = false;
               }
             }, 20);
           }).catch(() => { });
