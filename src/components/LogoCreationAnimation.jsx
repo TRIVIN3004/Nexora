@@ -10,184 +10,221 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef(null);
   const audioCtxRef = useRef(null);
+  const masterGainRef = useRef(null);
   const voicePlayedRef = useRef(false);
   const sfxPlayedRef = useRef({ boot: false, slash: false, complete: false });
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
 
-  // Web Audio Context initializer
+  // Master Studio Audio Engine with Dynamics Limiter & Gain Boost
   const getAudioContext = useCallback(() => {
     if (typeof window === 'undefined') return null;
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     if (!AudioCtx) return null;
+    
     if (!audioCtxRef.current) {
-      audioCtxRef.current = new AudioCtx();
+      const ctx = new AudioCtx();
+      
+      // Master Compressor for loud, punchy, cinematic sound without distortion
+      const compressor = ctx.createDynamicsCompressor();
+      compressor.threshold.setValueAtTime(-18, ctx.currentTime);
+      compressor.knee.setValueAtTime(15, ctx.currentTime);
+      compressor.ratio.setValueAtTime(6, ctx.currentTime);
+      compressor.attack.setValueAtTime(0.003, ctx.currentTime);
+      compressor.release.setValueAtTime(0.25, ctx.currentTime);
+
+      // High-Volume Master Gain (Increased by user request)
+      const masterGain = ctx.createGain();
+      masterGain.gain.setValueAtTime(0.85, ctx.currentTime); // High volume boost
+
+      masterGain.connect(compressor);
+      compressor.connect(ctx.destination);
+
+      masterGainRef.current = masterGain;
+      audioCtxRef.current = ctx;
     }
+
     if (audioCtxRef.current.state === 'suspended') {
       audioCtxRef.current.resume().catch(() => {});
     }
+
     return audioCtxRef.current;
   }, []);
 
-  // Nexora Audio FX Synthesizer
+  // J.A.R.V.I.S. High-Voltage Sound FX Engine
   const playNexoraSfx = useCallback((type) => {
     const ctx = getAudioContext();
-    if (!ctx) return;
+    if (!ctx || !masterGainRef.current) return;
 
     try {
       const now = ctx.currentTime;
+      const destination = masterGainRef.current;
 
+      // 1. ARC REACTOR POWER COIL SURGE (Loud sub-bass + telemetry)
       if (type === 'boot') {
         const subOsc = ctx.createOscillator();
         const subGain = ctx.createGain();
         subOsc.type = 'sine';
-        subOsc.frequency.setValueAtTime(65, now);
-        subOsc.frequency.exponentialRampToValueAtTime(260, now + 0.4);
-        subGain.gain.setValueAtTime(0.22, now);
-        subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+        subOsc.frequency.setValueAtTime(55, now);
+        subOsc.frequency.exponentialRampToValueAtTime(280, now + 0.45);
+        subGain.gain.setValueAtTime(0.45, now);
+        subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
         subOsc.connect(subGain);
-        subGain.connect(ctx.destination);
+        subGain.connect(destination);
         subOsc.start(now);
-        subOsc.stop(now + 0.45);
+        subOsc.stop(now + 0.5);
 
-        [980, 1318.5, 1760, 2093].forEach((freq, i) => {
+        // Holographic High-Tech HUD telemetry chirps
+        [980, 1318.5, 1760, 2093, 2637].forEach((freq, i) => {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, now + 0.08 + i * 0.07);
-          gain.gain.setValueAtTime(0.06, now + 0.08 + i * 0.07);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18 + i * 0.07);
+          osc.frequency.setValueAtTime(freq, now + 0.08 + i * 0.06);
+          gain.gain.setValueAtTime(0.12, now + 0.08 + i * 0.06);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18 + i * 0.06);
           osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now + 0.08 + i * 0.07);
-          osc.stop(now + 0.19 + i * 0.07);
+          gain.connect(destination);
+          osc.start(now + 0.08 + i * 0.06);
+          osc.stop(now + 0.19 + i * 0.06);
         });
-      } else if (type === 'slash') {
+      } 
+      // 2. REPULSOR / LASER DIAGONAL SLASH (Loud saw & resonance)
+      else if (type === 'slash') {
         const osc = ctx.createOscillator();
         const filter = ctx.createBiquadFilter();
         const gain = ctx.createGain();
 
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(1600, now);
-        osc.frequency.exponentialRampToValueAtTime(200, now + 0.35);
+        osc.frequency.setValueAtTime(1800, now);
+        osc.frequency.exponentialRampToValueAtTime(180, now + 0.38);
 
         filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(3200, now);
-        filter.frequency.exponentialRampToValueAtTime(500, now + 0.35);
+        filter.frequency.setValueAtTime(3800, now);
+        filter.frequency.exponentialRampToValueAtTime(450, now + 0.38);
 
-        gain.gain.setValueAtTime(0.18, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+        gain.gain.setValueAtTime(0.35, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
 
         osc.connect(filter);
         filter.connect(gain);
-        gain.connect(ctx.destination);
+        gain.connect(destination);
 
         osc.start(now);
-        osc.stop(now + 0.38);
-      } else if (type === 'complete') {
+        osc.stop(now + 0.4);
+      } 
+      // 3. J.A.R.V.I.S. CONFIRMATION CHORD (Loud sub-thump + futuristic harmonics)
+      else if (type === 'complete') {
         const thump = ctx.createOscillator();
         const thumpGain = ctx.createGain();
         thump.type = 'triangle';
-        thump.frequency.setValueAtTime(130, now);
+        thump.frequency.setValueAtTime(140, now);
         thump.frequency.exponentialRampToValueAtTime(40, now + 0.45);
-        thumpGain.gain.setValueAtTime(0.2, now);
+        thumpGain.gain.setValueAtTime(0.4, now);
         thumpGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
         thump.connect(thumpGain);
-        thumpGain.connect(ctx.destination);
+        thumpGain.connect(destination);
         thump.start(now);
         thump.stop(now + 0.5);
 
-        [587.33, 739.99, 880, 1174.66, 1479.98].forEach((freq, i) => {
+        [587.33, 739.99, 880, 1174.66, 1479.98, 1760].forEach((freq, i) => {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'sine';
           osc.frequency.setValueAtTime(freq, now + i * 0.04);
-          gain.gain.setValueAtTime(0.07, now + i * 0.04);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8 + i * 0.04);
+          gain.gain.setValueAtTime(0.14, now + i * 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.85 + i * 0.04);
           osc.connect(gain);
-          gain.connect(ctx.destination);
+          gain.connect(destination);
           osc.start(now + i * 0.04);
-          osc.stop(now + 0.9 + i * 0.04);
+          osc.stop(now + 0.95 + i * 0.04);
         });
-      } else if (type === 'touch') {
-        // Interactive tactile spark sound on touching screen
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(1200, now);
-        osc.frequency.exponentialRampToValueAtTime(1800, now + 0.08);
-        gain.gain.setValueAtTime(0.08, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.08);
       }
     } catch (e) {
       console.warn("Nexora Audio error:", e);
     }
   }, [getAudioContext]);
 
-  // Nexora AI Voice Output
-  const speakNexoraVoice = useCallback(() => {
+  // J.A.R.V.I.S. Authentic British AI Assistant Voice Engine
+  const speakJarvisVoice = useCallback(() => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
 
     try {
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance("Nexora online. Systems operational.");
+      // Authentic J.A.R.V.I.S. line
+      const utterance = new SpeechSynthesisUtterance("Good day. Nexora online, systems fully operational.");
       const voices = window.speechSynthesis.getVoices();
       
-      const nexoraVoice = voices.find(v => 
+      // Strict Priority for Sophisticated British Male Voices (Paul Bettany JARVIS signature tone)
+      const jarvisVoice = voices.find(v => 
         v.name.includes('Google UK English Male') ||
+        v.name.toLowerCase().includes('daniel') ||
         v.name.includes('George') ||
-        v.name.includes('Daniel') ||
         v.name.includes('Oliver') ||
-        v.name.includes('en-GB') ||
+        v.name.includes('Arthur') ||
+        v.name.includes('Ryan') ||
+        (v.lang === 'en-GB' && v.name.toLowerCase().includes('male')) ||
         v.lang === 'en-GB' ||
+        v.lang === 'en_GB' ||
         v.name.includes('Google US English') ||
         v.lang.startsWith('en')
       );
 
-      if (nexoraVoice) utterance.voice = nexoraVoice;
-      utterance.rate = 0.98;
-      utterance.pitch = 1.0;
-      utterance.volume = 1.0;
+      if (jarvisVoice) utterance.voice = jarvisVoice;
+      
+      // J.A.R.V.I.S. Acoustic Tuning: Deep, composed, authoritative & articulate
+      utterance.pitch = 0.92;
+      utterance.rate = 0.94;
+      utterance.volume = 1.0; // Maximum output volume
 
       window.speechSynthesis.speak(utterance);
       voicePlayedRef.current = true;
     } catch (e) {
-      console.warn("Nexora Speech error:", e);
+      console.warn("JARVIS Speech error:", e);
     }
   }, []);
 
-  // Automatic Audio on Screen Touch / Interaction Handler
-  const handleTouchScreen = useCallback(() => {
+  // Automatic Sound Activation on Page Load & Any Initial Movement
+  useEffect(() => {
+    // 1. Immediately attempt audio startup on mount
     getAudioContext();
     if (!sfxPlayedRef.current.boot) {
       playNexoraSfx('boot');
       sfxPlayedRef.current.boot = true;
-    } else {
-      playNexoraSfx('touch');
     }
-    if (!voicePlayedRef.current && stage >= 2) {
-      speakNexoraVoice();
-    }
-  }, [getAudioContext, playNexoraSfx, speakNexoraVoice, stage]);
 
-  // Automatic Global Touch / Click Audio Unlocking
-  useEffect(() => {
-    const handleGlobalInteraction = () => {
-      handleTouchScreen();
+    // 2. Global Passive Unblockers (instant audio without needing to click the logo)
+    const triggerAudioAuto = () => {
+      getAudioContext();
+      if (!sfxPlayedRef.current.boot) {
+        playNexoraSfx('boot');
+        sfxPlayedRef.current.boot = true;
+      }
+      if (!voicePlayedRef.current && stage >= 2) {
+        speakJarvisVoice();
+      }
     };
 
-    const events = ['touchstart', 'touchend', 'pointerdown', 'mousedown', 'click', 'keydown'];
-    events.forEach(e => window.addEventListener(e, handleGlobalInteraction, { passive: true }));
+    const listeners = ['pointermove', 'mousemove', 'wheel', 'scroll', 'touchstart', 'pointerdown', 'mousedown', 'keydown', 'focus'];
+    listeners.forEach(event => window.addEventListener(event, triggerAudioAuto, { passive: true }));
+
+    // Pre-cache voices when speech synthesis is ready
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = () => {
+        if (stage >= 2 && !voicePlayedRef.current) {
+          speakJarvisVoice();
+        }
+      };
+    }
+
     return () => {
-      events.forEach(e => window.removeEventListener(e, handleGlobalInteraction));
+      listeners.forEach(event => window.removeEventListener(event, triggerAudioAuto));
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.onvoiceschanged = null;
+      }
     };
-  }, [handleTouchScreen]);
+  }, [getAudioContext, playNexoraSfx, speakJarvisVoice, stage]);
 
-  // Balanced Timeline (2.8s Total)
+  // Balanced 2.8s Timeline
   useEffect(() => {
     const startTime = Date.now();
     const duration = 2800;
@@ -213,7 +250,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       } else {
         if (!sfxPlayedRef.current.complete) {
           playNexoraSfx('complete');
-          speakNexoraVoice();
+          speakJarvisVoice();
           sfxPlayedRef.current.complete = true;
         }
         setStage(2);
@@ -229,7 +266,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
     }, 25);
 
     return () => clearInterval(timer);
-  }, [playNexoraSfx, speakNexoraVoice]);
+  }, [playNexoraSfx, speakJarvisVoice]);
 
   // Mouse Parallax
   const handleMouseMove = (e) => {
@@ -266,15 +303,12 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      onTouchStart={handleTouchScreen}
-      onPointerDown={handleTouchScreen}
-      onClick={handleTouchScreen}
-      className="relative w-full max-w-xl mx-auto flex flex-col items-center justify-center select-none py-4 px-4 text-white cursor-pointer"
+      className="relative w-full max-w-xl mx-auto flex flex-col items-center justify-center select-none py-4 px-4 text-white"
       style={{ perspective: '1200px' }}
     >
       {/* Top NEXORA Protocol Status */}
       <div className="w-full flex items-center justify-center mb-2 z-50 px-2">
-        <div className="flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/70 border border-cyan-400/40 text-[10px] font-mono text-cyan-300 tracking-widest shadow-[0_0_15px_rgba(6,182,212,0.3)]">
+        <div className="flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/70 border border-cyan-400/40 text-[10px] font-mono text-cyan-300 tracking-widest shadow-[0_0_15px_rgba(6,182,212,0.35)]">
           <Bot className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
           <span>NEXORA AI PROTOCOL ACTIVE</span>
         </div>
