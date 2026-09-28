@@ -16,19 +16,19 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
 
-  // Play the uploaded WhatsApp Intro Audio at High Volume
+  // Play the uploaded WhatsApp Intro Audio exactly once
   const playIntroAudio = useCallback(() => {
-    if (audioStartedRef.current && audioRef.current && !audioRef.current.paused) return;
+    if (audioStartedRef.current) return;
 
     try {
       if (!audioRef.current) {
         const audio = new Audio(introAudioFile);
         audio.volume = 1.0;
+        audio.loop = false;
         audio.preload = 'auto';
         audioRef.current = audio;
       }
 
-      audioRef.current.volume = 1.0;
       const playPromise = audioRef.current.play();
       if (playPromise !== undefined) {
         playPromise
@@ -36,7 +36,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
             audioStartedRef.current = true;
           })
           .catch(() => {
-            // Autoplay restricted - will trigger on passive touch/move
+            // Autoplay restricted until user touches/moves
           });
       }
     } catch (e) {
@@ -44,21 +44,24 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
     }
   }, []);
 
-  // Automatic Audio on Load & Global Interaction Unlock
+  // Automatic Single Audio Trigger on Load & Passive Interaction
   useEffect(() => {
     playIntroAudio();
 
     const unlockAudio = () => {
-      playIntroAudio();
+      if (!audioStartedRef.current) {
+        playIntroAudio();
+      }
     };
 
-    const events = ['pointerdown', 'touchstart', 'click', 'mousemove', 'wheel', 'scroll', 'keydown'];
-    events.forEach(e => window.addEventListener(e, unlockAudio, { passive: true }));
+    const events = ['pointerdown', 'touchstart', 'click', 'keydown', 'scroll'];
+    events.forEach(e => window.addEventListener(e, unlockAudio, { passive: true, once: true }));
 
     return () => {
       events.forEach(e => window.removeEventListener(e, unlockAudio));
       if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current.currentTime = 0;
       }
     };
   }, [playIntroAudio]);
