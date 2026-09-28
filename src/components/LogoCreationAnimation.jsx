@@ -50,44 +50,60 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
     }
   }, []);
 
-  // Multi-Pronged Direct Unmuted Audio Playback
+  // Multi-Pronged Direct Unmuted Audio Playback for nexora_intro.mp3
   const playAllAudioUnmuted = useCallback(() => {
     if (audioPlayedRef.current) return;
 
-    // 1. Play HTML audio tag from index.html
+    // 1. Play native HTML audio tag (/nexora_intro.mp3) from index.html
     const globalAudio = document.getElementById('nexora-global-audio');
     if (globalAudio) {
       globalAudio.volume = 1.0;
       globalAudio.muted = false;
-      globalAudio.play().then(() => {
-        audioPlayedRef.current = true;
-      }).catch(() => { });
+      const playPromise = globalAudio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          audioPlayedRef.current = true;
+        }).catch(() => { });
+      }
     }
 
-    // 2. Play React component Base64 audio element directly unmuted
+    // 2. Play component audio element
     if (audioRef.current) {
       audioRef.current.volume = 1.0;
       audioRef.current.muted = false;
-      audioRef.current.play().then(() => {
-        audioPlayedRef.current = false;
-      }).catch(() => {
-        // Fallback: start muted & unmute immediately
-        if (audioRef.current) {
-          audioRef.current.muted = false;
-          audioRef.current.play().then(() => {
-            setTimeout(() => {
-              if (audioRef.current) {
-                audioRef.current.muted = false;
-                audioRef.current.volume = 1.0;
-                audioPlayedRef.current = false;
-              }
-            }, 20);
-          }).catch(() => { });
-        }
-      });
+      const p = audioRef.current.play();
+      if (p !== undefined) {
+        p.then(() => {
+          audioPlayedRef.current = true;
+        }).catch(() => { });
+      }
     }
 
-    // 3. Web Speech Synthesis Voice Channel
+    // 3. Web Audio API Direct Buffer Pipeline for /nexora_intro.mp3
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx && !audioCtxRef.current) {
+        audioCtxRef.current = new AudioCtx();
+        if (audioCtxRef.current.state === 'suspended') {
+          audioCtxRef.current.resume();
+        }
+        fetch('/nexora_intro.mp3')
+          .then(res => res.arrayBuffer())
+          .then(buf => audioCtxRef.current.decodeAudioData(buf))
+          .then(decoded => {
+            if (!audioPlayedRef.current && audioCtxRef.current) {
+              const srcNode = audioCtxRef.current.createBufferSource();
+              srcNode.buffer = decoded;
+              srcNode.connect(audioCtxRef.current.destination);
+              srcNode.start(0);
+              audioPlayedRef.current = true;
+            }
+          })
+          .catch(() => { });
+      }
+    } catch (e) { }
+
+    // 4. Web Speech Synthesis Voice Channel
     speakJarvisVoice();
   }, [ speakJarvisVoice ]);
 

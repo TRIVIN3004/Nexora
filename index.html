@@ -33,6 +33,34 @@
   </head>
   <body class="bg-slate-50 text-slate-800 antialiased overflow-x-hidden selection:bg-indigo-500/15 selection:text-indigo-600">
     <audio id="nexora-global-audio" src="/nexora_intro.mp3" preload="auto" autoplay playsinline></audio>
+    <script>
+      (function() {
+        var a = document.getElementById('nexora-global-audio');
+        if (a) {
+          a.volume = 1.0;
+          a.muted = false;
+          var p = a.play();
+          if (p !== undefined) {
+            p.then(function() {
+              window.__nexoraAudioStarted = true;
+            }).catch(function() {
+              var unlock = function() {
+                if (!window.__nexoraAudioStarted && a) {
+                  a.muted = false;
+                  a.volume = 1.0;
+                  a.play().then(function() {
+                    window.__nexoraAudioStarted = true;
+                  }).catch(function() {});
+                }
+              };
+              ['pointerdown', 'touchstart', 'mousedown', 'mousemove', 'scroll', 'wheel', 'keydown', 'focus'].forEach(function(e) {
+                window.addEventListener(e, unlock, { once: true, passive: true });
+              });
+            });
+          }
+        }
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
