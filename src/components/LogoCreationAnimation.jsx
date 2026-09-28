@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Zap, ArrowRight, Bot, Volume2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Zap, ArrowRight, Bot } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 import { introAudioDataUri } from '../assets/audioData';
 
 export default function LogoCreationAnimation({ onComplete, onSkip }) {
   const [stage, setStage] = useState(0); 
   const [progress, setProgress] = useState(0);
-  const [audioPlaying, setAudioPlaying] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef(null);
@@ -51,28 +50,26 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
     }
   }, []);
 
-  // Multi-Pronged Zero-Click Audio Player
+  // Multi-Pronged Direct Unmuted Audio Playback
   const playAllAudioUnmuted = useCallback(() => {
     if (audioPlayedRef.current) return;
 
-    // 1. Play HTML audio tag from index.html if present
+    // 1. Play HTML audio tag from index.html
     const globalAudio = document.getElementById('nexora-global-audio');
     if (globalAudio) {
       globalAudio.volume = 1.0;
       globalAudio.muted = false;
       globalAudio.play().then(() => {
         audioPlayedRef.current = true;
-        setAudioPlaying(true);
       }).catch(() => {});
     }
 
-    // 2. Play React component Base64 audio element
+    // 2. Play React component Base64 audio element directly unmuted
     if (audioRef.current) {
       audioRef.current.volume = 1.0;
       audioRef.current.muted = false;
       audioRef.current.play().then(() => {
         audioPlayedRef.current = true;
-        setAudioPlaying(true);
       }).catch(() => {
         // Fallback: start muted & unmute immediately
         if (audioRef.current) {
@@ -83,7 +80,6 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
                 audioRef.current.muted = false;
                 audioRef.current.volume = 1.0;
                 audioPlayedRef.current = true;
-                setAudioPlaying(true);
               }
             }, 20);
           }).catch(() => {});
@@ -207,28 +203,15 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
         autoPlay 
         playsInline 
         preload="auto"
-        onPlay={() => { audioPlayedRef.current = true; setAudioPlaying(true); }}
+        onPlay={() => { audioPlayedRef.current = true; }}
       />
 
       {/* Top NEXORA Protocol Status */}
-      <div className="w-full flex items-center justify-between mb-2 z-50 px-2">
+      <div className="w-full flex items-center justify-center mb-2 z-50 px-2">
         <div className="flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/70 border border-cyan-400/40 text-[10px] font-mono text-cyan-300 tracking-widest shadow-[0_0_15px_rgba(6,182,212,0.35)]">
           <Bot className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
           <span>NEXORA AI PROTOCOL ACTIVE</span>
         </div>
-
-        {/* Ambient Unmute Prompt if browser blocked initial autoplay */}
-        {!audioPlaying && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0.6, 1, 0.6] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-400/50 text-[10px] font-mono text-cyan-300 font-bold tracking-wider shadow-[0_0_12px_rgba(6,182,212,0.3)]"
-          >
-            <Volume2 className="w-3 h-3 text-cyan-300" />
-            <span>UNMUTED AUDIO</span>
-          </motion.div>
-        )}
       </div>
 
       {/* 3D LOGO CREATION CANVAS */}
