@@ -121,13 +121,6 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Dismiss welcome preloader
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 4500);
-    return () => clearTimeout(timer);
-  }, []);
 
   // Auto-slide testimonials
   useEffect(() => {

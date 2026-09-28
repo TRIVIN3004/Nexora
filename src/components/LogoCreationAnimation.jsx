@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, VolumeX, Sparkles, Zap, ChevronRight, RotateCcw } from 'lucide-react';
+import { Volume2, VolumeX, Sparkles, Zap, ArrowRight, Play, Shield, Cpu } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 
 export default function LogoCreationAnimation({ onComplete, onSkip }) {
+  const [stage, setStage] = useState(0); 
+  // 0: Cinematic "INTRODUCING" Prologue (0s - 1.2s)
+  // 1: Vector Blueprint & Laser Schematic (1.2s - 2.4s)
+  // 2: 3D Shard Convergence & Laser Welding (2.4s - 3.6s)
+  // 3: The Signature Diagonal Slash & Shockwave (3.6s - 4.6s)
+  // 4: Grand Brand Reveal "GONEXORA TECHS" (4.6s+)
+
   const [progress, setProgress] = useState(0);
-  const [phase, setPhase] = useState(0); // 0: Calibrate, 1: Trace/Blueprint, 2: 3D Fuse, 3: Complete
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
@@ -13,7 +19,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
   const audioCtxRef = useRef(null);
   const voicePlayedRef = useRef(false);
 
-  // Initialize Web Audio Context on user opt-in or interaction
+  // Initialize Web Audio Context on user action
   const getAudioContext = useCallback(() => {
     if (typeof window === 'undefined') return null;
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -27,7 +33,7 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
     return audioCtxRef.current;
   }, []);
 
-  // Futuristic Sound Synthesizer via Web Audio API
+  // Cyber Sound FX Engine
   const playSfx = useCallback((type) => {
     if (!soundEnabled) return;
     const ctx = getAudioContext();
@@ -35,138 +41,122 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
 
     try {
       const now = ctx.currentTime;
-
-      if (type === 'beep') {
+      if (type === 'whoosh') {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(880 + Math.random() * 400, now);
-        osc.frequency.exponentialRampToValueAtTime(1760, now + 0.05);
+        osc.frequency.setValueAtTime(150, now);
+        osc.frequency.exponentialRampToValueAtTime(800, now + 0.3);
         gain.gain.setValueAtTime(0.04, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.05);
-      } else if (type === 'laser') {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(1200, now);
-        osc.frequency.exponentialRampToValueAtTime(150, now + 0.35);
-        gain.gain.setValueAtTime(0.08, now);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start(now);
         osc.stop(now + 0.35);
-      } else if (type === 'fuse') {
-        // Sub-bass impact + shimmer
+      } else if (type === 'lock') {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(120, now);
-        osc.frequency.exponentialRampToValueAtTime(40, now + 0.5);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+        osc.frequency.setValueAtTime(420, now);
+        osc.frequency.exponentialRampToValueAtTime(110, now + 0.18);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start(now);
-        osc.stop(now + 0.5);
-
-        // Chime
-        [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
-          const chimeOsc = ctx.createOscillator();
-          const chimeGain = ctx.createGain();
-          chimeOsc.type = 'sine';
-          chimeOsc.frequency.setValueAtTime(freq, now + i * 0.04);
-          chimeGain.gain.setValueAtTime(0.06, now + i * 0.04);
-          chimeGain.gain.exponentialRampToValueAtTime(0.001, now + 0.7 + i * 0.04);
-          chimeOsc.connect(chimeGain);
-          chimeGain.connect(ctx.destination);
-          chimeOsc.start(now + i * 0.04);
-          chimeOsc.stop(now + 0.8 + i * 0.04);
+        osc.stop(now + 0.18);
+      } else if (type === 'slash') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(1600, now);
+        osc.frequency.exponentialRampToValueAtTime(180, now + 0.4);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.4);
+      } else if (type === 'grand') {
+        [440, 554.37, 659.25, 880, 1108.73].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + i * 0.05);
+          gain.gain.setValueAtTime(0.06, now + i * 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2 + i * 0.05);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now + i * 0.05);
+          osc.stop(now + 1.3 + i * 0.05);
         });
       }
-    } catch (err) {
-      console.warn("Audio synthesis error:", err);
+    } catch (e) {
+      console.warn("Audio synth error:", e);
     }
   }, [soundEnabled, getAudioContext]);
 
-  // Voice greeting upon completion
+  // Voice Greeting
   const speakGreeting = useCallback(() => {
     if (!soundEnabled || voicePlayedRef.current) return;
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-
     try {
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance("Welcome to GoNexora Techs");
+      const utterance = new SpeechSynthesisUtterance("Introducing GoNexora Techs");
       const voices = window.speechSynthesis.getVoices();
-      const preferredVoice = voices.find(v => 
-        v.name.includes('Google US English') ||
-        v.name.includes('Google UK English Female') ||
-        v.name.includes('Samantha') ||
-        v.name.includes('Microsoft Zira') ||
-        v.lang.startsWith('en')
-      );
-      if (preferredVoice) utterance.voice = preferredVoice;
-      utterance.rate = 0.95;
+      const voice = voices.find(v => v.lang.startsWith('en'));
+      if (voice) utterance.voice = voice;
+      utterance.rate = 0.92;
       utterance.pitch = 1.05;
-      utterance.volume = 0.9;
       window.speechSynthesis.speak(utterance);
       voicePlayedRef.current = true;
     } catch (e) {
-      console.warn("Speech greeting error:", e);
+      console.warn("Speech error:", e);
     }
   }, [soundEnabled]);
 
-  // Animation timeline progression
+  // Cinematic Sequence Timeline (Total ~5.2s before auto-proceed)
   useEffect(() => {
     const startTime = Date.now();
-    const duration = 4000; // 4.0 seconds total creation sequence
+    const duration = 5000;
 
-    let sfxTick = 0;
-
-    const interval = setInterval(() => {
+    const timer = setInterval(() => {
       const elapsed = Date.now() - startTime;
-      const currentPct = Math.min(100, Math.floor((elapsed / duration) * 100));
-      setProgress(currentPct);
+      const pct = Math.min(100, Math.floor((elapsed / duration) * 100));
+      setProgress(pct);
 
-      if (currentPct < 25) {
-        setPhase(0); // Calibration & Holographic Grid
-      } else if (currentPct < 60) {
-        setPhase(1); // Laser Tracing & Wireframe
-        if (sfxTick % 6 === 0) playSfx('beep');
-      } else if (currentPct < 85) {
-        if (phase < 2) {
-          playSfx('laser');
-          playSfx('fuse');
-        }
-        setPhase(2); // 3D Fusion & Core Power-up
-      } else {
-        if (phase < 3) {
-          playSfx('fuse');
+      if (pct < 18) {
+        setStage(0); // "INTRODUCING..." Prologue
+      } else if (pct < 42) {
+        if (stage < 1) playSfx('whoosh');
+        setStage(1); // Blueprint & Laser Tracing
+      } else if (pct < 68) {
+        if (stage < 2) playSfx('lock');
+        setStage(2); // 3D Modules Convergence & Welding
+      } else if (pct < 88) {
+        if (stage < 3) {
+          playSfx('slash');
           speakGreeting();
         }
-        setPhase(3); // Complete & Online
+        setStage(3); // Diagonal Slash & Laser Ignition
+      } else {
+        if (stage < 4) playSfx('grand');
+        setStage(4); // Master Brand Reveal
       }
 
-      sfxTick++;
-
-      if (currentPct >= 100) {
-        clearInterval(interval);
-        // Automatically proceed after holding the completed logo for 800ms
-        const finishTimer = setTimeout(() => {
+      if (pct >= 100) {
+        clearInterval(timer);
+        const autoProceedTimer = setTimeout(() => {
           if (onComplete) onComplete();
-        }, 900);
-        return () => clearTimeout(finishTimer);
+        }, 1200);
+        return () => clearTimeout(autoProceedTimer);
       }
     }, 35);
 
-    return () => clearInterval(interval);
-  }, [phase, playSfx, speakGreeting, onComplete]);
+    return () => clearInterval(timer);
+  }, [stage, playSfx, speakGreeting, onComplete]);
 
-  // Handle 3D Mouse Parallax
+  // Mouse Parallax
   const handleMouseMove = (e) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
@@ -175,66 +165,52 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
     setMousePos({ x, y });
   };
 
-  const handleResetParallax = () => {
+  const handleMouseLeave = () => {
     setIsHovered(false);
     setMousePos({ x: 0, y: 0 });
   };
 
-  // Particles coordinates
-  const particles = useMemo(() => {
-    return Array.from({ length: 24 }).map((_, i) => {
-      const angle = (i * 360) / 24;
+  // Spark Particles
+  const sparks = useMemo(() => {
+    return Array.from({ length: 20 }).map((_, i) => {
+      const angle = (i * 360) / 20;
       const rad = (angle * Math.PI) / 180;
-      const distance = 80 + (i % 5) * 20;
+      const dist = 70 + (i % 4) * 25;
       return {
         id: i,
-        angle,
-        startX: Math.cos(rad) * distance * 1.6,
-        startY: Math.sin(rad) * distance * 1.6,
-        endX: Math.cos(rad) * 30,
-        endY: Math.sin(rad) * 30,
-        size: 1.5 + (i % 3) * 0.8,
-        delay: (i % 8) * 0.12,
-        duration: 1.8 + (i % 4) * 0.3
+        x: Math.cos(rad) * dist,
+        y: Math.sin(rad) * dist,
+        size: 2 + (i % 3),
+        delay: (i % 5) * 0.1
       };
     });
   }, []);
-
-  // Energy Laser Nodes coordinates around the logo
-  const nodes = useMemo(() => [
-    { id: 'n1', x: 25, y: 25, label: '01' },
-    { id: 'n2', x: 75, y: 25, label: '02' },
-    { id: 'n3', x: 80, y: 55, label: '03' },
-    { id: 'n4', x: 60, y: 85, label: '04' },
-    { id: 'n5', x: 20, y: 75, label: '05' },
-    { id: 'n6', x: 50, y: 50, label: '06' },
-  ], []);
-
-  const phaseTexts = [
-    "INITIALIZING QUANTUM MATRIX & HUD TELEMETRY...",
-    "TRACING VECTOR BLUEPRINTS & GEOMETRIC SCHEMATICS...",
-    "CONVERGING 3D NEURAL LAYERS & LASER FUSION...",
-    "GONEXORA TECHS CORE ONLINE • SYSTEM READY"
-  ];
 
   return (
     <div 
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleResetParallax}
-      className="relative w-full max-w-lg mx-auto flex flex-col items-center justify-center select-none py-4 px-2"
+      onMouseLeave={handleMouseLeave}
+      className="relative w-full max-w-2xl mx-auto flex flex-col items-center justify-center select-none py-6 px-4 text-white"
       style={{ perspective: '1200px' }}
     >
-      {/* Sound / Mute Toggle Button */}
-      <div className="absolute -top-12 right-2 sm:right-4 z-50 flex items-center gap-2">
+      {/* Top Controls Bar */}
+      <div className="absolute top-0 left-4 right-4 flex items-center justify-between z-50">
+        {/* Tech Badge */}
+        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono text-cyan-400 tracking-wider">
+          <Cpu className="w-3 h-3 text-cyan-400 animate-spin" style={{ animationDuration: '8s' }} />
+          <span>GONEXORA CORE MATRIX</span>
+        </div>
+
+        {/* Audio Toggle */}
         <button
           onClick={(e) => {
             e.stopPropagation();
             if (!soundEnabled) {
               setSoundEnabled(true);
               getAudioContext();
-              setTimeout(() => playSfx('fuse'), 100);
+              setTimeout(() => playSfx('grand'), 50);
             } else {
               setSoundEnabled(false);
               if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
@@ -242,17 +218,16 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
               }
             }
           }}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-mono tracking-wider transition-all duration-300 border ${
+          className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono tracking-wider transition-all duration-300 border ${
             soundEnabled 
-              ? 'bg-blue-500/20 text-cyan-300 border-cyan-500/40 shadow-[0_0_15px_rgba(6,182,212,0.25)]' 
-              : 'bg-white/5 text-slate-400 border-white/10 hover:text-white hover:border-white/25'
+              ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/50 shadow-[0_0_15px_rgba(6,182,212,0.3)]' 
+              : 'bg-white/5 text-slate-400 border-white/10 hover:text-white hover:border-white/20'
           }`}
-          title={soundEnabled ? "Disable SFX & Voice" : "Enable Cyber SFX & Voice"}
         >
           {soundEnabled ? (
             <>
               <Volume2 className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-              <span className="font-semibold text-cyan-300">SFX ACTIVE</span>
+              <span className="font-semibold text-cyan-300">SOUND ON</span>
             </>
           ) : (
             <>
@@ -263,411 +238,383 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
         </button>
       </div>
 
-      {/* Main Holographic Assembly Canvas */}
+      {/* ACT 0: PROLOGUE "INTRODUCING..." (Fades at Stage 0) */}
+      <div className="h-8 flex items-center justify-center mt-6">
+        <AnimatePresence mode="wait">
+          {stage === 0 ? (
+            <motion.div
+              key="prologue"
+              initial={{ opacity: 0, y: 10, letterSpacing: "0.2em" }}
+              animate={{ opacity: 1, y: 0, letterSpacing: "0.45em" }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.8 }}
+              className="text-xs sm:text-sm font-mono text-cyan-400 font-bold uppercase tracking-[0.45em] drop-shadow-[0_0_12px_rgba(56,189,248,0.7)] flex items-center gap-2"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+              <span>INTRODUCING</span>
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="creating"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-[11px] font-mono tracking-[0.25em] text-slate-400 uppercase flex items-center gap-2"
+            >
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+              <span>{stage >= 4 ? "SYSTEM READY • ONLINE" : "CRAFTING BRAND IDENTITY..."}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* MAIN CINEMATIC 3D LOGO CREATION STAGE */}
       <div 
-        className="relative w-64 h-64 sm:w-72 sm:h-72 flex items-center justify-center"
+        className="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center my-3"
         style={{
           transformStyle: 'preserve-3d',
-          transform: `rotateX(${-mousePos.y * 14}deg) rotateY(${mousePos.x * 14}deg)`,
-          transition: isHovered ? 'transform 0.1s ease-out' : 'transform 0.5s ease-out',
+          transform: `rotateX(${-mousePos.y * 12}deg) rotateY(${mousePos.x * 12}deg)`,
+          transition: isHovered ? 'transform 0.08s ease-out' : 'transform 0.5s ease-out',
         }}
       >
-        {/* Background Ambient Radial Glow */}
+        {/* Volumetric Radial Light Glow */}
         <div 
-          className="absolute inset-0 rounded-full blur-[45px] pointer-events-none transition-all duration-700"
+          className="absolute inset-0 rounded-full blur-[60px] pointer-events-none transition-all duration-700"
           style={{
-            background: phase >= 2 
-              ? 'radial-gradient(circle, rgba(56, 189, 248, 0.35) 0%, rgba(99, 102, 241, 0.25) 45%, transparent 75%)'
-              : 'radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(30, 58, 138, 0.1) 50%, transparent 70%)',
-            transform: 'scale(1.2)'
+            background: stage >= 3 
+              ? 'radial-gradient(circle, rgba(56, 189, 248, 0.45) 0%, rgba(99, 102, 241, 0.3) 45%, transparent 75%)'
+              : 'radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(30, 58, 138, 0.15) 50%, transparent 70%)',
+            transform: 'scale(1.3)'
           }}
         />
 
-        {/* 1. HUD Outer Rotating Geometric Rings */}
-        <svg viewBox="0 0 300 300" className="absolute inset-0 w-full h-full pointer-events-none z-0">
-          {/* Outer Dotted Calibration Circle */}
+        {/* 1. Orbiting Geometric HUD Blueprint Rings */}
+        <svg viewBox="0 0 260 260" className="absolute inset-0 w-full h-full pointer-events-none z-0">
+          {/* Outer Calibration Compass Ring */}
           <motion.circle
-            cx="150"
-            cy="150"
-            r="140"
+            cx="130"
+            cy="130"
+            r="120"
             fill="none"
-            stroke="rgba(56, 189, 248, 0.2)"
+            stroke="rgba(56, 189, 248, 0.25)"
             strokeWidth="1"
-            strokeDasharray="4 8"
+            strokeDasharray="6 12"
             animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-            style={{ transformOrigin: "150px 150px" }}
+            transition={{ repeat: Infinity, duration: 24, ease: "linear" }}
+            style={{ transformOrigin: "130px 130px" }}
           />
 
-          {/* Secondary Precision Compass Ring */}
+          {/* Secondary Precision Ring */}
           <motion.circle
-            cx="150"
-            cy="150"
-            r="126"
+            cx="130"
+            cy="130"
+            r="104"
             fill="none"
             stroke="rgba(99, 102, 241, 0.35)"
             strokeWidth="1.5"
-            strokeDasharray="40 18 10 18"
+            strokeDasharray="35 15 10 15"
             animate={{ rotate: -360 }}
-            transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
-            style={{ transformOrigin: "150px 150px" }}
+            transition={{ repeat: Infinity, duration: 16, ease: "linear" }}
+            style={{ transformOrigin: "130px 130px" }}
           />
 
-          {/* Inner Fast Energy Orbit */}
-          <motion.circle
-            cx="150"
-            cy="150"
-            r="108"
-            fill="none"
-            stroke="rgba(14, 165, 233, 0.4)"
-            strokeWidth="1"
-            strokeDasharray="12 24"
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 9, ease: "linear" }}
-            style={{ transformOrigin: "150px 150px" }}
-          />
+          {/* Caliper Crosshairs */}
+          <line x1="130" y1="5" x2="130" y2="28" stroke="rgba(56, 189, 248, 0.6)" strokeWidth="1.5" />
+          <line x1="130" y1="232" x2="130" y2="255" stroke="rgba(56, 189, 248, 0.6)" strokeWidth="1.5" />
+          <line x1="5" y1="130" x2="28" y2="130" stroke="rgba(56, 189, 248, 0.6)" strokeWidth="1.5" />
+          <line x1="232" y1="130" x2="255" y2="130" stroke="rgba(56, 189, 248, 0.6)" strokeWidth="1.5" />
 
-          {/* Crosshair Coordinate Axes */}
-          <line x1="150" y1="6" x2="150" y2="30" stroke="rgba(56, 189, 248, 0.5)" strokeWidth="1.5" />
-          <line x1="150" y1="270" x2="150" y2="294" stroke="rgba(56, 189, 248, 0.5)" strokeWidth="1.5" />
-          <line x1="6" y1="150" x2="30" y2="150" stroke="rgba(56, 189, 248, 0.5)" strokeWidth="1.5" />
-          <line x1="270" y1="150" x2="294" y2="150" stroke="rgba(56, 189, 248, 0.5)" strokeWidth="1.5" />
-
-          {/* Center Targeting Bracket Marks */}
-          <path d="M 40 50 L 50 50 L 50 40" fill="none" stroke="rgba(56, 189, 248, 0.4)" strokeWidth="1.5" />
-          <path d="M 260 50 L 250 50 L 250 40" fill="none" stroke="rgba(56, 189, 248, 0.4)" strokeWidth="1.5" />
-          <path d="M 40 250 L 50 250 L 50 260" fill="none" stroke="rgba(56, 189, 248, 0.4)" strokeWidth="1.5" />
-          <path d="M 260 250 L 250 250 L 250 260" fill="none" stroke="rgba(56, 189, 248, 0.4)" strokeWidth="1.5" />
-        </svg>
-
-        {/* 2. Quantum Particle Inward Convergence Streams */}
-        <div className="absolute inset-0 w-full h-full pointer-events-none z-10 overflow-hidden">
-          {phase < 3 && particles.map((p) => (
-            <motion.div
-              key={p.id}
-              className="absolute rounded-full bg-cyan-400 blur-[0.5px]"
-              style={{
-                width: p.size,
-                height: p.size,
-                left: '50%',
-                top: '50%',
-                boxShadow: '0 0 6px #38bdf8'
-              }}
-              initial={{
-                x: p.startX,
-                y: p.startY,
-                opacity: 0,
-                scale: 0.2
-              }}
-              animate={{
-                x: [p.startX, p.endX, 0],
-                y: [p.startY, p.endY, 0],
-                opacity: [0, 0.9, 0],
-                scale: [0.2, 1.4, 0]
-              }}
-              transition={{
-                repeat: Infinity,
-                duration: p.duration,
-                delay: p.delay,
-                ease: "easeInOut"
-              }}
+          {/* Laser Traced Blueprint Curves (Active in Stage 1 & 2) */}
+          <g opacity={stage < 3 ? 0.85 : 0.2} style={{ transition: 'opacity 0.6s ease' }}>
+            <motion.circle
+              cx="105"
+              cy="135"
+              r="50"
+              fill="none"
+              stroke="#38bdf8"
+              strokeWidth="2.5"
+              strokeDasharray="10 5"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: stage >= 1 ? 1 : 0 }}
+              transition={{ duration: 1.0, ease: "easeInOut" }}
             />
-          ))}
-        </div>
-
-        {/* 3. SVG Vector Blueprint & Laser Tracing Animation (Phase 0 & 1) */}
-        <svg 
-          viewBox="0 0 200 200" 
-          className="absolute inset-0 w-full h-full z-20 pointer-events-none"
-          style={{
-            filter: 'drop-shadow(0 0 10px rgba(56, 189, 248, 0.6))',
-            opacity: phase >= 2 ? 0.35 : 1,
-            transition: 'opacity 0.6s ease'
-          }}
-        >
-          {/* Logo 'G' Curved Vector Contour */}
-          <motion.path
-            d="M 90 40 A 50 50 0 1 0 100 135 L 75 135 L 75 105 L 95 105"
-            fill="none"
-            stroke="#38bdf8"
-            strokeWidth="3.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ 
-              pathLength: phase >= 1 ? 1 : progress / 35,
-              opacity: phase >= 0 ? 1 : 0
-            }}
-            transition={{ duration: 1.4, ease: "easeInOut" }}
-          />
-
-          {/* Logo 'N' Angular Geometric Pillar */}
-          <motion.path
-            d="M 95 65 L 95 145 L 140 65 L 140 145"
-            fill="none"
-            stroke="#818cf8"
-            strokeWidth="3.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ 
-              pathLength: phase >= 1 ? 1 : 0,
-              opacity: phase >= 1 ? 1 : 0
-            }}
-            transition={{ duration: 1.2, delay: 0.3, ease: "easeInOut" }}
-          />
-
-          {/* Logo 'T' Top Bar Roof */}
-          <motion.path
-            d="M 125 40 L 165 40"
-            fill="none"
-            stroke="#38bdf8"
-            strokeWidth="4"
-            strokeLinecap="round"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ 
-              pathLength: phase >= 1 ? 1 : 0,
-              opacity: phase >= 1 ? 1 : 0
-            }}
-            transition={{ duration: 0.8, delay: 0.6, ease: "easeInOut" }}
-          />
-
-          {/* Signature Diagonal Laser Slash Line */}
-          <motion.line
-            x1="35"
-            y1="150"
-            x2="105"
-            y2="70"
-            stroke="#ffffff"
-            strokeWidth="3"
-            strokeLinecap="round"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ 
-              pathLength: phase >= 1 ? 1 : 0,
-              opacity: phase >= 1 ? 1 : 0
-            }}
-            transition={{ duration: 0.6, delay: 0.8, ease: "easeInOut" }}
-          />
-
-          {/* Nodes on Wireframe Intersections */}
-          {phase >= 1 && nodes.map((node, i) => (
-            <motion.g key={node.id} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2 + i * 0.1 }}>
-              <circle
-                cx={node.x * 2}
-                cy={node.y * 2}
-                r="3"
-                fill="#38bdf8"
-                className="animate-ping"
-                style={{ animationDuration: '2.5s', animationDelay: `${i * 0.3}s` }}
-              />
-              <circle
-                cx={node.x * 2}
-                cy={node.y * 2}
-                r="2"
-                fill="#ffffff"
-              />
-            </motion.g>
-          ))}
+            <motion.line
+              x1="50"
+              y1="190"
+              x2="150"
+              y2="90"
+              stroke="#00f2fe"
+              strokeWidth="3"
+              strokeDasharray="6 6"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: stage >= 1 ? 1 : 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeInOut" }}
+            />
+            <motion.path
+              d="M 130 95 L 130 175 M 130 95 L 180 175 M 180 95 L 180 175"
+              fill="none"
+              stroke="#818cf8"
+              strokeWidth="2.5"
+              strokeDasharray="8 4"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: stage >= 1 ? 1 : 0 }}
+              transition={{ duration: 1.0, delay: 0.4, ease: "easeInOut" }}
+            />
+            <motion.line
+              x1="155"
+              y1="80"
+              x2="205"
+              y2="80"
+              stroke="#38bdf8"
+              strokeWidth="3.5"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: stage >= 1 ? 1 : 0 }}
+              transition={{ duration: 0.6, delay: 0.6, ease: "easeInOut" }}
+            />
+          </g>
         </svg>
 
-        {/* 4. Laser Scanning Sweep Bar (Vertical) */}
-        {phase === 1 && (
+        {/* 2. THE 3D LOGO CREATION CANVAS */}
+        <div className="relative w-48 h-48 sm:w-56 sm:h-56 z-20 flex items-center justify-center">
+          
+          {/* COMPONENT 1: The 'G' Arc - Flying in from Left (Stage 2+) */}
           <motion.div
-            className="absolute left-4 right-4 h-[2px] bg-gradient-to-r from-transparent via-cyan-400 to-transparent z-30 pointer-events-none"
-            style={{
-              boxShadow: '0 0 12px #38bdf8, 0 0 20px #06b6d4'
-            }}
-            initial={{ top: '10%', opacity: 0 }}
-            animate={{ 
-              top: ['10%', '90%', '10%'],
-              opacity: [0.3, 1, 0.3]
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 1.6,
-              ease: "easeInOut"
-            }}
-          />
-        )}
+            className="absolute inset-0 w-full h-full"
+            style={{ clipPath: 'polygon(0% 0%, 54% 0%, 30% 100%, 0% 100%)' }}
+            initial={{ x: -160, y: 40, rotateY: -70, opacity: 0, scale: 0.6 }}
+            animate={stage >= 2 ? {
+              x: 0,
+              y: 0,
+              rotateY: 0,
+              opacity: 1,
+              scale: 1
+            } : { x: -160, y: 40, rotateY: -70, opacity: 0, scale: 0.6 }}
+            transition={{ duration: 0.8, type: "spring", stiffness: 100, damping: 13 }}
+          >
+            <img 
+              src={logoImg} 
+              alt="Nexora G Structure" 
+              className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(56,189,248,0.7)]" 
+            />
+          </motion.div>
 
-        {/* 5. 3D Assembling Logo Extrusion Layers (Phase 2 & 3) */}
-        <AnimatePresence>
-          {phase >= 2 && (
+          {/* COMPONENT 2: The 'N' Pillar - Flying in from Right (Stage 2+) */}
+          <motion.div
+            className="absolute inset-0 w-full h-full"
+            style={{ clipPath: 'polygon(48% 28%, 100% 28%, 100% 100%, 26% 100%)' }}
+            initial={{ x: 160, y: 40, rotateY: 70, opacity: 0, scale: 0.6 }}
+            animate={stage >= 2 ? {
+              x: 0,
+              y: 0,
+              rotateY: 0,
+              opacity: 1,
+              scale: 1
+            } : { x: 160, y: 40, rotateY: 70, opacity: 0, scale: 0.6 }}
+            transition={{ duration: 0.8, delay: 0.15, type: "spring", stiffness: 100, damping: 13 }}
+          >
+            <img 
+              src={logoImg} 
+              alt="Nexora N Structure" 
+              className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(129,140,248,0.7)]" 
+            />
+          </motion.div>
+
+          {/* COMPONENT 3: The 'T' Overhead Bar - Descending from Top (Stage 2+) */}
+          <motion.div
+            className="absolute inset-0 w-full h-full"
+            style={{ clipPath: 'polygon(56% 0%, 100% 0%, 100% 28%, 56% 28%)' }}
+            initial={{ y: -100, scaleY: 0.2, opacity: 0 }}
+            animate={stage >= 2 ? {
+              y: 0,
+              scaleY: 1,
+              opacity: 1
+            } : { y: -100, scaleY: 0.2, opacity: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, type: "spring", stiffness: 120, damping: 14 }}
+          >
+            <img 
+              src={logoImg} 
+              alt="Nexora T Structure" 
+              className="w-full h-full object-contain filter drop-shadow-[0_0_15px_rgba(56,189,248,0.7)]" 
+            />
+          </motion.div>
+
+          {/* COMPONENT 4: THE SIGNATURE LASER SLASH (Stage 3) */}
+          {stage === 3 && (
             <motion.div
-              className="relative w-40 h-40 sm:w-44 sm:h-44 z-30 flex items-center justify-center"
-              initial={{ scale: 0.3, opacity: 0, rotateY: 45, z: -100 }}
+              className="absolute z-50 pointer-events-none"
+              style={{
+                top: '50%',
+                left: '50%',
+                width: '210px',
+                height: '4px',
+                transform: 'translate(-50%, -50%) rotate(-45deg)',
+                background: 'linear-gradient(90deg, transparent, #ffffff, #38bdf8, transparent)',
+                boxShadow: '0 0 25px #ffffff, 0 0 45px #00f2fe'
+              }}
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={{ scaleX: [0, 1.7, 0], opacity: [0, 1, 0] }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+            />
+          )}
+
+          {/* COMPONENT 5: MASTER UNIFIED 3D LOGO (Stage 3 & 4) */}
+          {stage >= 3 && (
+            <motion.div
+              className="absolute inset-0 w-full h-full z-30 flex items-center justify-center"
+              initial={{ scale: 0.9, opacity: 0 }}
               animate={{ 
-                scale: phase === 3 ? [1, 1.04, 1] : 1, 
-                opacity: 1, 
-                rotateY: 0, 
-                z: 0 
+                scale: 1, 
+                opacity: 1,
+                y: [0, -5, 0]
               }}
               transition={{ 
-                duration: 0.8, 
-                type: "spring", 
-                stiffness: 90, 
-                damping: 12 
+                scale: { duration: 0.5, type: "spring", stiffness: 160 },
+                y: { repeat: Infinity, duration: 3.5, ease: "easeInOut" }
               }}
               style={{ transformStyle: 'preserve-3d' }}
             >
-              {/* Back Layer Extrusions for Depth */}
+              {/* 3D Multi-Layer Extrusion Depth */}
               {[3, 2, 1].map((depth) => (
                 <img
                   key={depth}
                   src={logoImg}
-                  alt="GoNexora 3D Depth Layer"
-                  className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none opacity-40"
+                  alt="3D Extruded Depth"
+                  className="absolute inset-0 w-full h-full object-contain pointer-events-none opacity-35"
                   style={{
                     transform: `translateZ(${-depth * 6}px) translateY(${depth * 1.5}px)`,
-                    filter: `brightness(50%) drop-shadow(0 0 15px rgba(59, 130, 246, 0.4))`,
+                    filter: 'brightness(45%) drop-shadow(0 0 12px rgba(59,130,246,0.35))'
                   }}
                 />
               ))}
 
-              {/* Front Primary Logo */}
-              <motion.img
+              {/* Master Front Emblem */}
+              <img
                 src={logoImg}
-                alt="GoNexora Techs Assembled Logo"
-                className="relative w-full h-full object-contain z-40 filter drop-shadow-[0_10px_25px_rgba(56,189,248,0.5)]"
-                animate={phase === 3 ? {
-                  y: [0, -6, 0],
-                  filter: [
-                    'drop-shadow(0 10px 25px rgba(56,189,248,0.5))',
-                    'drop-shadow(0 15px 35px rgba(99,102,241,0.7))',
-                    'drop-shadow(0 10px 25px rgba(56,189,248,0.5))'
-                  ]
-                } : {}}
-                transition={{
-                  repeat: Infinity,
-                  duration: 4,
-                  ease: "easeInOut"
-                }}
+                alt="GoNexora Techs Logo"
+                className="relative w-full h-full object-contain filter drop-shadow-[0_15px_30px_rgba(56,189,248,0.6)]"
               />
 
-              {/* Specular Light Flare Sweep on Fusion */}
+              {/* Chrome Shimmer Light Reflection Sweep */}
               <motion.div
-                className="absolute inset-0 z-50 pointer-events-none overflow-hidden rounded-2xl"
+                className="absolute inset-0 overflow-hidden pointer-events-none rounded-xl"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: phase >= 2 ? [0, 1, 0] : 0 }}
+                animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 1.2, delay: 0.1 }}
               >
                 <motion.div
-                  className="w-[200%] h-full bg-gradient-to-r from-transparent via-white/70 to-transparent -skew-x-45"
+                  className="w-[200%] h-full bg-gradient-to-r from-transparent via-white/80 to-transparent -skew-x-45"
                   initial={{ x: '-150%' }}
                   animate={{ x: '150%' }}
                   transition={{ duration: 1.1, ease: "easeOut" }}
                 />
               </motion.div>
-
-              {/* Diagonal Slash Laser Spark Beam */}
-              {phase === 2 && (
-                <motion.div
-                  className="absolute w-48 h-[3px] bg-white rounded-full z-50 pointer-events-none"
-                  style={{
-                    top: '50%',
-                    left: '50%',
-                    boxShadow: '0 0 18px #ffffff, 0 0 30px #38bdf8',
-                    transform: 'translate(-50%, -50%) rotate(-45deg)'
-                  }}
-                  initial={{ scaleX: 0, opacity: 0 }}
-                  animate={{ scaleX: [0, 1.4, 0], opacity: [0, 1, 0] }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
-                />
-              )}
             </motion.div>
           )}
-        </AnimatePresence>
 
-        {/* 6. Shockwave Expansion Ring on Fusion (Phase 2 & 3) */}
-        {phase >= 2 && (
-          <motion.div
-            className="absolute rounded-full border-2 border-cyan-400/80 pointer-events-none z-10"
-            initial={{ width: 40, height: 40, opacity: 1, scale: 0.5 }}
-            animate={{ width: 280, height: 280, opacity: 0, scale: 1.25 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-          />
-        )}
+          {/* Fusion Energy Ripple Shockwave */}
+          {stage >= 3 && (
+            <motion.div
+              className="absolute rounded-full border-2 border-cyan-400/90 pointer-events-none z-10"
+              initial={{ width: 40, height: 40, opacity: 1, scale: 0.4 }}
+              animate={{ width: 300, height: 300, opacity: 0, scale: 1.3 }}
+              transition={{ duration: 1.1, ease: "easeOut" }}
+            />
+          )}
+
+          {/* Spark Particles Burst */}
+          {stage === 3 && sparks.map((s) => (
+            <motion.div
+              key={s.id}
+              className="absolute rounded-full bg-cyan-300 shadow-[0_0_10px_#38bdf8]"
+              style={{
+                width: s.size,
+                height: s.size,
+                left: '50%',
+                top: '50%'
+              }}
+              initial={{ x: 0, y: 0, opacity: 1 }}
+              animate={{ x: s.x, y: s.y, opacity: 0 }}
+              transition={{ duration: 0.8, delay: s.delay, ease: "easeOut" }}
+            />
+          ))}
+        </div>
       </div>
 
-      {/* Holographic Brand Typography & Reveal Sequence */}
-      <div className="mt-4 flex flex-col items-center text-center space-y-2.5 z-40 max-w-sm">
-        {/* Company Name with Cyber Glow */}
+      {/* BRAND INTRODUCTION TYPOGRAPHY (Grand Reveal at Stage 3 & 4) */}
+      <div className="mt-2 flex flex-col items-center text-center space-y-2.5 z-40 max-w-md">
+        
+        {/* Main Title "GONEXORA TECHS" */}
         <motion.div
-          className="flex items-center gap-2 overflow-hidden"
+          className="flex items-center gap-2.5"
           initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
+          animate={{ opacity: stage >= 2 ? 1 : 0.3, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          <h1 className="text-3xl sm:text-4xl font-black tracking-[0.22em] font-display bg-gradient-to-r from-white via-cyan-100 to-slate-300 bg-clip-text text-transparent drop-shadow-[0_2px_12px_rgba(56,189,248,0.3)]">
+          <h1 className="text-3xl sm:text-5xl font-black tracking-[0.2em] font-display bg-gradient-to-r from-white via-cyan-100 to-slate-200 bg-clip-text text-transparent drop-shadow-[0_2px_15px_rgba(56,189,248,0.4)]">
             GONEXORA
           </h1>
           <motion.span 
-            className="px-2 py-0.5 rounded-md bg-gradient-to-r from-indigo-600/60 to-blue-600/60 border border-cyan-400/40 text-cyan-300 font-mono text-xs sm:text-sm font-bold tracking-widest uppercase shadow-[0_0_10px_rgba(6,182,212,0.3)]"
+            className="px-2.5 py-1 rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 border border-cyan-400/50 text-cyan-200 font-mono text-xs sm:text-base font-bold tracking-widest uppercase shadow-[0_0_15px_rgba(6,182,212,0.35)]"
             initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+            animate={{ scale: stage >= 3 ? 1 : 0 }}
+            transition={{ type: "spring", stiffness: 180 }}
           >
             TECHS
           </motion.span>
         </motion.div>
 
-        {/* Live HUD Telemetry & Phase Indicator */}
-        <div className="flex items-center gap-2 text-[10px] sm:text-[11px] font-mono text-cyan-400/90 tracking-wider">
-          <Zap className="w-3 h-3 text-cyan-400 animate-pulse" />
-          <span className="truncate max-w-[280px] sm:max-w-none">
-            {phaseTexts[phase]}
-          </span>
-        </div>
+        {/* Tagline */}
+        <motion.p 
+          className="text-xs sm:text-sm font-display tracking-[0.25em] text-slate-300 font-medium"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: stage >= 3 ? 1 : 0.4 }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="text-cyan-400">"</span>BUILDING TOMORROW, TODAY<span className="text-cyan-400">"</span>
+        </motion.p>
 
-        {/* High-Tech Progress Bar Container */}
-        <div className="w-60 sm:w-64 space-y-1.5 pt-1">
+        {/* Progress Matrix Line */}
+        <div className="w-64 sm:w-80 space-y-1 pt-2">
           <div className="flex justify-between items-center text-[10px] font-mono text-slate-400">
-            <span className="flex items-center gap-1 text-slate-300">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
-              SYNTHESIS
+            <span className="flex items-center gap-1.5 text-cyan-300">
+              <Zap className="w-3 h-3 text-cyan-400 animate-pulse" />
+              {stage >= 4 ? "ASSEMBLY 100% COMPLETE" : "CREATING LOGO IDENTITY"}
             </span>
             <span className="font-bold text-cyan-300">{progress}%</span>
           </div>
 
-          <div className="h-1.5 w-full bg-slate-900/90 rounded-full overflow-hidden p-[1px] border border-cyan-500/30 shadow-[0_0_10px_rgba(6,182,212,0.15)]">
+          <div className="h-1.5 w-full bg-slate-900 rounded-full overflow-hidden p-[1px] border border-cyan-500/30 shadow-[0_0_10px_rgba(6,182,212,0.2)]">
             <motion.div 
-              className="h-full rounded-full bg-gradient-to-r from-blue-600 via-cyan-400 to-indigo-400 relative"
+              className="h-full rounded-full bg-gradient-to-r from-blue-600 via-cyan-400 to-emerald-400 relative"
               style={{ width: `${progress}%` }}
               transition={{ ease: "linear" }}
             >
-              {/* Glowing leading edge */}
-              <div className="absolute right-0 top-0 bottom-0 w-2 bg-white shadow-[0_0_8px_#ffffff] rounded-full" />
+              <div className="absolute right-0 top-0 bottom-0 w-2.5 bg-white shadow-[0_0_10px_#ffffff] rounded-full" />
             </motion.div>
           </div>
         </div>
-
-        {/* Brand Tagline */}
-        <motion.p
-          className="text-xs font-display tracking-widest text-slate-400 font-medium pt-1"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: phase >= 2 ? 1 : 0.4 }}
-          transition={{ duration: 0.5 }}
-        >
-          <span className="text-cyan-400/80">"</span>BUILDING TOMORROW, TODAY<span className="text-cyan-400/80">"</span>
-        </motion.p>
       </div>
 
-      {/* Action / Skip Controls */}
+      {/* ENTER SITE / SKIP ACTION CTA */}
       <div className="mt-6 flex items-center gap-3 z-50">
         <motion.button
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.96 }}
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.95 }}
           onClick={(e) => {
             e.stopPropagation();
             if (onSkip) onSkip();
             else if (onComplete) onComplete();
           }}
-          className="group flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-950/40 hover:bg-cyan-900/60 text-cyan-300 hover:text-white text-xs font-mono tracking-wider transition-all duration-200 cursor-pointer shadow-[0_0_15px_rgba(6,182,212,0.2)] hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+          className={`group flex items-center gap-2 px-6 py-2.5 rounded-full text-xs sm:text-sm font-mono tracking-widest uppercase transition-all duration-300 cursor-pointer ${
+            stage >= 3 
+              ? 'bg-gradient-to-r from-blue-600 via-cyan-500 to-indigo-600 text-white font-bold border border-cyan-300/60 shadow-[0_0_25px_rgba(6,182,212,0.5)] hover:shadow-[0_0_35px_rgba(6,182,212,0.8)]' 
+              : 'bg-white/5 border border-white/15 text-slate-300 hover:text-white hover:border-white/30 hover:bg-white/10'
+          }`}
         >
-          <span>{phase === 3 ? "ENTER SITE" : "SKIP INTRO"}</span>
-          <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          <span>{stage >= 3 ? "ENTER EXPERIENCE" : "SKIP INTRO"}</span>
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </motion.button>
       </div>
     </div>
