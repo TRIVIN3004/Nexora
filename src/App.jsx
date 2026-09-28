@@ -603,9 +603,9 @@ function App() {
             initial={{ opacity: 1 }}
             exit={{ 
               opacity: 0,
-              scale: 1.05,
-              filter: "blur(8px)",
-              transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
+              scale: 1.04,
+              filter: "blur(4px)",
+              transition: { duration: 0.35, ease: "easeOut" }
             }}
             className="fixed inset-0 z-[9999] bg-slate-950 flex flex-col items-center justify-center text-white overflow-hidden"
           >
