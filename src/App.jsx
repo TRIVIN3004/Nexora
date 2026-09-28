@@ -15,7 +15,7 @@ import aakashrajPhoto from './assets/aakashraj.png';
 import arutselvanPhoto from './assets/arutselvan.png';
 import naveenPhoto from './assets/naveen.png';
 import Logo3D from './components/Logo3D';
-import WelcomeNamaste from './components/WelcomeNamaste';
+import LogoCreationAnimation from './components/LogoCreationAnimation';
 import Scroll3DReveal from './components/Scroll3DReveal';
 import Background3D from './components/Background3D';
 import Tilt from 'react-parallax-tilt';
@@ -602,80 +602,30 @@ function App() {
 
   return (
     <>
-      {/* 1. WELCOME PRELOADER */}
+      {/* 1. FUTURISTIC LOGO CREATION ENTRANCE */}
       <AnimatePresence mode="wait">
         {loading && (
           <motion.div
-            key="preloader"
+            key="logo-creation-preloader"
             initial={{ opacity: 1 }}
             exit={{ 
               opacity: 0,
-              y: -1000,
-              transition: { duration: 0.9, ease: [0.76, 0, 0.24, 1] }
+              scale: 1.05,
+              filter: "blur(8px)",
+              transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
             }}
             className="fixed inset-0 z-[9999] bg-slate-950 flex flex-col items-center justify-center text-white overflow-hidden"
           >
-            {/* Ambient Glows */}
-            <div className="absolute w-[60%] h-[60%] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse" />
-            <div className="absolute w-[40%] h-[40%] bg-blue-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+            {/* Ambient Deep Space Cyber Glows */}
+            <div className="absolute inset-0 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none" />
+            <div className="absolute w-[60%] h-[60%] bg-blue-600/10 rounded-full blur-[140px] pointer-events-none" />
+            <div className="absolute w-[45%] h-[45%] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
 
-            <div className="z-10 flex flex-col items-center space-y-6 max-w-md px-6 text-center">
-              {/* Welcoming Figure with Joining Hands */}
-              <WelcomeNamaste />
-
-              {/* Company Title */}
-              <div className="space-y-2">
-                <motion.h1 
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.8 }}
-                  className="text-3xl sm:text-4xl font-extrabold tracking-widest font-display bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent"
-                >
-                  GONEXORA
-                </motion.h1>
-                <motion.p 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6, duration: 0.8 }}
-                  className="text-xs sm:text-sm font-mono tracking-[0.25em] text-indigo-400 uppercase font-semibold"
-                >
-                  TECHS
-                </motion.p>
-              </div>
-
-              {/* Progress Bar Loader */}
-              <div className="w-48 h-[3px] bg-white/10 rounded-full overflow-hidden relative">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 2.2, ease: "easeInOut" }}
-                  className="h-full bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-500"
-                />
-              </div>
-
-              {/* Slogan */}
-              <motion.p 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1, duration: 0.8 }}
-                className="text-[11px] font-display text-slate-500 italic font-medium"
-              >
-                "Building Tomorrow, Today."
-              </motion.p>
-            </div>
-            
-            {/* Skip Button */}
-            <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.6 }}
-              whileHover={{ opacity: 1, scale: 1.05 }}
-              onClick={() => setLoading(false)}
-              className="absolute bottom-8 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-[11px] font-mono tracking-widest text-slate-400 hover:text-white hover:border-white/20 hover:bg-white/10 transition-all duration-200 cursor-pointer z-50"
-            >
-              SKIP WELCOME
-            </motion.button>
-            
-            <div className="absolute inset-0 bg-grid-cyber opacity-[0.03] pointer-events-none" />
+            {/* Logo Creation & Assembly Animation Engine */}
+            <LogoCreationAnimation 
+              onComplete={() => setLoading(false)}
+              onSkip={() => setLoading(false)}
+            />
           </motion.div>
         )}
       </AnimatePresence>
@@ -923,7 +873,7 @@ function App() {
               <div className="lg:col-span-7 text-left space-y-6">
                 <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-blue-200 bg-blue-50/80 text-blue-700 text-xs font-semibold uppercase tracking-wider backdrop-blur-md">
                   <Sparkles size={13} className="text-blue-600" />
-                  <span>Next-Gen Software & AI Studio</span>
+                  <span></span>
                 </div>
                 
                 <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold font-display leading-[1.08] tracking-tight text-slate-900">
