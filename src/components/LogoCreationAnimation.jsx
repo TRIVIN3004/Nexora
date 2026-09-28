@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { Zap, ArrowRight, Bot } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Zap, ArrowRight, Bot, Volume2 } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 import { introAudioDataUri } from '../assets/audioData';
 
 export default function LogoCreationAnimation({ onComplete, onSkip }) {
   const [stage, setStage] = useState(0); 
   const [progress, setProgress] = useState(0);
+  const [audioPlaying, setAudioPlaying] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef(null);
@@ -16,20 +17,6 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
   const voicePlayedRef = useRef(false);
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
-
-  // Web Audio Context for synthesized sound backup
-  const getAudioContext = useCallback(() => {
-    if (typeof window === 'undefined') return null;
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return null;
-    if (!audioCtxRef.current) {
-      audioCtxRef.current = new AudioCtx();
-    }
-    if (audioCtxRef.current.state === 'suspended') {
-      audioCtxRef.current.resume().catch(() => {});
-    }
-    return audioCtxRef.current;
-  }, []);
 
   // J.A.R.V.I.S. British AI Voice Output
   const speakJarvisVoice = useCallback(() => {
@@ -64,48 +51,62 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
     }
   }, []);
 
-  // Play Unmuted Audio Immediately (Zero Click Required)
-  const playUnmutedAudio = useCallback(() => {
+  // Multi-Pronged Zero-Click Audio Player
+  const playAllAudioUnmuted = useCallback(() => {
     if (audioPlayedRef.current) return;
 
-    // 1. Play Base64 Embedded MP3 Audio
-    try {
-      if (audioRef.current) {
-        audioRef.current.volume = 1.0;
-        audioRef.current.muted = false;
-        const playPromise = audioRef.current.play();
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              audioPlayedRef.current = true;
-            })
-            .catch(() => {
-              // If browser initially blocked unmuted, speak aloud & auto-resume on first movement
-              speakJarvisVoice();
-            });
-        }
-      }
-    } catch (e) {
-      console.warn("Audio play error:", e);
+    // 1. Play HTML audio tag from index.html if present
+    const globalAudio = document.getElementById('nexora-global-audio');
+    if (globalAudio) {
+      globalAudio.volume = 1.0;
+      globalAudio.muted = false;
+      globalAudio.play().then(() => {
+        audioPlayedRef.current = true;
+        setAudioPlaying(true);
+      }).catch(() => {});
     }
 
-    // 2. Play Web Speech Synthesis Voice
+    // 2. Play React component Base64 audio element
+    if (audioRef.current) {
+      audioRef.current.volume = 1.0;
+      audioRef.current.muted = false;
+      audioRef.current.play().then(() => {
+        audioPlayedRef.current = true;
+        setAudioPlaying(true);
+      }).catch(() => {
+        // Fallback: start muted & unmute immediately
+        if (audioRef.current) {
+          audioRef.current.muted = true;
+          audioRef.current.play().then(() => {
+            setTimeout(() => {
+              if (audioRef.current) {
+                audioRef.current.muted = false;
+                audioRef.current.volume = 1.0;
+                audioPlayedRef.current = true;
+                setAudioPlaying(true);
+              }
+            }, 20);
+          }).catch(() => {});
+        }
+      });
+    }
+
+    // 3. Web Speech Synthesis Voice Channel
     speakJarvisVoice();
   }, [speakJarvisVoice]);
 
-  // Automatic Audio on Mount & Passive Signals
+  // Automatic Audio on Mount & Universal Event Listeners
   useEffect(() => {
-    // Immediate unmuted playback attempt
-    playUnmutedAudio();
+    playAllAudioUnmuted();
 
-    const handleAutoSignal = () => {
+    const handleAutoUnlock = () => {
       if (!audioPlayedRef.current) {
-        playUnmutedAudio();
+        playAllAudioUnmuted();
       }
     };
 
-    const signals = ['pointermove', 'mousemove', 'wheel', 'scroll', 'touchstart', 'pointerdown', 'keydown', 'focus', 'load'];
-    signals.forEach(sig => window.addEventListener(sig, handleAutoSignal, { passive: true }));
+    const events = ['pointerdown', 'touchstart', 'click', 'mousemove', 'wheel', 'scroll', 'keydown', 'focus'];
+    events.forEach(e => window.addEventListener(e, handleAutoUnlock, { passive: true }));
 
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.onvoiceschanged = () => {
@@ -116,13 +117,18 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
     }
 
     return () => {
-      signals.forEach(sig => window.removeEventListener(sig, handleAutoSignal));
+      events.forEach(e => window.removeEventListener(e, handleAutoUnlock));
+      const globalAudio = document.getElementById('nexora-global-audio');
+      if (globalAudio) {
+        globalAudio.pause();
+        globalAudio.currentTime = 0;
+      }
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
       }
     };
-  }, [playUnmutedAudio, speakJarvisVoice]);
+  }, [playAllAudioUnmuted, speakJarvisVoice]);
 
   // 5-Second Loading Screen Timeline (5,000ms)
   useEffect(() => {
@@ -189,25 +195,40 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
-      className="relative w-full max-w-xl mx-auto flex flex-col items-center justify-center select-none py-4 px-4 text-white"
+      onClick={playAllAudioUnmuted}
+      onTouchStart={playAllAudioUnmuted}
+      className="relative w-full max-w-xl mx-auto flex flex-col items-center justify-center select-none py-4 px-4 text-white cursor-pointer"
       style={{ perspective: '1200px' }}
     >
-      {/* Native Auto-Playing Audio Element using embedded Base64 */}
+      {/* Embedded Base64 Audio Element */}
       <audio 
         ref={audioRef} 
         src={introAudioDataUri} 
         autoPlay 
         playsInline 
         preload="auto"
-        onPlay={() => { audioPlayedRef.current = true; }}
+        onPlay={() => { audioPlayedRef.current = true; setAudioPlaying(true); }}
       />
 
       {/* Top NEXORA Protocol Status */}
-      <div className="w-full flex items-center justify-center mb-2 z-50 px-2">
+      <div className="w-full flex items-center justify-between mb-2 z-50 px-2">
         <div className="flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/70 border border-cyan-400/40 text-[10px] font-mono text-cyan-300 tracking-widest shadow-[0_0_15px_rgba(6,182,212,0.35)]">
           <Bot className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
           <span>NEXORA AI PROTOCOL ACTIVE</span>
         </div>
+
+        {/* Ambient Unmute Prompt if browser blocked initial autoplay */}
+        {!audioPlaying && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0.6, 1, 0.6] }}
+            transition={{ repeat: Infinity, duration: 1.5 }}
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/20 border border-cyan-400/50 text-[10px] font-mono text-cyan-300 font-bold tracking-wider shadow-[0_0_12px_rgba(6,182,212,0.3)]"
+          >
+            <Volume2 className="w-3 h-3 text-cyan-300" />
+            <span>UNMUTED AUDIO</span>
+          </motion.div>
+        )}
       </div>
 
       {/* 3D LOGO CREATION CANVAS */}
@@ -455,6 +476,8 @@ export default function LogoCreationAnimation({ onComplete, onSkip }) {
           whileTap={{ scale: 0.95 }}
           onClick={(e) => {
             e.stopPropagation();
+            const globalAudio = document.getElementById('nexora-global-audio');
+            if (globalAudio) globalAudio.pause();
             if (audioRef.current) audioRef.current.pause();
             if (onSkip) onSkip();
             else if (onComplete) onComplete();
