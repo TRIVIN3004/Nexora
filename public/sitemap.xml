@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Primary Landing Page -->
+  <url>
+    <loc>https://nexoratechs.xyz/</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://nexoratechs.xyz/src/assets/logo.png</image:loc>
+      <image:title>GoNexora Techs - Custom Software &amp; AI Solutions</image:title>
+      <image:caption>GoNexora Techs official branding</image:caption>
+    </image:image>
+  </url>
+
+</urlset>
