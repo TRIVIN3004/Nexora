@@ -8,7 +8,7 @@ import {
   Layers, Award, Clock, DollarSign,
   ChevronDown, ExternalLink, Briefcase, Bot, Users, BookOpen,
   Search, ArrowUpRight, Terminal,
-  Zap, Compass, Star
+  Zap, Compass, Star, Activity
 } from 'lucide-react';
 import trivinPhoto from './assets/trivin.png';
 import aakashrajPhoto from './assets/aakashraj.png';
@@ -18,6 +18,11 @@ import Logo3D from './components/Logo3D';
 import LogoCreationAnimation from './components/LogoCreationAnimation';
 import Scroll3DReveal from './components/Scroll3DReveal';
 import Background3D from './components/Background3D';
+import ScrollCard from './components/ScrollCard';
+import ScrollCardGrid from './components/ScrollCardGrid';
+import OverlappingCardStack from './components/OverlappingCardStack';
+import ColorDashboardsShowcase from './components/ColorDashboardsShowcase';
+import WhatWeBuildStack from './components/WhatWeBuildStack';
 import Tilt from 'react-parallax-tilt';
 
 const GithubIcon = ({ size = 20, className = "" }) => (
@@ -133,7 +138,7 @@ function App() {
   // Update active section on scroll (throttled with requestAnimationFrame)
   useEffect(() => {
     let ticking = false;
-    const sections = ['home', 'portals', 'about', 'services', 'technologies', 'projects', 'why-choose-us', 'team', 'careers', 'testimonials', 'contact'];
+    const sections = ['home', 'what-we-build', 'products', 'dashboards', 'about', 'services', 'technologies', 'projects', 'why-choose-us', 'team', 'careers', 'testimonials', 'contact'];
 
     const updateActiveSection = () => {
       const scrollPosition = window.scrollY + 200;
@@ -623,7 +628,7 @@ function App() {
         )}
       </AnimatePresence>
 
-      <div className="relative min-h-screen bg-slate-50/70 text-slate-800 font-sans selection:bg-blue-500/15 selection:text-blue-600 overflow-hidden">
+      <div className="relative min-h-screen bg-slate-50/70 text-slate-800 font-sans selection:bg-blue-500/15 selection:text-blue-600 overflow-x-clip">
         
         <Background3D />
 
@@ -654,7 +659,9 @@ function App() {
             <nav className="hidden lg:flex items-center space-x-6">
               {[
                 { id: 'home', label: 'Home' },
-                { id: 'portals', label: 'Ecosystem' },
+                { id: 'what-we-build', label: 'What We Build' },
+                { id: 'products', label: 'Our Products' },
+                { id: 'dashboards', label: 'Dashboards' },
                 { id: 'about', label: 'About Us' },
                 { id: 'services', label: 'Services' },
                 { id: 'projects', label: 'Projects' },
@@ -783,8 +790,10 @@ function App() {
               >
                 <div className="flex flex-col space-y-2.5">
                   {[
-                    { id: 'home', label: 'Home Gateway' },
-                    { id: 'portals', label: 'Ecosystem & Portals' },
+                    { id: 'home', label: 'Home' },
+                    { id: 'what-we-build', label: 'What We Build' },
+                    { id: 'products', label: 'Our Products' },
+                    { id: 'dashboards', label: 'Enterprise Dashboards' },
                     { id: 'about', label: 'About Us' },
                     { id: 'services', label: 'Services Catalog' },
                     { id: 'projects', label: 'Showcase Projects' },
@@ -866,11 +875,11 @@ function App() {
               <div className="lg:col-span-7 text-left space-y-6">
                 <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full border border-blue-200 bg-blue-50/80 text-blue-700 text-xs font-semibold uppercase tracking-wider backdrop-blur-md">
                   <Sparkles size={13} className="text-blue-600" />
-                  <span></span>
+                  <span>GONEXORA TECHS • INNOVATION STUDIO</span>
                 </div>
                 
-                <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold font-display leading-[1.08] tracking-tight text-slate-900">
-                  Architecting <span className="text-gradient-purple-blue">Future-Ready</span> Digital Solutions
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold font-display leading-[1.08] tracking-tight text-slate-900 uppercase">
+                  WE BUILD TECHNOLOGY THAT <span className="text-gradient-purple-blue">MOVES IDEAS FORWARD.</span>
                 </h1>
                 
                 <h2 className="text-2xl sm:text-3xl font-display font-medium text-blue-600">
@@ -878,7 +887,7 @@ function App() {
                 </h2>
                 
                 <p className="text-slate-600 text-lg md:text-xl max-w-2xl leading-relaxed">
-                  We empower enterprises, startups, and ambitious researchers with custom high-scale web platforms, intelligent AI models, mobile ecosystems, enterprise databases, and civil structural design.
+                  AI-powered solutions, digital products and modern technology services designed to turn ideas into real-world impact.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 pt-2">
@@ -886,15 +895,15 @@ function App() {
                     onClick={() => scrollToSection('contact')}
                     className="px-8 py-4 rounded-2xl font-semibold text-white bg-blue-600 hover:bg-blue-700 text-center shadow-md hover:shadow-lg hover:scale-[1.01] active:scale-[0.99] transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2"
                   >
-                    <span>Get Started</span>
+                    <span>Start a Project</span>
                     <ArrowRight size={16} />
                   </button>
                   <button
-                    onClick={() => scrollToSection('portals')}
+                    onClick={() => scrollToSection('what-we-build')}
                     className="px-8 py-4 rounded-2xl font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 text-center shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2"
                   >
                     <Sparkles size={16} className="text-blue-600" />
-                    <span>Explore Portals</span>
+                    <span>Explore Our Work</span>
                   </button>
                 </div>
 
@@ -914,16 +923,54 @@ function App() {
                 </div>
               </div>
 
-              <div className="lg:col-span-5 relative flex justify-center items-center min-h-[420px]">
+              <div className="lg:col-span-5 relative flex justify-center items-center min-h-[440px]">
                 <motion.div 
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
-                  className="relative w-full h-[420px] sm:h-[500px] flex items-center justify-center cursor-grab active:cursor-grabbing"
+                  className="relative w-full h-[440px] sm:h-[500px] flex items-center justify-center cursor-grab active:cursor-grabbing"
                 >
                   <div className="relative flex flex-col items-center justify-center">
+                    
+                    {/* Floating Orbiting Capability Tags */}
+                    <motion.div 
+                      animate={{ y: [-4, 4, -4] }} 
+                      transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                      className="absolute -top-4 left-0 z-30 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 shadow-md flex items-center space-x-1.5 text-xs font-bold text-slate-800"
+                    >
+                      <Cpu size={14} className="text-blue-600" />
+                      <span>AI & Machine Learning</span>
+                    </motion.div>
+
+                    <motion.div 
+                      animate={{ y: [4, -4, 4] }} 
+                      transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+                      className="absolute top-12 -right-4 z-30 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 shadow-md flex items-center space-x-1.5 text-xs font-bold text-slate-800"
+                    >
+                      <Cloud size={14} className="text-cyan-600" />
+                      <span>Cloud & DevOps</span>
+                    </motion.div>
+
+                    <motion.div 
+                      animate={{ y: [-3, 5, -3] }} 
+                      transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+                      className="absolute -bottom-2 -left-4 z-30 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 shadow-md flex items-center space-x-1.5 text-xs font-bold text-slate-800"
+                    >
+                      <Smartphone size={14} className="text-purple-600" />
+                      <span>Mobile Ecosystems</span>
+                    </motion.div>
+
+                    <motion.div 
+                      animate={{ y: [3, -5, 3] }} 
+                      transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
+                      className="absolute -bottom-2 -right-2 z-30 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 shadow-md flex items-center space-x-1.5 text-xs font-bold text-slate-800"
+                    >
+                      <Database size={14} className="text-amber-600" />
+                      <span>Data & Analytics</span>
+                    </motion.div>
+
                     <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10} scale={1.03} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="relative z-20">
-                      <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-full border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 shadow-2xl flex items-center justify-center p-8 group overflow-hidden ring-1 ring-indigo-500/20">
+                      <div className="relative w-72 h-72 sm:w-92 sm:h-92 rounded-full border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 shadow-2xl flex items-center justify-center p-8 group overflow-hidden ring-1 ring-indigo-500/20">
                         
                         {/* Concentric subtle circular rings */}
                         <div className="absolute inset-3 rounded-full border border-indigo-500/20 pointer-events-none animate-spin-slow" style={{ animationDuration: '25s' }} />
@@ -977,116 +1024,95 @@ function App() {
             </div>
           </section>
 
-          <section id="portals" className="py-24 px-6 max-w-7xl mx-auto relative">
+          {/* 3. MAIN FEATURE: SCROLL-DRIVEN STACKED CARDS STORYTELLING (WHAT WE BUILD) */}
+          <WhatWeBuildStack 
+            onStartProject={(service) => {
+              setFormData(prev => ({ ...prev, requirement: service || 'Custom Engineering' }));
+              scrollToSection('contact');
+            }} 
+          />
+
+          {/* 4. OUR PRODUCTS: ENTERPRISE ECOSYSTEM PLATFORMS */}
+          <section id="products" className="py-14 sm:py-20 md:py-24 px-4 sm:px-6 max-w-7xl mx-auto relative">
             <Scroll3DReveal>
-              <div className="space-y-12">
+              <div className="space-y-8 sm:space-y-12">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
                   <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Zap size={13} className="text-blue-600" />
-                    <span>GoNexora Unified Ecosystem</span>
+                    <span>GoNexora Unified Ecosystem • Live Production Suite</span>
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
-                    Explore Our Active Portals
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
+                    OUR PRODUCTS
                   </h2>
-                  <p className="text-slate-600 text-lg">
-                    Discover our suite of tailored web portals built for collaboration, daily progress tracking, talent recruitment, and internship workflows.
+                  <p className="text-slate-600 text-base sm:text-lg">
+                    Discover our suite of tailored enterprise web portals and platforms built for collaboration, daily sprint reporting, smart recruitment, and cryptographic verification.
                   </p>
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {portalsList.map((portal) => {
-                    const Icon = portal.icon;
-                    const isConnect = portal.id === 'nexora-connect';
-                    return (
-                      <Tilt key={portal.id} tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="h-full">
-                        <div className={`glass-card-bento rounded-3xl p-7 flex flex-col justify-between h-full relative overflow-hidden group ${
-                          isConnect 
-                            ? 'border-blue-300 ring-2 ring-blue-500/20 bg-blue-50/30' 
-                            : 'hover:border-blue-300'
-                        }`}>
-                          <div className={`absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r ${portal.color}`} />
-                          
-                          <div className="space-y-5">
-                            <div className="flex items-center justify-between">
-                              <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-blue-50 text-blue-600 border border-blue-100 group-hover:bg-blue-600 group-hover:text-white transition-all duration-200">
-                                <Icon size={22} />
-                              </div>
-                              <span className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold uppercase tracking-wider border ${portal.accent}`}>
-                                {portal.badge}
-                              </span>
-                            </div>
-
-                            <div className="space-y-2 text-left">
-                              <h3 className="text-2xl font-bold font-display text-slate-900 group-hover:text-blue-600 transition-colors">
-                                {portal.title}
-                              </h3>
-                              <p className="text-blue-600 text-xs font-semibold font-mono uppercase tracking-wide">
-                                {portal.subtitle}
-                              </p>
-                              <p className="text-slate-600 text-sm leading-relaxed pt-1">
-                                {portal.description}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="pt-6 mt-6 border-t border-slate-100 flex items-center justify-between">
-                            <a
-                              href={portal.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center space-x-2 text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors group/link"
-                            >
-                              <span>Launch Portal</span>
-                              <ArrowUpRight size={16} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-                            </a>
-                            <span className="text-[11px] font-mono text-slate-400">Live Web App</span>
-                          </div>
-                        </div>
-                      </Tilt>
-                    );
-                  })}
-                </div>
+                <OverlappingCardStack />
               </div>
             </Scroll3DReveal>
           </section>
 
-          <section id="about" className="py-24 px-6 bg-slate-100/70 border-y border-slate-200">
+          <section id="dashboards" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 max-w-7xl mx-auto relative">
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+              <div className="space-y-8 sm:space-y-12">
+                <div className="text-center space-y-4 max-w-2xl mx-auto">
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
+                    <Activity size={13} className="text-blue-600" />
+                    <span>Real-Time Telemetry & Operations</span>
+                  </div>
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
+                    Enterprise Color Dashboards
+                  </h2>
+                  <p className="text-slate-600 text-base sm:text-lg">
+                    Live interactive command centers visualizing AI neural token throughput, cloud cluster health, agile velocity, and cryptographic ledgers.
+                  </p>
+                  <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
+                </div>
+
+                <ColorDashboardsShowcase />
+              </div>
+            </Scroll3DReveal>
+          </section>
+
+          <section id="about" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 bg-slate-100/70 border-y border-slate-200">
+            <Scroll3DReveal>
+              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
                 
                 <div className="lg:col-span-5 relative flex justify-center">
-                  <div className="relative w-72 h-72 sm:w-88 sm:h-88 glass-panel rounded-3xl flex items-center justify-center p-8 border border-slate-200 shadow-lg bg-white">
+                  <div className="relative w-64 h-64 sm:w-88 sm:h-88 glass-panel rounded-3xl flex items-center justify-center p-6 sm:p-8 border border-slate-200 shadow-lg bg-white">
                     
                     <div className="z-10 text-center space-y-4">
-                      <div className="w-18 h-18 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center mx-auto text-blue-600 shadow-xs">
-                        <Sparkles size={32} />
+                      <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center mx-auto text-blue-600 shadow-xs">
+                        <Sparkles size={30} />
                       </div>
-                      <h3 className="font-display font-extrabold text-2xl text-slate-900">Our North Star</h3>
-                      <p className="text-slate-600 text-sm leading-relaxed italic">
+                      <h3 className="font-display font-extrabold text-xl sm:text-2xl text-slate-900">Our North Star</h3>
+                      <p className="text-slate-600 text-xs sm:text-sm leading-relaxed italic">
                         "Empowering visionary businesses, modern institutions, and future engineers through reliable, performant, and scalable digital systems."
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="lg:col-span-7 text-left space-y-6">
+                <div className="lg:col-span-7 text-left space-y-4 sm:space-y-6">
                   <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Compass size={13} />
                     <span>Who We Are</span>
                   </div>
 
-                  <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Building Bridges Between Innovation & Execution
                   </h2>
 
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full" />
 
-                  <p className="text-slate-600 text-lg leading-relaxed">
+                  <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
                     GoNexora Techs is a technology consulting and software studio dedicated to transforming complex challenges into intuitive, high-velocity digital products. From web and native mobile development to civil CAD engineering and production AI pipelines, our multidisciplinary team turns ambitious ideas into deployed reality.
                   </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-2 sm:pt-4">
                     {[
                       { title: "Scalable Architecture", desc: "Built to support thousands of active users with minimal latency." },
                       { title: "Enterprise Security", desc: "Rigorous standards, encrypted databases, and robust auth." },
@@ -1104,74 +1130,82 @@ function App() {
             </Scroll3DReveal>
           </section>
 
-          <section id="services" className="py-24 px-6 max-w-7xl mx-auto">
+          <section id="services" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
             <Scroll3DReveal>
-              <div className="space-y-12">
+              <div className="space-y-8 sm:space-y-12">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
                   <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Layers size={13} />
                     <span>Comprehensive Solutions</span>
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Our Core Services
                   </h2>
-                  <p className="text-slate-600 text-lg">
+                  <p className="text-slate-600 text-base sm:text-lg">
                     Tailored software engineering, AI intelligence, and structural design disciplines tailored to deliver tangible impact.
                   </p>
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {services.map((service) => {
+                <ScrollCardGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {services.map((service, idx) => {
                     const Icon = service.icon;
                     return (
-                      <Tilt key={service.title} tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="h-full">
-                        <div className="glass-card-bento rounded-3xl p-7 flex flex-col justify-between h-full group text-left relative overflow-hidden shadow-xs">
-                          <div className="absolute top-0 left-0 w-full h-[3px] bg-blue-600 opacity-60 group-hover:opacity-100 transition-opacity" />
-                          
-                          <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                              <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-200 shadow-xs">
-                                <Icon size={22} />
+                      <ScrollCard
+                        key={service.title}
+                        index={idx}
+                        spotlight={true}
+                        glowColor="rgba(37, 99, 235, 0.12)"
+                        className="h-full rounded-3xl"
+                      >
+                        <Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="h-full">
+                          <div className="glass-card-bento rounded-3xl p-6 sm:p-7 flex flex-col justify-between h-full group text-left relative overflow-hidden shadow-xs">
+                            <div className="absolute top-0 left-0 w-full h-[3px] bg-blue-600 opacity-60 group-hover:opacity-100 transition-opacity" />
+                            
+                            <div className="space-y-4">
+                              <div className="flex items-center justify-between">
+                                <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-200 shadow-xs">
+                                  <Icon size={22} />
+                                </div>
+                                <span className="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600 uppercase tracking-wider">
+                                  {service.tag}
+                                </span>
                               </div>
-                              <span className="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-slate-600 uppercase tracking-wider">
-                                {service.tag}
-                              </span>
+
+                              <h3 className="text-xl font-bold font-display text-slate-900 group-hover:text-blue-600 transition-colors">
+                                {service.title}
+                              </h3>
+
+                              <p className="text-slate-600 text-sm leading-relaxed">
+                                {service.description}
+                              </p>
                             </div>
 
-                            <h3 className="text-xl font-bold font-display text-slate-900 group-hover:text-blue-600 transition-colors">
-                              {service.title}
-                            </h3>
-
-                            <p className="text-slate-600 text-sm leading-relaxed">
-                              {service.description}
-                            </p>
+                            <div className="pt-6 mt-6 border-t border-slate-100">
+                              <button
+                                onClick={() => {
+                                  setFormData(prev => ({ ...prev, requirement: service.title }));
+                                  scrollToSection('contact');
+                                }}
+                                className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer group/btn"
+                              >
+                                <span>Request Consultation</span>
+                                <ArrowRight size={13} className="group-hover/btn:translate-x-1 transition-transform" />
+                              </button>
+                            </div>
                           </div>
-
-                          <div className="pt-6 mt-6 border-t border-slate-100">
-                            <button
-                              onClick={() => {
-                                setFormData(prev => ({ ...prev, requirement: service.title }));
-                                scrollToSection('contact');
-                              }}
-                              className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer group/btn"
-                            >
-                              <span>Request Consultation</span>
-                              <ArrowRight size={13} className="group-hover/btn:translate-x-1 transition-transform" />
-                            </button>
-                          </div>
-                        </div>
-                      </Tilt>
+                        </Tilt>
+                      </ScrollCard>
                     );
                   })}
-                </div>
+                </ScrollCardGrid>
               </div>
             </Scroll3DReveal>
           </section>
 
-          <section id="technologies" className="py-20 bg-slate-900 text-white border-y border-slate-800 overflow-hidden relative shadow-md">
+          <section id="technologies" className="py-12 sm:py-16 md:py-20 bg-slate-900 text-white border-y border-slate-800 overflow-hidden relative shadow-md">
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto px-6 text-center space-y-12 relative z-10">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center space-y-6 sm:space-y-10 relative z-10">
                 <div className="space-y-3">
                   <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-400/30 bg-blue-500/20 text-blue-300 text-xs font-semibold uppercase tracking-wider">
                     <Terminal size={13} />
@@ -1182,14 +1216,14 @@ function App() {
                   <div className="w-16 h-[2px] bg-blue-500 rounded-full mx-auto" />
                 </div>
 
-                <div className="relative w-full overflow-hidden py-4 mask-gradient-sides">
-                  <div className="flex space-x-8 animate-marquee w-[200%]">
+                <div className="relative w-full overflow-hidden py-2 sm:py-4 mask-gradient-sides">
+                  <div className="flex space-x-6 sm:space-x-8 animate-marquee w-[200%]">
                     {[...technologies, ...technologies].map((tech, idx) => {
                       const Icon = tech.icon;
                       return (
                         <div 
                           key={idx}
-                          className="flex-shrink-0 flex items-center space-x-3 px-6 py-4 bg-slate-800/80 border border-slate-700 hover:border-blue-500 rounded-2xl cursor-default transition-all duration-200"
+                          className="flex-shrink-0 flex items-center space-x-3 px-4 sm:px-6 py-3 sm:py-4 bg-slate-800/80 border border-slate-700 hover:border-blue-500 rounded-2xl cursor-default transition-all duration-200"
                         >
                           <Icon className="text-blue-400" size={20} />
                           <span className="text-sm font-bold text-slate-200">{tech.name}</span>
@@ -1198,25 +1232,25 @@ function App() {
                     })}
                   </div>
 
-                  <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-slate-900 to-transparent pointer-events-none" />
-                  <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-slate-900 to-transparent pointer-events-none" />
+                  <div className="absolute inset-y-0 left-0 w-16 sm:w-24 bg-gradient-to-r from-slate-900 to-transparent pointer-events-none" />
+                  <div className="absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-slate-900 to-transparent pointer-events-none" />
                 </div>
               </div>
             </Scroll3DReveal>
           </section>
 
-          <section id="projects" className="py-24 px-6 max-w-7xl mx-auto">
+          <section id="projects" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
             <Scroll3DReveal>
-              <div className="space-y-12 text-center">
+              <div className="space-y-8 sm:space-y-12 text-center">
                 <div className="space-y-4 max-w-2xl mx-auto">
                   <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Code size={13} />
                     <span>Selected Works</span>
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Featured Projects
                   </h2>
-                  <p className="text-slate-600 text-lg">
+                  <p className="text-slate-600 text-base sm:text-lg">
                     Explore our recent digital creations, ranging from corporate applications to academic systems and CAD blueprints.
                   </p>
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
@@ -1234,7 +1268,7 @@ function App() {
                     <button
                       key={btn.filter}
                       onClick={() => setProjectFilter(btn.filter)}
-                      className={`px-5 py-2.5 rounded-full text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${
+                      className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs font-bold tracking-wider transition-all duration-200 cursor-pointer ${
                         projectFilter === btn.filter 
                           ? 'bg-blue-600 text-white shadow-xs' 
                           : 'bg-white text-slate-600 hover:bg-slate-100 hover:text-slate-900 border border-slate-200 shadow-xs'
@@ -1245,104 +1279,112 @@ function App() {
                   ))}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                   <AnimatePresence>
-                    {filteredProjects.map((p) => (
-                      <Tilt key={p.title} tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="h-full">
-                        <motion.div
-                          layout
-                          initial={{ opacity: 0, scale: 0.98 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.98 }}
-                          transition={{ duration: 0.3 }}
-                          className="glass-panel glass-panel-hover rounded-3xl overflow-hidden flex flex-col justify-between border border-slate-200 shadow-xs group/project h-full text-left bg-white"
-                        >
-                          <div className="relative h-44 bg-slate-100 flex items-center justify-center p-6 overflow-hidden border-b border-slate-200">
-                            <div className="relative z-10 flex flex-col items-center space-y-2">
-                              {p.category === 'ai' && (
-                                <div className="w-13 h-13 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-700">
-                                  <Cpu size={24} />
-                                </div>
-                              )}
-                              {p.category === 'web' && (
-                                <div className="w-13 h-13 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-700">
-                                  <Globe size={24} />
-                                </div>
-                              )}
-                              {p.category === 'mobile' && (
-                                <div className="w-13 h-13 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-700">
-                                  <Smartphone size={24} />
-                                </div>
-                              )}
-                              {p.category === 'app' && (
-                                <div className="w-13 h-13 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-xs">
-                                  <Users size={24} />
-                                </div>
-                              )}
-                              {p.category === 'civil' && (
-                                <div className="w-13 h-13 rounded-2xl bg-slate-200 flex items-center justify-center text-slate-700">
-                                  <Layers size={24} />
-                                </div>
-                              )}
-                              <span className="text-[10px] font-mono font-bold tracking-widest text-slate-500 uppercase">
-                                {p.category === 'ai' ? 'ML PIPELINE' : p.category === 'web' ? 'RESPONSIVE WEB' : p.category === 'mobile' ? 'MOBILE OS' : p.category === 'civil' ? 'CIVIL CAD' : 'ENTERPRISE SYSTEM'}
-                              </span>
-                            </div>
-
-                            <div className="absolute bottom-0 left-0 w-full h-[3px] bg-blue-600" />
-                          </div>
-
-                          <div className="p-7 flex-grow flex flex-col justify-between space-y-4">
-                            <div className="space-y-2">
-                              <h3 className="text-xl font-bold font-display text-slate-900 group-hover/project:text-blue-600 transition-colors">
-                                {p.title}
-                              </h3>
-                              <p className="text-slate-600 text-sm leading-relaxed">
-                                {p.description}
-                              </p>
-                            </div>
-
-                            <div className="space-y-4 pt-2">
-                              <div className="flex flex-wrap gap-1.5">
-                                {p.tech.map((t, idx) => (
-                                  <span 
-                                    key={idx} 
-                                    className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold font-mono tracking-wider bg-slate-100 border border-slate-200 text-slate-600 uppercase"
-                                  >
-                                    {t}
-                                  </span>
-                                ))}
-                              </div>
-
-                              <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                                {p.liveUrl ? (
-                                  <a
-                                    href={p.liveUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-blue-50 border border-blue-200 text-xs font-bold text-blue-700 hover:bg-blue-600 hover:text-white transition-all shadow-xs group/btn cursor-pointer"
-                                  >
-                                    <span>Launch Portal</span>
-                                    <ExternalLink size={12} className="group-hover/btn:translate-x-0.5 transition-transform" />
-                                  </a>
-                                ) : (
-                                  <div />
+                    {filteredProjects.map((p, idx) => (
+                      <ScrollCard
+                        key={p.title}
+                        index={idx}
+                        spotlight={true}
+                        glowColor="rgba(37, 99, 235, 0.12)"
+                        className="h-full rounded-3xl"
+                      >
+                        <Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} scale={1.01} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="h-full">
+                          <motion.div
+                            layout
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.98 }}
+                            transition={{ duration: 0.3 }}
+                            className="glass-panel glass-panel-hover rounded-3xl overflow-hidden flex flex-col justify-between border border-slate-200 shadow-xs group/project h-full text-left bg-white"
+                          >
+                            <div className="relative h-40 sm:h-44 bg-slate-100 flex items-center justify-center p-6 overflow-hidden border-b border-slate-200">
+                              <div className="relative z-10 flex flex-col items-center space-y-2">
+                                {p.category === 'ai' && (
+                                  <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-700">
+                                    <Cpu size={24} />
+                                  </div>
                                 )}
-                                <button
-                                  onClick={() => {
-                                    setFormData(prev => ({ ...prev, requirement: p.title }));
-                                    scrollToSection('contact');
-                                  }}
-                                  className="flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
-                                >
-                                  <span>Request Quote</span>
-                                  <ArrowRight size={12} className="group-hover/project:translate-x-1 transition-transform" />
-                                </button>
+                                {p.category === 'web' && (
+                                  <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-700">
+                                    <Globe size={24} />
+                                  </div>
+                                )}
+                                {p.category === 'mobile' && (
+                                  <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-700">
+                                    <Smartphone size={24} />
+                                  </div>
+                                )}
+                                {p.category === 'app' && (
+                                  <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-blue-600 flex items-center justify-center text-white shadow-xs">
+                                    <Users size={24} />
+                                  </div>
+                                )}
+                                {p.category === 'civil' && (
+                                  <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-slate-200 flex items-center justify-center text-slate-700">
+                                    <Layers size={24} />
+                                  </div>
+                                )}
+                                <span className="text-[10px] font-mono font-bold tracking-widest text-slate-500 uppercase">
+                                  {p.category === 'ai' ? 'ML PIPELINE' : p.category === 'web' ? 'RESPONSIVE WEB' : p.category === 'mobile' ? 'MOBILE OS' : p.category === 'civil' ? 'CIVIL CAD' : 'ENTERPRISE SYSTEM'}
+                                </span>
+                              </div>
+
+                              <div className="absolute bottom-0 left-0 w-full h-[3px] bg-blue-600" />
+                            </div>
+
+                            <div className="p-6 sm:p-7 flex-grow flex flex-col justify-between space-y-4">
+                              <div className="space-y-2">
+                                <h3 className="text-xl font-bold font-display text-slate-900 group-hover/project:text-blue-600 transition-colors">
+                                  {p.title}
+                                </h3>
+                                <p className="text-slate-600 text-sm leading-relaxed">
+                                  {p.description}
+                                </p>
+                              </div>
+
+                              <div className="space-y-4 pt-2">
+                                <div className="flex flex-wrap gap-1.5">
+                                  {p.tech.map((t, idx) => (
+                                    <span 
+                                      key={idx} 
+                                      className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold font-mono tracking-wider bg-slate-100 border border-slate-200 text-slate-600 uppercase"
+                                    >
+                                      {t}
+                                    </span>
+                                  ))}
+                                </div>
+
+                                <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                                  {p.liveUrl ? (
+                                    <a
+                                      href={p.liveUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-blue-50 border border-blue-200 text-xs font-bold text-blue-700 hover:bg-blue-600 hover:text-white transition-all shadow-xs group/btn cursor-pointer"
+                                    >
+                                      <span>Launch Portal</span>
+                                      <ExternalLink size={12} className="group-hover/btn:translate-x-0.5 transition-transform" />
+                                    </a>
+                                  ) : (
+                                    <div />
+                                  )}
+                                  <button
+                                    onClick={() => {
+                                      setFormData(prev => ({ ...prev, requirement: p.title }));
+                                      scrollToSection('contact');
+                                    }}
+                                    className="flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer"
+                                  >
+                                    <span>Request Quote</span>
+                                    <ArrowRight size={12} className="group-hover/project:translate-x-1 transition-transform" />
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </motion.div>
-                      </Tilt>
+                          </motion.div>
+                        </Tilt>
+                      </ScrollCard>
                     ))}
                   </AnimatePresence>
                 </div>
@@ -1350,134 +1392,149 @@ function App() {
             </Scroll3DReveal>
           </section>
 
-          <section id="why-choose-us" className="py-24 px-6 bg-slate-100/70 border-y border-slate-200">
+          <section id="why-choose-us" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 bg-slate-100/70 border-y border-slate-200">
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
                 
-                <div className="lg:col-span-5 text-left space-y-6">
+                <div className="lg:col-span-5 text-left space-y-4 sm:space-y-6">
                   <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <CheckCircle2 size={13} />
                     <span>Our Core Strengths</span>
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Why Choose GoNexora?
                   </h2>
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full" />
-                  <p className="text-slate-600 text-lg leading-relaxed">
+                  <p className="text-slate-600 text-base sm:text-lg leading-relaxed">
                     We combine rigorous software architectural standards, clean visual aesthetic design, and structural precision to construct platforms that truly scale.
                   </p>
                   <button
                     onClick={() => scrollToSection('contact')}
-                    className="px-8 py-3.5 rounded-2xl font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all duration-200 cursor-pointer shadow-sm"
+                    className="px-6 sm:px-8 py-3 sm:py-3.5 rounded-2xl font-semibold text-white bg-blue-600 hover:bg-blue-700 transition-all duration-200 cursor-pointer shadow-sm"
                   >
                     Start Collaborating
                   </button>
                 </div>
 
-                <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <ScrollCardGrid className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   {benefits.map((b, idx) => {
                     const Icon = b.icon;
                     return (
-                      <div 
+                      <ScrollCard
                         key={idx}
-                        className="glass-card-bento rounded-3xl p-6 text-left relative overflow-hidden group shadow-xs bg-white"
+                        index={idx}
+                        spotlight={true}
+                        glowColor="rgba(37, 99, 235, 0.12)"
+                        className="h-full rounded-3xl"
                       >
-                        <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center mb-4 shadow-xs group-hover:scale-105 transition-transform duration-200">
-                          <Icon size={22} />
+                        <div 
+                          className="glass-card-bento rounded-3xl p-6 text-left relative overflow-hidden group shadow-xs bg-white h-full"
+                        >
+                          <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 text-blue-600 flex items-center justify-center mb-4 shadow-xs group-hover:scale-105 transition-transform duration-200">
+                            <Icon size={22} />
+                          </div>
+                          <h3 className="text-lg font-bold font-display text-slate-900 mb-2">{b.title}</h3>
+                          <p className="text-slate-600 text-sm leading-relaxed">{b.description}</p>
                         </div>
-                        <h3 className="text-lg font-bold font-display text-slate-900 mb-2">{b.title}</h3>
-                        <p className="text-slate-600 text-sm leading-relaxed">{b.description}</p>
-                      </div>
+                      </ScrollCard>
                     );
                   })}
-                </div>
+                </ScrollCardGrid>
 
               </div>
             </Scroll3DReveal>
           </section>
 
-          <section id="team" className="py-24 px-6 max-w-7xl mx-auto">
+          <section id="team" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
             <Scroll3DReveal>
-              <div className="space-y-16">
+              <div className="space-y-8 sm:space-y-12">
                 
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
                   <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Users size={13} />
                     <span>Visionaries & Architects</span>
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Executive Leadership
                   </h2>
-                  <p className="text-slate-600 text-lg">
+                  <p className="text-slate-600 text-base sm:text-lg">
                     Meet the founders and directors driving GoNexora’s strategic vision, engineering benchmarks, and brand growth.
                   </p>
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <ScrollCardGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                   {team.filter(t => t.founder).map((t, idx) => (
-                    <Tilt key={idx} tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.02} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="h-full">
-                      <div className="glass-panel glass-panel-hover rounded-3xl p-8 text-left relative overflow-hidden flex flex-col justify-between group/card shadow-md bg-white h-full">
-                        <div className="absolute top-0 left-0 w-full h-[4px] bg-blue-600" />
-                        
-                        <div className="space-y-6">
-                          <div className="flex items-center space-x-5">
-                            <div className="relative w-20 h-20 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden shrink-0 shadow-xs">
-                              {t.image ? (
-                                <img 
-                                  src={t.image} 
-                                  alt={t.name} 
-                                  className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"
-                                />
-                              ) : (
-                                <span className="font-display font-extrabold text-2xl text-blue-600">
-                                  {t.name[0]}
+                    <ScrollCard
+                      key={idx}
+                      index={idx}
+                      spotlight={true}
+                      glowColor="rgba(37, 99, 235, 0.12)"
+                      className="h-full rounded-3xl"
+                    >
+                      <Tilt tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.02} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="h-full">
+                        <div className="glass-panel glass-panel-hover rounded-3xl p-6 sm:p-8 text-left relative overflow-hidden flex flex-col justify-between group/card shadow-md bg-white h-full">
+                          <div className="absolute top-0 left-0 w-full h-[4px] bg-blue-600" />
+                          
+                          <div className="space-y-5 sm:space-y-6">
+                            <div className="flex items-center space-x-4 sm:space-x-5">
+                              <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden shrink-0 shadow-xs">
+                                {t.image ? (
+                                  <img 
+                                    src={t.image} 
+                                    alt={t.name} 
+                                    className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"
+                                  />
+                                ) : (
+                                  <span className="font-display font-extrabold text-xl sm:text-2xl text-blue-600">
+                                    {t.name[0]}
+                                  </span>
+                                )}
+                              </div>
+
+                              <div>
+                                <h3 className="text-xl sm:text-2xl font-extrabold font-display text-slate-900 group-hover/card:text-blue-600 transition-colors">
+                                  {t.name}
+                                </h3>
+                                <p className="text-xs font-bold text-blue-600 font-mono tracking-wide uppercase">
+                                  {t.role}
+                                </p>
+                              </div>
+                            </div>
+
+                            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                              {t.desc}
+                            </p>
+                          </div>
+
+                          <div className="space-y-2.5 pt-5 sm:pt-6 border-t border-slate-100 mt-5 sm:mt-6">
+                            <span className="text-[10px] font-mono tracking-widest text-slate-400 uppercase font-bold">CORE SPECIALTIES:</span>
+                            <div className="flex flex-wrap gap-1.5">
+                              {t.skills.map((s, i) => (
+                                <span 
+                                  key={i} 
+                                  className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 border border-slate-200 text-slate-700"
+                                >
+                                  {s}
                                 </span>
-                              )}
-                            </div>
-
-                            <div>
-                              <h3 className="text-2xl font-extrabold font-display text-slate-900 group-hover/card:text-blue-600 transition-colors">
-                                {t.name}
-                              </h3>
-                              <p className="text-xs font-bold text-blue-600 font-mono tracking-wide uppercase">
-                                {t.role}
-                              </p>
+                              ))}
                             </div>
                           </div>
 
-                          <p className="text-slate-600 text-sm leading-relaxed">
-                            {t.desc}
-                          </p>
                         </div>
-
-                        <div className="space-y-3 pt-6 border-t border-slate-100 mt-6">
-                          <span className="text-[10px] font-mono tracking-widest text-slate-400 uppercase font-bold">CORE SPECIALTIES:</span>
-                          <div className="flex flex-wrap gap-1.5">
-                            {t.skills.map((s, i) => (
-                              <span 
-                                key={i} 
-                                className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-slate-100 border border-slate-200 text-slate-700"
-                              >
-                                {s}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                      </div>
-                    </Tilt>
+                      </Tilt>
+                    </ScrollCard>
                   ))}
-                </div>
+                </ScrollCardGrid>
 
-                <div className="p-8 rounded-3xl bg-slate-100 border border-slate-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-6">
+                <div className="p-6 sm:p-8 rounded-3xl bg-slate-100 border border-slate-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
                   <div className="text-left space-y-1">
-                    <h3 className="text-xl font-bold font-display text-slate-900">Explore Our Full Engineering Network</h3>
-                    <p className="text-sm text-slate-500">Discover all {team.length} specialists across AI, Java, Android, UI/UX, and Full-Stack.</p>
+                    <h3 className="text-lg sm:text-xl font-bold font-display text-slate-900">Explore Our Full Engineering Network</h3>
+                    <p className="text-xs sm:text-sm text-slate-500">Discover all {team.length} specialists across AI, Java, Android, UI/UX, and Full-Stack.</p>
                   </div>
                   <button
                     onClick={() => setViewingAllTeam(true)}
-                    className="px-6 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-all duration-200 cursor-pointer flex items-center space-x-2 shrink-0"
+                    className="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-sm transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2 shrink-0"
                   >
                     <Users size={16} />
                     <span>View All Team Members</span>
@@ -1488,103 +1545,109 @@ function App() {
             </Scroll3DReveal>
           </section>
 
-          <section id="careers" className="py-24 px-6 bg-slate-100/70 border-y border-slate-200">
+          <section id="careers" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 bg-slate-100/70 border-y border-slate-200">
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto space-y-12">
+              <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
                   <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <GraduationCap size={13} />
                     <span>Grow With GoNexora</span>
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     Careers & Internships
                   </h2>
-                  <p className="text-slate-600 text-lg">
+                  <p className="text-slate-600 text-base sm:text-lg">
                     Whether you are an experienced software architect or an aspiring student looking for hands-on mentorship, GoNexora is where your potential accelerates.
                   </p>
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-xs flex flex-col justify-between hover:border-blue-400">
-                    <div className="space-y-3">
-                      <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                        <Briefcase size={22} />
+                <ScrollCardGrid className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 text-left">
+                  <ScrollCard index={0} spotlight={true} className="h-full rounded-3xl">
+                    <div className="glass-card-bento rounded-3xl p-6 sm:p-8 space-y-4 bg-white shadow-xs flex flex-col justify-between hover:border-blue-400 h-full">
+                      <div className="space-y-3">
+                        <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                          <Briefcase size={22} />
+                        </div>
+                        <h3 className="text-xl font-bold font-display text-slate-900">Open Full-Time Roles</h3>
+                        <p className="text-slate-600 text-sm leading-relaxed">
+                          Join our core product and engineering team as a React, Python AI, Java, or Mobile Developer. Work on high-impact scalable platforms.
+                        </p>
                       </div>
-                      <h3 className="text-xl font-bold font-display text-slate-900">Open Full-Time Roles</h3>
-                      <p className="text-slate-600 text-sm leading-relaxed">
-                        Join our core product and engineering team as a React, Python AI, Java, or Mobile Developer. Work on high-impact scalable platforms.
-                      </p>
+                      <button
+                        onClick={() => scrollToSection('contact')}
+                        className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer pt-4 border-t border-slate-100"
+                      >
+                        <span>Apply For Positions</span>
+                        <ArrowRight size={13} />
+                      </button>
                     </div>
-                    <button
-                      onClick={() => scrollToSection('contact')}
-                      className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer pt-4 border-t border-slate-100"
-                    >
-                      <span>Apply For Positions</span>
-                      <ArrowRight size={13} />
-                    </button>
-                  </div>
+                  </ScrollCard>
 
-                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-xs flex flex-col justify-between hover:border-blue-400">
-                    <div className="space-y-3">
-                      <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                        <GraduationCap size={22} />
+                  <ScrollCard index={1} spotlight={true} className="h-full rounded-3xl">
+                    <div className="glass-card-bento rounded-3xl p-6 sm:p-8 space-y-4 bg-white shadow-xs flex flex-col justify-between hover:border-blue-400 h-full">
+                      <div className="space-y-3">
+                        <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                          <GraduationCap size={22} />
+                        </div>
+                        <h3 className="text-xl font-bold font-display text-slate-900">Internship Programs</h3>
+                        <p className="text-slate-600 text-sm leading-relaxed">
+                          Get live industry exposure, complete tasks under senior mentors, and receive verified digital completion credentials.
+                        </p>
                       </div>
-                      <h3 className="text-xl font-bold font-display text-slate-900">Internship Programs</h3>
-                      <p className="text-slate-600 text-sm leading-relaxed">
-                        Get live industry exposure, complete tasks under senior mentors, and receive verified digital completion credentials.
-                      </p>
+                      <a
+                        href="https://internship-portal-silk.vercel.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors pt-4 border-t border-slate-100"
+                      >
+                        <span>Open Internship Portal</span>
+                        <ExternalLink size={13} />
+                      </a>
                     </div>
-                    <a
-                      href="https://internship-portal-silk.vercel.app/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors pt-4 border-t border-slate-100"
-                    >
-                      <span>Open Internship Portal</span>
-                      <ExternalLink size={13} />
-                    </a>
-                  </div>
+                  </ScrollCard>
 
-                  <div className="glass-card-bento rounded-3xl p-8 space-y-4 bg-white shadow-xs flex flex-col justify-between hover:border-blue-400">
-                    <div className="space-y-3">
-                      <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                        <BookOpen size={22} />
+                  <ScrollCard index={2} spotlight={true} className="h-full rounded-3xl">
+                    <div className="glass-card-bento rounded-3xl p-6 sm:p-8 space-y-4 bg-white shadow-xs flex flex-col justify-between hover:border-blue-400 h-full">
+                      <div className="space-y-3">
+                        <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                          <BookOpen size={22} />
+                        </div>
+                        <h3 className="text-xl font-bold font-display text-slate-900">College Project Guidance</h3>
+                        <p className="text-slate-600 text-sm leading-relaxed">
+                          Complete mini & major computer science, AI, and civil engineering project execution with documentation & report support.
+                        </p>
                       </div>
-                      <h3 className="text-xl font-bold font-display text-slate-900">College Project Guidance</h3>
-                      <p className="text-slate-600 text-sm leading-relaxed">
-                        Complete mini & major computer science, AI, and civil engineering project execution with documentation & report support.
-                      </p>
+                      <button
+                        onClick={() => {
+                          setFormData(prev => ({ ...prev, requirement: "College Mini & Major Projects" }));
+                          scrollToSection('contact');
+                        }}
+                        className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer pt-4 border-t border-slate-100"
+                      >
+                        <span>Request Project Support</span>
+                        <ArrowRight size={13} />
+                      </button>
                     </div>
-                    <button
-                      onClick={() => {
-                        setFormData(prev => ({ ...prev, requirement: "College Mini & Major Projects" }));
-                        scrollToSection('contact');
-                      }}
-                      className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer pt-4 border-t border-slate-100"
-                    >
-                      <span>Request Project Support</span>
-                      <ArrowRight size={13} />
-                    </button>
-                  </div>
-                </div>
+                  </ScrollCard>
+                </ScrollCardGrid>
 
               </div>
             </Scroll3DReveal>
           </section>
 
-          <section id="testimonials" className="py-24 px-6 max-w-7xl mx-auto">
+          <section id="testimonials" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
             <Scroll3DReveal>
-              <div className="space-y-12">
+              <div className="space-y-8 sm:space-y-12">
                 <div className="text-center space-y-4 max-w-2xl mx-auto">
                   <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Star size={13} className="text-blue-600" />
                     <span>Client Trust</span>
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-900 tracking-tight">
                     What Our Partners Say
                   </h2>
-                  <p className="text-slate-600 text-lg">
+                  <p className="text-slate-600 text-base sm:text-lg">
                     Real feedback from academic deans, technology leaders, and enterprise partners.
                   </p>
                   <div className="w-16 h-[3px] bg-blue-600 rounded-full mx-auto" />
@@ -1598,20 +1661,20 @@ function App() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -15 }}
                       transition={{ duration: 0.3 }}
-                      className="glass-panel rounded-3xl p-8 md:p-12 text-center relative border border-slate-200 shadow-lg bg-white"
+                      className="glass-panel rounded-3xl p-6 sm:p-8 md:p-12 text-center relative border border-slate-200 shadow-lg bg-white"
                     >
-                      <div className="flex justify-center space-x-1 text-amber-400 mb-6">
+                      <div className="flex justify-center space-x-1 text-amber-400 mb-5 sm:mb-6">
                         {[...Array(testimonials[testimonialIndex].rating)].map((_, i) => (
-                          <Star key={i} size={20} fill="currentColor" />
+                          <Star key={i} size={18} className="sm:size-5" fill="currentColor" />
                         ))}
                       </div>
 
-                      <p className="text-slate-700 text-lg md:text-xl font-medium leading-relaxed italic mb-8">
+                      <p className="text-slate-700 text-base sm:text-lg md:text-xl font-medium leading-relaxed italic mb-6 sm:mb-8">
                         "{testimonials[testimonialIndex].text}"
                       </p>
 
                       <div className="space-y-1">
-                        <h4 className="text-lg font-bold font-display text-slate-900">
+                        <h4 className="text-base sm:text-lg font-bold font-display text-slate-900">
                           {testimonials[testimonialIndex].author}
                         </h4>
                         <p className="text-xs font-mono text-blue-600 font-semibold uppercase tracking-wider">
@@ -1621,7 +1684,7 @@ function App() {
                     </motion.div>
                   </AnimatePresence>
 
-                  <div className="flex items-center justify-center space-x-4 mt-8">
+                  <div className="flex items-center justify-center space-x-4 mt-6 sm:mt-8">
                     <button
                       onClick={() => setTestimonialIndex((prev) => (prev - 1 + 4) % 4)}
                       className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-blue-600 hover:border-blue-300 transition-all shadow-xs cursor-pointer"
@@ -1655,11 +1718,11 @@ function App() {
             </Scroll3DReveal>
           </section>
 
-          <section id="contact" className="py-24 px-6 bg-slate-100/70 border-t border-slate-200">
+          <section id="contact" className="py-12 sm:py-16 md:py-24 px-4 sm:px-6 bg-slate-100/70 border-t border-slate-200">
             <Scroll3DReveal>
-              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+              <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
                 
-                <div className="lg:col-span-5 text-left space-y-6">
+                <ScrollCard direction="right" spotlight={false} className="lg:col-span-5 text-left space-y-6">
                   <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-200 bg-blue-50 text-blue-700 text-xs font-semibold uppercase tracking-wider">
                     <Send size={13} />
                     <span>Get In Touch</span>
@@ -1695,92 +1758,94 @@ function App() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </ScrollCard>
 
                 <div className="lg:col-span-7">
-                  <div className="glass-panel rounded-3xl p-8 sm:p-10 border border-slate-200 shadow-xl bg-white text-left">
-                    <form onSubmit={handleSubmit} className="space-y-5">
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <div className="space-y-2">
-                          <label className="text-xs font-mono font-bold text-slate-600 uppercase">Your Full Name</label>
-                          <input 
-                            type="text" 
-                            name="name" 
-                            value={formData.name} 
-                            onChange={handleInputChange} 
-                            required 
-                            placeholder="Alex Morgan" 
-                            className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-sans"
-                          />
+                  <ScrollCard direction="left" spotlight={true} className="rounded-3xl">
+                    <div className="glass-panel rounded-3xl p-8 sm:p-10 border border-slate-200 shadow-xl bg-white text-left">
+                      <form onSubmit={handleSubmit} className="space-y-5">
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                          <div className="space-y-2">
+                            <label className="text-xs font-mono font-bold text-slate-600 uppercase">Your Full Name</label>
+                            <input 
+                              type="text" 
+                              name="name" 
+                              value={formData.name} 
+                              onChange={handleInputChange} 
+                              required 
+                              placeholder="Alex Morgan" 
+                              className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-sans"
+                            />
+                          </div>
+
+                          <div className="space-y-2">
+                            <label className="text-xs font-mono font-bold text-slate-600 uppercase">Email Address</label>
+                            <input 
+                              type="email" 
+                              name="email" 
+                              value={formData.email} 
+                              onChange={handleInputChange} 
+                              required 
+                              placeholder="alex@example.com" 
+                              className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-sans"
+                            />
+                          </div>
                         </div>
 
                         <div className="space-y-2">
-                          <label className="text-xs font-mono font-bold text-slate-600 uppercase">Email Address</label>
-                          <input 
-                            type="email" 
-                            name="email" 
-                            value={formData.email} 
+                          <label className="text-xs font-mono font-bold text-slate-600 uppercase">Requirement Discipline</label>
+                          <select 
+                            name="requirement" 
+                            value={formData.requirement} 
+                            onChange={handleInputChange} 
+                            className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-sans"
+                          >
+                            <option value="Web Development">Web Application Development</option>
+                            <option value="AI & Machine Learning Solutions">AI & Machine Learning Solutions</option>
+                            <option value="Mobile App Development">Mobile App Development</option>
+                            <option value="Portfolio Websites">Portfolio Websites</option>
+                            <option value="UI/UX Design">UI/UX Design & Prototyping</option>
+                            <option value="Database Management">Database & API Architecture</option>
+                            <option value="Cloud Deployment">Cloud Deployment & AWS Setup</option>
+                            <option value="College Mini & Major Projects">College Mini & Major Projects</option>
+                            <option value="Research Paper Support">Research Paper Implementation</option>
+                            <option value="Civil CAD & Structural Design">Civil CAD & Structural Design</option>
+                            <option value="Enterprise Portal Solution">Enterprise Portal Solution</option>
+                          </select>
+                        </div>
+
+                        <div className="space-y-2">
+                          <label className="text-xs font-mono font-bold text-slate-600 uppercase">Project Message & Details</label>
+                          <textarea 
+                            name="message" 
+                            rows={4} 
+                            value={formData.message} 
                             onChange={handleInputChange} 
                             required 
-                            placeholder="alex@example.com" 
-                            className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-sans"
+                            placeholder="Tell us about your project goals, timelines, and technical requirements..." 
+                            className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-sans resize-none"
                           />
                         </div>
-                      </div>
 
-                      <div className="space-y-2">
-                        <label className="text-xs font-mono font-bold text-slate-600 uppercase">Requirement Discipline</label>
-                        <select 
-                          name="requirement" 
-                          value={formData.requirement} 
-                          onChange={handleInputChange} 
-                          className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-sans"
+                        <button
+                          type="submit"
+                          className="w-full py-4 rounded-2xl font-bold text-white bg-blue-600 hover:bg-blue-700 hover:shadow-md transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2 shadow-sm"
                         >
-                          <option value="Web Development">Web Application Development</option>
-                          <option value="AI & Machine Learning Solutions">AI & Machine Learning Solutions</option>
-                          <option value="Mobile App Development">Mobile App Development</option>
-                          <option value="Portfolio Websites">Portfolio Websites</option>
-                          <option value="UI/UX Design">UI/UX Design & Prototyping</option>
-                          <option value="Database Management">Database & API Architecture</option>
-                          <option value="Cloud Deployment">Cloud Deployment & AWS Setup</option>
-                          <option value="College Mini & Major Projects">College Mini & Major Projects</option>
-                          <option value="Research Paper Support">Research Paper Implementation</option>
-                          <option value="Civil CAD & Structural Design">Civil CAD & Structural Design</option>
-                          <option value="Enterprise Portal Solution">Enterprise Portal Solution</option>
-                        </select>
-                      </div>
+                          <Send size={16} />
+                          <span>Send Project Inquiry</span>
+                        </button>
 
-                      <div className="space-y-2">
-                        <label className="text-xs font-mono font-bold text-slate-600 uppercase">Project Message & Details</label>
-                        <textarea 
-                          name="message" 
-                          rows={4} 
-                          value={formData.message} 
-                          onChange={handleInputChange} 
-                          required 
-                          placeholder="Tell us about your project goals, timelines, and technical requirements..." 
-                          className="w-full px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-sm focus:outline-none focus:border-blue-600 focus:bg-white transition-all font-sans resize-none"
-                        />
-                      </div>
+                        {formSubmitted && (
+                          <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold text-center animate-fade-in flex items-center justify-center space-x-2">
+                            <CheckCircle2 size={16} />
+                            <span>Thank you! Your email client has been prepared. We will connect shortly.</span>
+                          </div>
+                        )}
 
-                      <button
-                        type="submit"
-                        className="w-full py-4 rounded-2xl font-bold text-white bg-blue-600 hover:bg-blue-700 hover:shadow-md transition-all duration-200 cursor-pointer flex items-center justify-center space-x-2 shadow-sm"
-                      >
-                        <Send size={16} />
-                        <span>Send Project Inquiry</span>
-                      </button>
-
-                      {formSubmitted && (
-                        <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold text-center animate-fade-in flex items-center justify-center space-x-2">
-                          <CheckCircle2 size={16} />
-                          <span>Thank you! Your email client has been prepared. We will connect shortly.</span>
-                        </div>
-                      )}
-
-                    </form>
-                  </div>
+                      </form>
+                    </div>
+                  </ScrollCard>
                 </div>
 
               </div>
