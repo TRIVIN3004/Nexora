@@ -61,6 +61,7 @@ html {
   font-size: 16px;
   overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -70,6 +71,12 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Eliminate 300ms mobile tap delay and optimize gesture handling */
+button, a, input, select, textarea {
+  touch-action: manipulation;
 }
 
 #root {
@@ -119,9 +126,15 @@ body {
 /* Mobile Performance Optimizations */
 @media (max-width: 768px) {
   .glass-panel {
-    background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* GPU Layer Promotion for mobile animations */
+  .transform-gpu {
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 }
 

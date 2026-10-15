@@ -135,36 +135,32 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // Update active section on scroll (throttled with requestAnimationFrame)
+  // Update active section with IntersectionObserver (zero scroll layout reflows, highly efficient on mobile)
   useEffect(() => {
-    let ticking = false;
     const sections = ['home', 'what-we-build', 'products', 'dashboards', 'about', 'services', 'technologies', 'projects', 'why-choose-us', 'team', 'careers', 'testimonials', 'contact'];
+    
+    if (typeof window === 'undefined' || !('IntersectionObserver' in window)) return;
 
-    const updateActiveSection = () => {
-      const scrollPosition = window.scrollY + 200;
-      for (const section of sections) {
-        const el = document.getElementById(section);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(section);
-            break;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
           }
-        }
+        });
+      },
+      {
+        rootMargin: '-20% 0px -55% 0px',
+        threshold: 0
       }
-      ticking = false;
-    };
+    );
 
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(updateActiveSection);
-        ticking = true;
-      }
-    };
+    sections.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => observer.disconnect();
   }, []);
 
   // Lock body scroll when loading or viewing team modal
@@ -632,8 +628,8 @@ function App() {
         
         <Background3D />
 
-        <div className="fixed top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/[0.04] rounded-full blur-[140px] pointer-events-none -z-10" />
-        <div className="fixed bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-sky-500/[0.04] rounded-full blur-[160px] pointer-events-none -z-10" />
+        <div className="fixed top-[-10%] left-[-10%] w-[320px] sm:w-[500px] h-[320px] sm:h-[500px] bg-blue-600/[0.04] rounded-full blur-[40px] sm:blur-[140px] pointer-events-none -z-10 transform-gpu" />
+        <div className="fixed bottom-[-10%] right-[-10%] w-[360px] sm:w-[600px] h-[360px] sm:h-[600px] bg-sky-500/[0.04] rounded-full blur-[40px] sm:blur-[160px] pointer-events-none -z-10 transform-gpu" />
 
         <header className="fixed top-0 left-0 w-full z-50 glass-panel border-b border-slate-200/80 bg-white/90 transition-all duration-300">
           <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -931,44 +927,6 @@ function App() {
                   className="relative w-full h-[440px] sm:h-[500px] flex items-center justify-center cursor-grab active:cursor-grabbing"
                 >
                   <div className="relative flex flex-col items-center justify-center">
-                    
-                    {/* Floating Orbiting Capability Tags */}
-                    <motion.div 
-                      animate={{ y: [-4, 4, -4] }} 
-                      transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                      className="absolute -top-4 left-0 z-30 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 shadow-md flex items-center space-x-1.5 text-xs font-bold text-slate-800"
-                    >
-                      <Cpu size={14} className="text-blue-600" />
-                      <span>AI & Machine Learning</span>
-                    </motion.div>
-
-                    <motion.div 
-                      animate={{ y: [4, -4, 4] }} 
-                      transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-                      className="absolute top-12 -right-4 z-30 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 shadow-md flex items-center space-x-1.5 text-xs font-bold text-slate-800"
-                    >
-                      <Cloud size={14} className="text-cyan-600" />
-                      <span>Cloud & DevOps</span>
-                    </motion.div>
-
-                    <motion.div 
-                      animate={{ y: [-3, 5, -3] }} 
-                      transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                      className="absolute -bottom-2 -left-4 z-30 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 shadow-md flex items-center space-x-1.5 text-xs font-bold text-slate-800"
-                    >
-                      <Smartphone size={14} className="text-purple-600" />
-                      <span>Mobile Ecosystems</span>
-                    </motion.div>
-
-                    <motion.div 
-                      animate={{ y: [3, -5, 3] }} 
-                      transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
-                      className="absolute -bottom-2 -right-2 z-30 px-3 py-1.5 rounded-xl bg-white/90 backdrop-blur-md border border-slate-200 shadow-md flex items-center space-x-1.5 text-xs font-bold text-slate-800"
-                    >
-                      <Database size={14} className="text-amber-600" />
-                      <span>Data & Analytics</span>
-                    </motion.div>
-
                     <Tilt tiltMaxAngleX={10} tiltMaxAngleY={10} scale={1.03} transitionSpeed={2000} tiltEnable={!isMobile} glareEnable={false} className="relative z-20">
                       <div className="relative w-72 h-72 sm:w-92 sm:h-92 rounded-full border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 shadow-2xl flex items-center justify-center p-8 group overflow-hidden ring-1 ring-indigo-500/20">
                         

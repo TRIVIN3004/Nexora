@@ -51,18 +51,18 @@ export default function Logo3D({
       style.id = styleId;
       style.textContent = `
         @keyframes logo3d-spin {
-          0% { transform: rotateY(0deg); }
-          100% { transform: rotateY(360deg); }
+          0% { transform: rotateY(0deg) translateZ(0); }
+          100% { transform: rotateY(360deg) translateZ(0); }
         }
         @keyframes logo3d-swing {
-          0% { transform: rotateY(-16deg) rotateX(6deg); }
-          50% { transform: rotateY(16deg) rotateX(-6deg); }
-          100% { transform: rotateY(-16deg) rotateX(6deg); }
+          0% { transform: rotateY(-16deg) rotateX(6deg) translateZ(0); }
+          50% { transform: rotateY(16deg) rotateX(-6deg) translateZ(0); }
+          100% { transform: rotateY(-16deg) rotateX(6deg) translateZ(0); }
         }
         @keyframes logo3d-float {
-          0% { transform: translateY(0px) rotateY(-3deg) rotateX(3deg); }
-          50% { transform: translateY(-12px) rotateY(3deg) rotateX(-3deg); }
-          100% { transform: translateY(0px) rotateY(-3deg) rotateX(3deg); }
+          0% { transform: translateY(0px) rotateY(-3deg) rotateX(3deg) translateZ(0); }
+          50% { transform: translateY(-10px) rotateY(3deg) rotateX(-3deg) translateZ(0); }
+          100% { transform: translateY(0px) rotateY(-3deg) rotateX(3deg) translateZ(0); }
         }
         @keyframes logo3d-shadow-pulse {
           0%, 100% { transform: rotateX(90deg) translateZ(-40px) scale(0.92); opacity: 0.35; }
@@ -70,12 +70,15 @@ export default function Logo3D({
         }
         .animate-logo3d-spin {
           animation: logo3d-spin 8s linear infinite;
+          will-change: transform;
         }
         .animate-logo3d-swing {
           animation: logo3d-swing 5s ease-in-out infinite;
+          will-change: transform;
         }
         .animate-logo3d-float {
           animation: logo3d-float 4.5s ease-in-out infinite;
+          will-change: transform;
         }
         .animate-logo3d-shadow-pulse {
           animation: logo3d-shadow-pulse 4.5s ease-in-out infinite;
@@ -93,9 +96,9 @@ export default function Logo3D({
     else if (animation === "float") animationClass = "animate-logo3d-float";
   }
 
-  // Optimize layer count: 2-3 layers on mobile, 4-6 on desktop
+  // Optimize layer count: 2 layers on mobile (featherlight & smooth), 4-6 on desktop
   const effectiveLayersCount = useMemo(() => {
-    if (isMobile) return Math.min(layersCount, 3);
+    if (isMobile) return Math.min(layersCount, 2);
     return Math.min(layersCount, 6);
   }, [isMobile, layersCount]);
 

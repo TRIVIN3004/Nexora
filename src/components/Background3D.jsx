@@ -119,7 +119,7 @@ const TouchReactiveParticleSwarm = () => {
   const pointsRef = useRef();
   const { size } = useThree();
   const isMobile = size.width < 768;
-  const count = isMobile ? 200 : 650;
+  const count = isMobile ? 75 : 650;
 
   const [positions, colors, basePositions, velocities] = useMemo(() => {
     const pos = new Float32Array(count * 3);
@@ -172,9 +172,10 @@ const TouchReactiveParticleSwarm = () => {
     const { pointer } = state;
     const posArray = pointsRef.current.geometry.attributes.position.array;
 
+    const hasPointer = !isMobile || (Math.abs(pointer.x) > 0.01 || Math.abs(pointer.y) > 0.01);
     const targetPointerX = pointer.x * (isMobile ? 6 : 12);
     const targetPointerY = pointer.y * (isMobile ? 10 : 8);
-    const repulsionRadiusSq = isMobile ? 12 : 24;
+    const repulsionRadiusSq = isMobile ? 10 : 24;
 
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
@@ -185,18 +186,20 @@ const TouchReactiveParticleSwarm = () => {
       const waveY = Math.sin(t * 0.4 + bx * 0.25) * 0.25;
       const waveZ = Math.sin(t * 0.45 + i) * 0.15;
 
-      const dx = posArray[i3] - targetPointerX;
-      const dy = posArray[i3 + 1] - targetPointerY;
-      const distSq = dx * dx + dy * dy;
-
       let forceX = 0;
       let forceY = 0;
 
-      if (distSq < repulsionRadiusSq && distSq > 0.05) {
-        const dist = Math.sqrt(distSq);
-        const power = (1 - dist / (isMobile ? 3.5 : 5.0)) * 0.8;
-        forceX = (dx / dist) * power;
-        forceY = (dy / dist) * power;
+      if (hasPointer) {
+        const dx = posArray[i3] - targetPointerX;
+        const dy = posArray[i3 + 1] - targetPointerY;
+        const distSq = dx * dx + dy * dy;
+
+        if (distSq < repulsionRadiusSq && distSq > 0.05) {
+          const dist = Math.sqrt(distSq);
+          const power = (1 - dist / (isMobile ? 3.2 : 5.0)) * 0.8;
+          forceX = (dx / dist) * power;
+          forceY = (dy / dist) * power;
+        }
       }
 
       velocities[i3] = (velocities[i3] + forceX) * 0.86;
@@ -236,7 +239,7 @@ const VibrantWaveMesh = () => {
   const { size } = useThree();
   const isMobile = size.width < 768;
 
-  const [cols, rows] = isMobile ? [20, 14] : [36, 24];
+  const [cols, rows] = isMobile ? [12, 8] : [36, 24];
   const width = isMobile ? 20 : 34;
   const height = isMobile ? 28 : 24;
 
@@ -328,7 +331,7 @@ const VibrantWaveMesh = () => {
       </mesh>
 
       <mesh position={[0, 0, 0.02]}>
-        <planeGeometry args={[width, height, isMobile ? 18 : 28, isMobile ? 12 : 20]} />
+        <planeGeometry args={[width, height, isMobile ? 12 : 28, isMobile ? 8 : 20]} />
         <meshBasicMaterial
           color="#38bdf8"
           wireframe
@@ -510,20 +513,20 @@ export default function Background3D() {
       {/* 1. Ambient Gradient Auroras */}
       <div className="absolute inset-0 bg-[#f8fafc]/90" />
 
-      <div className="absolute -top-[15%] -left-[15%] w-[320px] sm:w-[600px] h-[320px] sm:h-[600px] rounded-full bg-gradient-to-tr from-cyan-400/15 to-blue-600/15 blur-[60px] sm:blur-[120px] pointer-events-none" />
-      <div className="absolute top-[35%] -right-[20%] w-[280px] sm:w-[550px] h-[280px] sm:h-[550px] rounded-full bg-gradient-to-bl from-purple-500/15 via-pink-500/15 to-indigo-600/10 blur-[60px] sm:blur-[120px] pointer-events-none" />
-      <div className="absolute -bottom-[15%] left-[10%] w-[340px] sm:w-[650px] h-[340px] sm:h-[650px] rounded-full bg-gradient-to-tr from-emerald-400/12 via-teal-500/12 to-blue-500/15 blur-[70px] sm:blur-[130px] pointer-events-none" />
+      <div className="absolute -top-[15%] -left-[15%] w-[320px] sm:w-[600px] h-[320px] sm:h-[600px] rounded-full bg-gradient-to-tr from-cyan-400/15 to-blue-600/15 blur-[40px] sm:blur-[120px] pointer-events-none transform-gpu" />
+      <div className="absolute top-[35%] -right-[20%] w-[280px] sm:w-[550px] h-[280px] sm:h-[550px] rounded-full bg-gradient-to-bl from-purple-500/15 via-pink-500/15 to-indigo-600/10 blur-[40px] sm:blur-[120px] pointer-events-none transform-gpu" />
+      <div className="absolute -bottom-[15%] left-[10%] w-[340px] sm:w-[650px] h-[340px] sm:h-[650px] rounded-full bg-gradient-to-tr from-emerald-400/12 via-teal-500/12 to-blue-500/15 blur-[40px] sm:blur-[130px] pointer-events-none transform-gpu" />
 
       {/* 2. Interactive 3D Canvas */}
       <div className="absolute inset-0">
         <Canvas
           camera={{ position: [0, 0, 8.0], fov: 52 }}
           gl={{
-            antialias: true,
+            antialias: typeof window !== 'undefined' ? window.innerWidth >= 768 : false,
             alpha: true,
-            powerPreference: 'high-performance',
+            powerPreference: typeof window !== 'undefined' && window.innerWidth < 768 ? 'low-power' : 'high-performance',
           }}
-          dpr={[1, typeof window !== 'undefined' ? (window.innerWidth < 768 ? 1.25 : 1.75) : 1.25]}
+          dpr={typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : [1, 1.75]}
         >
           {/* Touch & Click Expanding Shockwaves */}
           <TouchShockwaveRings />

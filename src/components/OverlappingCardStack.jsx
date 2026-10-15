@@ -149,26 +149,26 @@ const OverlappingCardStack = () => {
           return (
             <div
               key={card.id}
-              className="sticky transition-all duration-300 w-full"
+              className="sticky w-full"
               style={{
                 top: stickyTop,
                 zIndex: idx + 1,
               }}
             >
               <div 
-                className="w-full rounded-3xl p-6 sm:p-8 md:p-10 border border-slate-200/90 bg-white/98 backdrop-blur-2xl shadow-2xl transition-all duration-300 relative overflow-hidden group text-left"
+                className="w-full rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 border border-slate-200/90 bg-white sm:bg-white/98 sm:backdrop-blur-xl shadow-xl sm:shadow-2xl relative overflow-hidden group text-left"
                 style={{
-                  boxShadow: `0 -16px 36px -4px rgba(15, 23, 42, 0.08), 0 24px 48px -12px ${card.glow}`,
+                  boxShadow: `0 -12px 28px -4px rgba(15, 23, 42, 0.06), 0 20px 40px -12px ${card.glow}`,
                   transform: 'translateZ(0)',
                   willChange: 'transform',
                 }}
               >
                 {/* Top Gradient Banner Line */}
-                <div className={`absolute top-0 left-0 w-full h-[5px] bg-gradient-to-r ${card.gradient}`} />
+                <div className={`absolute top-0 left-0 w-full h-[4px] sm:h-[5px] bg-gradient-to-r ${card.gradient}`} />
 
-                {/* Subtle Ambient Background Corner Glow */}
+                {/* Subtle Ambient Background Corner Glow (desktop only for max mobile FPS) */}
                 <div 
-                  className={`absolute -right-20 -top-20 w-80 h-80 rounded-full bg-gradient-to-br ${card.gradient} opacity-10 blur-3xl pointer-events-none group-hover:opacity-20 transition-opacity duration-500`} 
+                  className={`hidden sm:block absolute -right-20 -top-20 w-80 h-80 rounded-full bg-gradient-to-br ${card.gradient} opacity-10 blur-3xl pointer-events-none group-hover:opacity-20 transition-opacity duration-500`} 
                 />
 
                 <div className="space-y-6 relative z-10">

@@ -36,12 +36,21 @@ const ScrollCard = ({
 
   const calculatedDelay = delay !== null ? delay : (index % 4) * 0.1;
 
-  const initialVariants = {
-    up: { opacity: 0, y: 36, scale: 0.96, rotateX: 8 },
-    down: { opacity: 0, y: -36, scale: 0.96, rotateX: -8 },
-    left: { opacity: 0, x: 36, scale: 0.96, rotateY: -8 },
-    right: { opacity: 0, x: -36, scale: 0.96, rotateY: 8 },
-  };
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+  const initialVariants = isMobile
+    ? {
+        up: { opacity: 0, y: 16 },
+        down: { opacity: 0, y: -16 },
+        left: { opacity: 0, x: 16 },
+        right: { opacity: 0, x: -16 },
+      }
+    : {
+        up: { opacity: 0, y: 36, scale: 0.96, rotateX: 8 },
+        down: { opacity: 0, y: -36, scale: 0.96, rotateX: -8 },
+        left: { opacity: 0, x: 36, scale: 0.96, rotateY: -8 },
+        right: { opacity: 0, x: -36, scale: 0.96, rotateY: 8 },
+      };
 
   return (
     <motion.div
@@ -49,20 +58,22 @@ const ScrollCard = ({
       initial={initialVariants[direction] || initialVariants.up}
       animate={isInView ? { opacity: 1, y: 0, x: 0, scale: 1, rotateX: 0, rotateY: 0 } : {}}
       transition={{
-        duration: 0.6,
-        delay: calculatedDelay,
+        duration: isMobile ? 0.35 : 0.6,
+        delay: isMobile ? Math.min(calculatedDelay, 0.15) : calculatedDelay,
         ease: [0.16, 1, 0.3, 1],
       }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={!isMobile && spotlight ? handleMouseMove : undefined}
+      onMouseLeave={!isMobile && spotlight ? handleMouseLeave : undefined}
       className={`relative overflow-hidden ${className}`}
       style={{
-        perspective: 1000,
-        transformStyle: 'preserve-3d',
+        perspective: isMobile ? undefined : 1000,
+        transformStyle: isMobile ? undefined : 'preserve-3d',
+        transform: 'translateZ(0)',
+        willChange: isInView ? 'auto' : 'transform, opacity',
       }}
       {...props}
     >
-      {spotlight && (
+      {!isMobile && spotlight && (
         <div
           className="pointer-events-none absolute -inset-px transition-opacity duration-300 z-10"
           style={{

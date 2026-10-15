@@ -486,6 +486,13 @@ const WhatWeBuildStack = ({ onStartProject }) => {
   const containerRef = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Check user preference for reduced motion
   useEffect(() => {
@@ -508,6 +515,9 @@ const WhatWeBuildStack = ({ onStartProject }) => {
     restDelta: 0.001
   });
 
+  // On mobile touch screens, use direct scroll progress to eliminate spring drag latency
+  const effectiveProgress = isMobile ? scrollYProgress : smoothProgress;
+
   // Track active step based on scroll
   useEffect(() => {
     const unsubscribe = scrollYProgress.on('change', (latest) => {
@@ -529,7 +539,7 @@ const WhatWeBuildStack = ({ onStartProject }) => {
       id="what-we-build" 
       className="relative w-full bg-[#F8FAFC] text-slate-900 border-y border-slate-200/80"
       style={{
-        height: isReducedMotion ? 'auto' : '480vh'
+        height: isReducedMotion ? 'auto' : (isMobile ? '360vh' : '480vh')
       }}
     >
       {/* Subtle Light Ambient Background Gradients & Micro Grid */}
@@ -563,7 +573,7 @@ const WhatWeBuildStack = ({ onStartProject }) => {
               card={card}
               index={idx}
               total={CAPABILITIES.length}
-              scrollProgress={smoothProgress}
+              scrollProgress={effectiveProgress}
               isReducedMotion={isReducedMotion}
               onSelectService={onStartProject}
             />

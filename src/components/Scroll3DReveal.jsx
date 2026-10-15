@@ -7,7 +7,16 @@ const Scroll3DReveal = ({
   variant = 'default', // 'default', 'card', 'scaleUp', 'tilt'
   delay = 0,
 }) => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   const getVariants = () => {
+    if (isMobile) {
+      return {
+        initial: { opacity: 0, y: 16 },
+        whileInView: { opacity: 1, y: 0 },
+      };
+    }
+
     switch (variant) {
       case 'card':
         return {
@@ -39,16 +48,17 @@ const Scroll3DReveal = ({
     <motion.div
       initial={selectedVariants.initial}
       whileInView={selectedVariants.whileInView}
-      viewport={{ once: true, amount: 0.08, margin: '0px 0px -30px 0px' }}
+      viewport={{ once: true, amount: isMobile ? 0.05 : 0.08, margin: isMobile ? '0px 0px -20px 0px' : '0px 0px -30px 0px' }}
       transition={{
-        duration: 0.55,
-        delay,
+        duration: isMobile ? 0.35 : 0.55,
+        delay: isMobile ? Math.min(delay, 0.1) : delay,
         ease: [0.16, 1, 0.3, 1],
       }}
       className={className}
       style={{
-        perspective: 1200,
-        transformStyle: 'preserve-3d',
+        perspective: isMobile ? undefined : 1200,
+        transformStyle: isMobile ? undefined : 'preserve-3d',
+        transform: 'translateZ(0)',
       }}
     >
       {children}
